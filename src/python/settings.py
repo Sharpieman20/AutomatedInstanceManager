@@ -87,5 +87,3 @@ def get_obs_password():
     if is_test_mode():
         return None
     return settings['obs-settings']['password']
-
-# Path(settings["old-worlds"]).mkdir(parents=True, exist_ok=True)

@@ -27,8 +27,8 @@ unfreeze_delay = settings.get_unfreeze_delay()
 
 last_log_time = time.time()
 
+# TODO @Sharpieman20 - fix this to be more like how queue states are handled
 def try_set_primary(new_primary_instance):
-    print('try set primary to {}'.format(new_primary_instance))
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None and new_primary_instance is not None:
         if new_primary_instance.num != primary_instance.num:
@@ -274,6 +274,6 @@ if __name__ == "__main__":
     kb.add_hotkey(settings.get_hotkeys()['approve-focused'], approve_focused)
     kb.add_hotkey(settings.get_hotkeys()['toggle-hotkeys'], toggle_hotkeys)
     if settings.should_use_tts():
-        hlp.run_ahk("ready")
+        hlp.run_ahk("ttsInit")
     SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
     SCHEDULER.run()

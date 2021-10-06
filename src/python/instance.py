@@ -19,9 +19,6 @@ def assign_to_state(instance, state):
     instance.state = state
     instance.priority = num_per_state[state]
 
-def has_passed(start_time, duration):
-    return (hlp.get_time() - start_time) > duration
-
 class State(Enum):
     DEAD = 0
     BOOTING = 1
@@ -126,30 +123,31 @@ class DisplayStateful(Stateful):
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
 
+# TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(DisplayStateful):
 
     def is_ready_for_freeze(self):
         duration = 2.0
         if self.state == State.PAUSED:
             duration = 2.0
-        return has_passed(self.timestamp, duration)
+        return hlp.has_passed(self.timestamp, duration)
 
     def is_done_unfreezing(self):
         duration = 0.5
-        return has_passed(self.timestamp, duration)
+        return hlp.has_passed(self.timestamp, duration)
 
     def is_ready_for_unfreeze(self):
         duration = 0.5
-        return has_passed(self.timestamp, duration)
+        return hlp.has_passed(self.timestamp, duration)
     
     def is_done_booting(self):
         # TODO @Sharpieman20 - dynamically check if booted
         duration = settings.get_boot_delay()
-        return has_passed(self.timestamp, duration)
+        return hlp.has_passed(self.timestamp, duration)
 
     def check_should_auto_reset(self):
         duration = 300.0
-        if has_passed(self.timestamp, duration):
+        if hlp.has_passed(self.timestamp, duration):
             self.release()
             return True
 

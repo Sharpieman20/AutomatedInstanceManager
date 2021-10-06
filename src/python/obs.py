@@ -85,8 +85,7 @@ def unhide_all():
     for s in scene_items:
         name = s["sourceName"]
         if 'active' in name or 'focus' in name:
-            ws.call(requests.SetSceneItemProperties(name, visible=True))
-
+            set_scene_item_properties(name, visible=True))
 
 def update_state():
     if settings.is_test_mode():
@@ -94,6 +93,7 @@ def update_state():
     scenes_items = get_scene_items()
     global primary_instance
     global focused_instance
+    # TODO @Sharpieman20 - reduce number of websocket calls considerably by only calling when something changes
     # Unhide current
     for item in scenes_items:
         name = item['sourceName']

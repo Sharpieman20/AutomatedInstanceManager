@@ -13,6 +13,9 @@ if not settings.is_test_mode():
 def get_time():
     return time.time()
 
+def has_passed(start_time, duration):
+    return (hlp.get_time() - start_time) > duration
+
 def get_pids():
     if settings.is_test_mode():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
