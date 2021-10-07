@@ -62,10 +62,13 @@ def is_fullscreen_enabled():
     return settings['fullscreen']
 
 def get_debug_interval():
-    return 2.0
+    return 1.0
+
+def get_test_boot_time():
+    return 5.0
 
 def get_test_worldgen_time():
-    return 5.0
+    return 2.0
 
 def should_auto_launch():
     return settings['auto-launch']

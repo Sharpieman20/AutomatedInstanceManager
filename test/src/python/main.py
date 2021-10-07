@@ -32,7 +32,7 @@ def try_set_primary(new_primary_instance):
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None and new_primary_instance is not None:
         if new_primary_instance.num != primary_instance.num:
-            obs.set_new_primary(new_primary_instance)
+            obs.set_new_primary(primary_instance)
 
 def try_set_focused(new_focused_instance):
     primary_instance = obs.get_primary_instance()
@@ -113,18 +113,13 @@ def main_loop(sc):
     for inst in queues.get_pregen_instances():
         if not inst.is_done_unfreezing():
             continue
-        if inst.was_active and num_working_instances > max_concurrent:
-            inst.was_active = False
-            inst.suspend()
-            inst.release()
-            continue
         # state = GENERATING
         inst.mark_generating()
         inst.reset()
 
     # Handle free instances (frozen instances that are on a world, and we've decided to reset this world)
     for inst in queues.get_free_instances():
-        if num_working_instances >= max_concurrent:
+        if num_working_instances == max_concurrent:
             continue
         if not inst.is_ready_for_unfreeze():
             inst.suspend()
@@ -164,13 +159,10 @@ def main_loop(sc):
         index += 1
         if inst.check_should_auto_reset():
             continue
-        if index <= total_to_unfreeze:
-            inst.resume()
-            continue
         # state = ?
-        if inst.is_primary():
-            inst.mark_active()
-            continue
+        # if inst.is_primary():
+        #     inst.mark_active()
+        #     continue
         inst.suspend()
 
     # Handle approved instances
@@ -183,9 +175,6 @@ def main_loop(sc):
             continue
         if index <= total_to_unfreeze:
             inst.resume()
-            continue
-        if inst.is_primary():
-            inst.mark_active()
             continue
         inst.suspend()
     
@@ -245,7 +234,7 @@ def reset_focused():
             focused_instance.release()
 
 def approve_focused():
-    focused_instance = obs.get_focused_instance()
+    global focused_instance
     if listening and focused_instance is not None:
         focused_instance.mark_approved()
 

@@ -14,7 +14,7 @@ def get_time():
     return time.time()
 
 def has_passed(start_time, duration):
-    return (get_time() - start_time) > duration
+    return (hlp.get_time() - start_time) > duration
 
 def get_pids():
     if settings.is_test_mode():

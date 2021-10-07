@@ -53,8 +53,6 @@ def set_new_primary(inst):
             primary_instance.mark_hidden()
         set_primary_instance(inst)
         primary_instance.mark_primary()
-        if primary_instance.is_ready():
-            primary_instance.mark_active()
         primary_instance.resume()
         # TODO @Specnr: Update ls user config (is this still needed?)
         # TODO @Specnr: Change sound source on stream maybe?
@@ -87,7 +85,7 @@ def unhide_all():
     for s in scene_items:
         name = s["sourceName"]
         if 'active' in name or 'focus' in name:
-            set_scene_item_properties(name, visible=True)
+            set_scene_item_properties(name, visible=True))
 
 def update_state():
     if settings.is_test_mode():

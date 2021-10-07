@@ -74,6 +74,7 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
     
     def mark_pregen(self):
+        self.was_active = False
         assign_to_state(self, State.PREGEN)
     
     def mark_generating(self):
@@ -96,9 +97,6 @@ class Stateful(Suspendable):
 
     def mark_ready(self):
         assign_to_state(self, State.READY)
-
-    def mark_approved(self):
-        assign_to_state(self, State.APPROVED)
 
     def is_ready(self):
         return self.state == State.READY
@@ -235,7 +233,7 @@ class Instance(ConditionalTransitionable):
 
     def is_in_world(self):
         if settings.is_test_mode():
-            if hlp.has_passed(self.timestamp, settings.get_test_worldgen_time()):
+            if has_passed(self.timestamp, 5.0):
                 return True
             return False
 
