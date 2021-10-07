@@ -1,4 +1,12 @@
 
+import subprocess as sp
+import sys, os
+
+def run_cmd(cmd):
+    sp.call(shlex.split(cmd))
+
+run_cmd('{}/pip3 install requests'.format(os.path.dirname(sys.executable)))
+
 import requests
 
 get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/setup.txt'
