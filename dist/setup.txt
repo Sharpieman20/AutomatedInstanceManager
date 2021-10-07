@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/setup.py

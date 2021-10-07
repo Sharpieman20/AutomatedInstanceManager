@@ -1,7 +1,7 @@
 
 import requests
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/release.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/setup.py'
 
 release_url = requests.get(get_release_url).text.rstrip()
 
