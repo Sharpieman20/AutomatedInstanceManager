@@ -3,6 +3,7 @@ import requests
 import subprocess as sp
 import shlex
 import os
+import sys
 
 
 def run_cmd(cmd):
@@ -23,5 +24,6 @@ with zipfile.ZipFile('release.zip', 'r') as zip_ref:
 
 os.remove('release.zip')
 
-run_cmd('pip install -r src/requirements.txt')
+run_cmd('{}/pip3 install -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
+run_cmd('{}/python3 src/python/main.py settings.json'.format(os.path.dirname(sys.executable)))
 
