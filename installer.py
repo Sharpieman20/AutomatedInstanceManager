@@ -3,7 +3,7 @@ from pathlib import Path
 import subprocess as sp
 import sys, os, shlex
 
-os.chdir(Path(sys.executable).parent)
+os.chdir(Path(__file__).parent.resolve())
 
 def run_cmd(cmd):
     print(cmd)
