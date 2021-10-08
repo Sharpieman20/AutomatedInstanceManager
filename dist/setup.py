@@ -41,6 +41,8 @@ open('defaults/settings.json', 'w').write(r.text)
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
+my_settings_json = 'my_settings.json'
+settings_json.touch()
 open('my_settings.json', 'w').write(r.text)
 
 src_ahk = Path.cwd() / "src" / "ahk"
