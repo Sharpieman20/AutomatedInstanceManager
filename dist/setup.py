@@ -10,8 +10,14 @@ import shutil
 def run_cmd(cmd):
     sp.call(shlex.split(cmd))
 
-shutil.rmtree(Path.cwd() / 'defaults')
-shutil.rmtree(Path.cwd() / 'src')
+defaults_dir = Path.cwd() / 'defaults'
+
+if defaults_dir.exists():
+    shutil.rmtree(Path.cwd() / 'defaults')
+
+src_dir = Path.cwd() / 'src'
+if src_dir.exists():
+    shutil.rmtree(Path.cwd() / 'src')
 
 get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/release.txt'
 
@@ -31,7 +37,7 @@ os.remove('release.zip')
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
-defaults_dir = Path.cwd() / 'defaults'
+
 defaults_dir.mkdir()
 settings_json = defaults_dir / 'settings.json'
 settings_json.touch()
