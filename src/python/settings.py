@@ -4,6 +4,8 @@ import sys
 
 custom_settings_file = Path.cwd() / sys.argv[1]
 
+print(custom_settings_file)
+
 settings = {}
 
 if custom_settings_file.exists():
