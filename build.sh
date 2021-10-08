@@ -1,5 +1,5 @@
 
+zip -r release src/**
 rm -rf build
 mkdir build
-cd build
-zip -r release ../src/**
+mv release.zip build

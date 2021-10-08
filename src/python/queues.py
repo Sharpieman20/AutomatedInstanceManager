@@ -37,6 +37,9 @@ def get_free_instances():
 def get_gen_instances():
     return all_queues[State.GEN]
 
+def get_unpaused_instances():
+    return all_queues[State.UNPAUSED]
+
 def get_paused_instances():
     return all_queues[State.PAUSED]
 

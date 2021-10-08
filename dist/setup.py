@@ -5,7 +5,6 @@ import shlex
 import os
 import sys
 
-
 def run_cmd(cmd):
     sp.call(shlex.split(cmd))
 
@@ -24,6 +23,6 @@ with zipfile.ZipFile('release.zip', 'r') as zip_ref:
 
 os.remove('release.zip')
 
-run_cmd('{}\python.exe -m pip install -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
-run_cmd('{}\python.exe src/python/main.py settings.json'.format(os.path.dirname(sys.executable)))
+run_cmd('py -m pip install -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
+run_cmd('py src/python/main.py settings.json'.format(os.path.dirname(sys.executable)))
 

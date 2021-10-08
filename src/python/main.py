@@ -295,8 +295,8 @@ if __name__ == "__main__":
     kb.add_hotkey(settings.get_hotkeys()['reset-focused'], reset_focused)
     kb.add_hotkey(settings.get_hotkeys()['approve-focused'], approve_focused)
     kb.add_hotkey(settings.get_hotkeys()['toggle-hotkeys'], toggle_hotkeys)
-    kb.add_hotkey(settings.get_hotkeys()['background-debug'], background_debug)
-    kb.add_hotkey(settings.get_hotkeys()['background-pause'], background_pause)
+    kb.add_hotkey(settings.get_hotkeys()['background-debug'], debug_background)
+    kb.add_hotkey(settings.get_hotkeys()['background-pause'], pause_background)
     if settings.should_use_tts():
         hlp.run_ahk("ttsInit")
     SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
