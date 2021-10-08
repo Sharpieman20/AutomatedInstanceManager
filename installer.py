@@ -5,6 +5,11 @@ import sys, os, shlex
 
 os.chdir(Path(__file__).parent.resolve())
 
+setup_py_file = Path.cwd() / 'setup.py'
+
+if setup_py_file.exists():
+    setup_py_file.unlink()
+
 def run_cmd(cmd):
     print(cmd)
     sp.call(shlex.split(cmd))

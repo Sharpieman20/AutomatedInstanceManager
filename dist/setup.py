@@ -10,6 +10,9 @@ import shutil
 def run_cmd(cmd):
     sp.call(shlex.split(cmd))
 
+shutil.rmtree(Path.cwd() / 'defaults')
+shutil.rmtree(Path.cwd() / 'src')
+
 get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
