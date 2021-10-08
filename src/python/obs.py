@@ -86,9 +86,6 @@ def get_base_primary_item():
 def get_indicator_item():
     return get_item_with_name('indicator')
 
-
-
-
 def set_new_primary(inst):
     print(inst)
     if inst is not None:
