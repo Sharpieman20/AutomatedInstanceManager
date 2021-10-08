@@ -26,6 +26,12 @@ os.remove('release.zip')
 
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/settings.json'
 r = requests.get(settings_url, allow_redirects=True)
+
+defaults_dir = Path.cwd() / 'defaults'
+defaults_dir.mkdir()
+settings_json = defaults_dir / 'settings.json'
+settings_json.touch()
+
 open('defaults/settings.json', 'w').write(r.content)
 
 src_ahk = Path.cwd() / "src" / "ahk"
