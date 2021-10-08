@@ -40,6 +40,7 @@ if custom_directory.exists():
     for custom_ahk in custom_directory.iterdir():
         shutil.copyfile(custom_ahk, src_ahk / custom_ahk.name)
 
+run_cmd('py -m ensurepip')
 run_cmd('py -m pip install -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
 run_cmd('py src/python/main.py settings.json'.format(os.path.dirname(sys.executable)))
 
