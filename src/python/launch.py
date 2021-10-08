@@ -32,7 +32,7 @@ def launch_all_programs():
     launch_funcs = {all_programs[0]: launch_obs, all_programs[1]: launch_livesplit, all_programs[2]: launch_multimc}
     for process in psutil.process_iter():
         for program in all_programs:
-            if program in process.name():
+            if program.lower() in process.name().lower():
                 are_launched[program] = True
     for program in all_programs:
         if not are_launched[program]:
