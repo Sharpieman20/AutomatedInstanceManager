@@ -8,7 +8,7 @@ def launch_instance_inner(inst_name):
     os.popen(f'{settings.get_multimc_path()} -l "{inst_name}"')
 
 def launch_instance(inst):
-    if settings.is_test_mode():
+    if settings.is_test_mode() or not settings.is_ahk_enabled():
         return
     inst = Process(target=launch_instance_inner, args=(inst.name,))
     inst.start()
@@ -23,6 +23,11 @@ def launch_livesplit():
 def launch_all_programs():
     if settings.is_test_mode() or not settings.should_auto_launch():
         return
+    if not settings.is_ahk_enabled():
+        return
+    else:
+        print('5')
+        raise
     # TODO: add stat tracker?
     all_programs = ["OBS", "LiveSplit", "MultiMC"]
     are_launched = {program: False for program in all_programs}

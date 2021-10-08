@@ -2,4 +2,3 @@ ahk
 obswebsocket
 keyboard
 psutil
-requests

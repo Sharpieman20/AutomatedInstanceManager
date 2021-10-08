@@ -19,6 +19,8 @@
   "obs-delay": 50,
   "loop-delay": 50,
   "boot-delay": 5.0,
+  "max-unpaused-time": 3.0,
+  "max-time-in-run-autopause": 2.5,
   "template-instance": "1.16INST",
   "num-instances": 5,
   "old-worlds": "C:/MultiInstanceMC/oldWorlds",

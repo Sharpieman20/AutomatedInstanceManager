@@ -2,19 +2,27 @@ import json
 from pathlib import Path
 import sys
 
+custom_settings_file = Path.cwd() / sys.argv[1]
 
-with open(sys.argv[1], "r") as f:
-    settings = json.load(f)
+settings = {}
 
-global_pid = 81461
+if custom_settings_file.exists():
+    with open(custom_settings_file, "r") as custom_settings_readable:
+        settings = json.load(custom_settings_readable)
+
+default_settings_file = Path.cwd() / "defaults" / "settings.json"
+default_settings = {}
+
+if default_settings_file.parent.exists() and default_settings_file.exists():
+    with open(default_settings_file, "r") as default_settings_readable:
+        default_settings = json.load(default_settings_readable)
+
+for key in default_settings.keys():
+    if key not in settings.keys():
+        settings[key] = default_settings[key]
 
 def is_test_mode():
     return settings['test-mode']
-
-def get_global_test_pid():
-    global global_pid
-    global_pid += 1
-    return global_pid
 
 def get_num_instances():
     return int(settings['num-instances'])
@@ -71,20 +79,34 @@ def should_auto_launch():
     return settings['auto-launch']
 
 def get_obs_web_host():
-    if is_test_mode():
-        return None
     return settings['obs-settings']['web-host']
 
 def get_obs_port():
-    if is_test_mode():
-        return None
     return settings['obs-settings']['port']
 
 def get_obs_password():
-    if is_test_mode():
-        return None
     return settings['obs-settings']['password']
 
 def should_auto_pause():
     return False
 
+def test_init():
+    return True
+
+def is_ahk_enabled():
+    return settings['ahk-enabled']
+
+def is_obs_enabled():
+    return True
+
+def only_focus_ready():
+    return True
+
+def get_max_unpaused_time():
+    return settings['max-unpaused-time']
+
+def prioritize_booting_over_worldgen():
+    return True
+
+def minimum_time_for_settings_reset():
+    return 10.0

@@ -12,10 +12,11 @@
     "boot-delay": 10.0,
     "multi-mc-path": "/Applications/MultiMC.app/Contents/MacOS/MultiMC",
     "template-instance": "1.16INST",
-    "num-instances": 7,
+    "num-instances": 3,
     "lines-from-bottom": 2,
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
     "max-concurrent": 2, 
+    "max-unpaused-time": 3.0,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
     "hotkeys": {
@@ -30,6 +31,13 @@
       "timer-reset": "F8",
       "timer-start": "F9"
     },
+    "obs-settings" : {
+    "web-host": "localhost",
+    "port": 4444,
+    "password": "password"
+    },
     "test-mode": true,
-    "auto-launch": true
+    "auto-launch": true,
+    "obs-enabled": true,
+    "ahk-enabled": false
   }

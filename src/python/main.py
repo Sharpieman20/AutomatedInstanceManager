@@ -48,6 +48,23 @@ def main_loop(sc):
     global need_to_reset_timer
     global last_log_time
 
+    queues.update_all()
+
+    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
+    
+    if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
+        num_working_instances += 1
+    
+    num_booting_instances = len(queues.get_booting_instances())
+
+    num_to_boot = max_concurrent - num_working_instances
+    if not settings.prioritize_booting_over_worldgen():
+        num_to_boot -= len(queues.get_free_instances())
+    num_to_boot = max(0,min(1, num_to_boot))
+
+    num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
+    num_to_boot = min(num_to_boot, len(queues.get_dead_instances()))
+
     if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():
         last_log_time = time.time()
         tmp_all_queues = queues.get_all_queues()
@@ -60,23 +77,12 @@ def main_loop(sc):
         print()
         print(f'DisplayState.FOCUSED {obs.get_focused_instance()}')
         print(f'DisplayState.PRIMARY {obs.get_primary_instance()}')
+        print(num_to_boot)
         print('---------------')
 
     if need_to_reset_timer and hlp.is_livesplit_open():
         hlp.run_ahk("callTimer", timerReset=settings["timer-hotkeys"]["timer-reset"],
                     timerStart=settings["timer-hotkeys"]["timer-start"])
-
-    # remove primary from all lists, focused can stay in lists
-    queues.update_all()
-
-    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + unfrozen_queue_size
-    num_booting_instances = len(queues.get_booting_instances())
-
-    num_to_boot = max_concurrent - num_working_instances - len(queues.get_free_instances())
-    num_to_boot = max(0,min(1, num_to_boot))
-
-    num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
-    num_to_boot = min(num_to_boot, len(queues.get_dead_instances()))
 
     # Handle dead instances
     for i in range(num_to_boot):
@@ -113,8 +119,7 @@ def main_loop(sc):
     for inst in queues.get_pregen_instances():
         if not inst.is_done_unfreezing():
             continue
-        if inst.was_active and num_working_instances > max_concurrent:
-            inst.was_active = False
+        if num_working_instances > max_concurrent:
             inst.suspend()
             inst.release()
             continue
@@ -142,12 +147,17 @@ def main_loop(sc):
         # TODO - why do we need to pause after creating a world? shouldnt it auto-pause?
         if not inst.is_primary():
             inst.mark_worldgen_finished()
-            inst.pause()
+            if settings.should_auto_pause():
+                inst.pause()
         else:
             inst.mark_active()
             inst.mark_primary()
 
-    obs.set_scene_item_properties('Indicator',len(queues.get_unpaused_instances()) > 0)
+    obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
+
+    for inst in queues.get_unpaused_instances():
+        if inst.check_should_auto_reset():
+            continue
 
     # Handle paused instances
     for inst in queues.get_paused_instances():
@@ -224,13 +234,12 @@ def main_loop(sc):
         new_focused_instance = None
         if len(queues.get_ready_instances()) > 0:
             new_focused_instance = queues.get_ready_instances()[0]
-        elif len(queues.get_paused_instances()) > 0:
-            new_focused_instance = queues.get_paused_instances()[0]
-        elif len(queues.get_gen_instances()) > 0:
-            new_focused_instance = queues.get_gen_instances()[0]
+        elif not settings.only_focus_ready():
+            if len(queues.get_paused_instances()) > 0:
+                new_focused_instance = queues.get_paused_instances()[0]
+            elif len(queues.get_gen_instances()) > 0:
+                new_focused_instance = queues.get_gen_instances()[0]
         try_set_focused(new_focused_instance)
-    
-    obs.update_state()
 
     schedule_next(sc)
 
@@ -282,6 +291,11 @@ def open_needed_programs():
     if not seen_obs:
         os.system(f'start /d "{settings["obs-path"]}" "" obs64.exe')
         print("Opened OBS")
+    
+def wrap(func):
+    def inner(event):
+        func()
+    return inner
 
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
@@ -290,14 +304,20 @@ if __name__ == "__main__":
     launch.launch_all_programs()
     input("Press any key to continue...")
     obs.connect_to_stream_obs()
-    obs.unhide_all()
-    kb.add_hotkey(settings.get_hotkeys()['reset-active'], reset_primary)
-    kb.add_hotkey(settings.get_hotkeys()['reset-focused'], reset_focused)
-    kb.add_hotkey(settings.get_hotkeys()['approve-focused'], approve_focused)
-    kb.add_hotkey(settings.get_hotkeys()['toggle-hotkeys'], toggle_hotkeys)
-    kb.add_hotkey(settings.get_hotkeys()['background-debug'], debug_background)
-    kb.add_hotkey(settings.get_hotkeys()['background-pause'], pause_background)
+    obs.hide_all()
+    kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
+    kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
+    kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
+    kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
+    kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
+    kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
     if settings.should_use_tts():
         hlp.run_ahk("ttsInit")
+    if settings.test_init():
+        obs.create_scene_item_for_instance(Instance(5))
+        pass
+    # setup_file = Path.cwd() / 'setup.py'
+    # if setup_file.exists():
+    #     setup_file.unlink()
     SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
     SCHEDULER.run()

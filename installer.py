@@ -1,6 +1,9 @@
 
+from pathlib import Path
 import subprocess as sp
 import sys, os, shlex
+
+os.chdir(Path(sys.executable).parent)
 
 def run_cmd(cmd):
     print(cmd)
@@ -17,4 +20,4 @@ release_url = requests.get(get_release_url).text.rstrip()
 r = requests.get(release_url, allow_redirects=True)
 open('setup.py', 'w').write(r.text)
 
-import setup
+# import setup

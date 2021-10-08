@@ -1,11 +1,18 @@
 import settings
-import obswebsocket.requests as obsrequests
+from obswebsocket import requests as obsrequests
 from obswebsocket import obsws
+import queues
 
+'''
+Manage global state
+'''
 
+primary_ids = {}
+focused_ids = {}
 
 focused_instance = None
 primary_instance = None
+stream_obs = None
 
 def get_primary_instance():
     global primary_instance
@@ -23,18 +30,26 @@ def set_focused_instance(inst):
     global focused_instance
     focused_instance = inst
 
+
+'''
+Low level utility OBS Functions
+'''
+
 def connect_to_stream_obs():
-    if settings.is_test_mode():
+    if not settings.is_obs_enabled():
         return
+    global stream_obs
     stream_obs = obsws(settings.get_obs_web_host(),
                settings.get_obs_port(),
                settings.get_obs_password())
     stream_obs.connect()
 
-def call_stream_websocket(*args):
-    if settings.is_test_mode():
-        return None
-    return ws.call(args)
+def call_stream_websocket(arg):
+    # print(args)
+    if not settings.is_obs_enabled():
+        return
+    global stream_obs
+    return stream_obs.call(arg)
 
 def get_scene_items():
     websocket_result = call_stream_websocket(obsrequests.GetSceneItemList())
@@ -43,7 +58,36 @@ def get_scene_items():
     return websocket_result.getSceneItems()
 
 def set_scene_item_properties(name, visible):
-    call_stream_websocket(obsrequests.SetSceneItemProperties(name, visible=True))
+    call_stream_websocket(obsrequests.SetSceneItemProperties(name, visible=visible))
+
+'''
+High level utility OBS functions
+'''
+
+def get_item_with_name(name):
+    scene_items = get_scene_items()
+
+    for item in scene_items:
+        # print(item['name'])
+        # print(item.keys())
+        # item_name = None
+        item_name = item['sourceName']
+        if item_name == name:
+            return item
+    
+    return None
+
+def get_base_focused_item():
+    return get_item_with_name('focused')
+
+def get_base_primary_item():
+    return get_item_with_name('active')
+
+def get_indicator_item():
+    return get_item_with_name('indicator')
+
+
+
 
 def set_new_primary(inst):
     print(inst)
@@ -64,10 +108,51 @@ def set_new_primary(inst):
 def set_new_focused(inst):
     global focused_instance
     if inst is not None:
-        focused_instance = inst
+        if focused_instance is not None:
+            focused_instance.mark_hidden()
+        set_focused_instance(inst)
+        focused_instance.mark_focused()
 
 def create_scene_item_for_instance(inst):
     # TODO @Specnr
+    # get_primary_scene_item_for_instance(inst)
+
+    # scenes = call_stream_websocket(obsrequests.GetSceneList())
+    # all_sources = call_stream_websocket(obsrequests.GetSourcesList())
+    # scene_items = call_stream_websocket(obsrequests.GetSceneItemList())
+    # # settings_active = call_stream_websocket(obsrequests.GetSourceSettings('active'))
+    # # base_props = call_stream_websocket(obsrequests.GetSceneItemProperties(item='active'))
+    # # for s in scenes.getScenes():
+    # #     # print(s['name'])
+    # #     print(len(s['sources']))
+    # #     print(s['sources'][0])
+
+    # # active_group = None
+
+    # for scene_item in scene_items.getSceneItems():
+    #     # if scene_item['sourceName'] == 'instance2':
+    #     #     props = call_stream_websocket(obsrequests.GetSceneItemProperties('instance2'))
+    #     #     print(props)
+    #     print(scene_item)
+
+    scene_item_id = get_primary_scene_item_id_for_instance(inst)
+
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'id':scene_item_id},visible=True))
+
+    # print(scene_items.datain)
+    raise
+
+    # temp_item = get_base_primary_item()
+    # temp_item['name'] = 'newitem'
+
+    # print(temp_item)
+    # temp_item = {'itemId': 59, 'name': 'active'}
+
+    # result = call_stream_websocket(obsrequests.DuplicateSceneItem(item=temp_item))
+
+    # print(result.datain)
+
+    # result2 = call_stream_websocket(obsrequests.GetSceneItemProperties(item='active'))
 
     # create a source with this:
     # https://github.com/Elektordi/obs-websocket-py/blob/master/obswebsocket/requests.py#L551
@@ -82,39 +167,54 @@ def create_scene_item_for_instance(inst):
     #       tile based on total number of instances
     pass
 
-def unhide_all():
+# def get_primary_scene_item_id_for_instance(inst):
+#     global primary_ids
+#     if inst.num in primary_ids.keys():
+#         return primary_ids[inst.num]
+    
+#     scene_items = get_scene_items()
+#     for scene_item in scene_items:
+#         # sub_props = call_stream_websocket(obsrequests.GetSceneItemProperties(sub['itemId']))
+#         # print(sub)
+#         # print()
+#         if str(inst.num) in scene_item['sourceName']:
+#             primary_ids[inst.num] = scene_item['itemId']
+#             return scene_item['itemId']
+#     return -1
+
+# def get_focused_scene_item_id_for_instance(inst):
+#     global focused_ids
+#     if inst.num in focused_ids.keys():
+#         return focused_ids[inst.num]
+    
+#     scene_items = get_scene_items()
+#     found_yet = False
+#     for scene_item in scene_items:
+#         # sub_props = call_stream_websocket(obsrequests.GetSceneItemProperties(sub['itemId']))
+#         # print(sub)
+#         # print()
+#         print(scene_item['sourceName'])
+#         if str(inst.num) in scene_item['sourceName']:
+#             if not found_yet:
+#                 found_yet = True
+#             else:
+#                 focused_ids[inst.num] = scene_item['itemId']
+#                 return scene_item['itemId']
+#     return -1
+
+def hide_all():
     scene_items = get_scene_items()
     for s in scene_items:
-        name = s["sourceName"]
-        if 'active' in name or 'focus' in name:
-            set_scene_item_properties(name, visible=True)
+        set_scene_item_properties({'id': s['itemId']}, visible=False)
 
-def update_state():
-    if settings.is_test_mode():
-        return
-    scenes_items = get_scene_items()
-    global primary_instance
-    global focused_instance
-    # TODO @Sharpieman20 - reduce number of websocket calls considerably by only calling when something changes
-    # Unhide current
-    for item in scenes_items:
-        name = item['sourceName']
-        if primary_instance is not None and 'active' in name:
-            if str(primary_instance.num) == name.split("active")[-1]:
-                print(f'Unhiding {name}')
-                set_scene_item_properties(name, True)
-        if focused_instance is not None and 'focus' in name:
-            if str(focused_instance.num) == name.split("focus")[-1]:
-                print(f'Unhiding {name}')
-                set_scene_item_properties(name, True)
-    # Hide non-current
-    for item in scenes_items:
-        name = s['sourceName']
-        if active is not None and 'active' in name:
-            if not str(primary_instance.num) == name.split("active")[-1]:
-                print(f'Hiding {name}')
-                set_scene_item_properties(name, False)
-        if focused is not None and 'focus' in name:
-            if not str(focused_instance.num) == name.split("focus")[-1]:
-                print(f'Hiding {name}')
-                set_scene_item_properties(name, False)
+def hide_primary(inst):
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'active{}'.format(inst.num)},visible=False))
+
+def show_primary(inst):
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'active{}'.format(inst.num)},visible=True))
+
+def hide_focused(inst):
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=False))
+
+def show_focused(inst):
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=True))
