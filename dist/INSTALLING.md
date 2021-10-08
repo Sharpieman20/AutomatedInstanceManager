@@ -16,6 +16,8 @@ group (active)\
     ...\
     activeX
 
+Install this extension https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/
+
 To view BG resets, right click on focused group, windowed projector.\
 This will make a preview window. If you right click on this preview window and select "Always On Top" then you will have a preview you can place anywhere
 
