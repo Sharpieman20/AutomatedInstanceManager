@@ -116,3 +116,6 @@ def get_load_chunk_time():
 
 def get_obs_path():
     return settings['obs-path']
+
+def get_livesplit_path():
+    return settings['livesplit-path']
