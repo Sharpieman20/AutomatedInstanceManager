@@ -24,7 +24,7 @@
     "loop-delay": 50,
     "boot-delay": 15.0,
     "chunk-load-time": 5.0,
-    "max-unpaused-time": 3.0,
+    "max-unpaused-time": 10.0,
     "min-time-for-settings-reset": 10.0,
     "num-instances": 3,
     "max-concurrent": 2,
@@ -40,3 +40,4 @@
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true
 }
+

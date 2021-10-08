@@ -9,3 +9,7 @@ Still a work in progress...
 
 - @Specnr
 - @Sharpieman20
+
+## Installation
+
+dist/INSTALLING.md
