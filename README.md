@@ -12,4 +12,4 @@ Still a work in progress...
 
 ## Installation
 
-dist/INSTALLING.md
+https://github.com/Sharpieman20/MultiResetTinder/blob/main/dist/INSTALLING.md
