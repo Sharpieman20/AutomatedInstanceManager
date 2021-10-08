@@ -119,6 +119,7 @@ def main_loop(sc):
     for inst in queues.get_pregen_instances():
         if not inst.is_done_unfreezing():
             continue
+        # state = FREE
         if num_working_instances > max_concurrent:
             inst.suspend()
             inst.release()
@@ -313,9 +314,6 @@ if __name__ == "__main__":
     kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
     if settings.should_use_tts():
         hlp.run_ahk("ttsInit")
-    if settings.test_init():
-        obs.create_scene_item_for_instance(Instance(5))
-        pass
     # setup_file = Path.cwd() / 'setup.py'
     # if setup_file.exists():
     #     setup_file.unlink()

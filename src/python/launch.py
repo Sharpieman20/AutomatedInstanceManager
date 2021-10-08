@@ -23,11 +23,6 @@ def launch_livesplit():
 def launch_all_programs():
     if settings.is_test_mode() or not settings.should_auto_launch():
         return
-    if not settings.is_ahk_enabled():
-        return
-    else:
-        print('5')
-        raise
     # TODO: add stat tracker?
     all_programs = ["OBS", "LiveSplit", "MultiMC"]
     are_launched = {program: False for program in all_programs}

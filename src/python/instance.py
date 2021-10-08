@@ -152,17 +152,15 @@ class DisplayStateful(Stateful):
 class ConditionalTransitionable(DisplayStateful):
 
     def is_ready_for_freeze(self):
-        duration = 2.0
-        if self.state == State.PAUSED:
-            duration = 2.0
+        duration = settings.get_load_chunk_time()
         return hlp.has_passed(self.timestamp, duration)
 
     def is_done_unfreezing(self):
-        duration = 0.5
+        duration = settings.get_freeze_delay()
         return hlp.has_passed(self.timestamp, duration)
 
     def is_ready_for_unfreeze(self):
-        duration = 0.5
+        duration = get_unfreeze_delay()
         return hlp.has_passed(self.timestamp, duration)
     
     def is_done_booting(self):
@@ -260,8 +258,6 @@ class Instance(ConditionalTransitionable):
     def copy_logs(self):
         # we should copy all relevant logs out of the instance probably since we want to dynamically create instances
         pass
-    
-
 
     def get_current_world(self):
         if self.current_world is not None:

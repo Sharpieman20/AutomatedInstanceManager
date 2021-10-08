@@ -33,6 +33,9 @@ def get_max_concurrent():
 def get_max_concurrent_boot():
     return int(settings['max-concurrent-boot'])
 
+def get_freeze_delay():
+    return float(settings['unfreeze-delay']) / 1000.0
+
 def get_unfreeze_delay():
     return float(settings['unfreeze-delay']) / 1000.0
 
@@ -88,16 +91,13 @@ def get_obs_password():
     return settings['obs-settings']['password']
 
 def should_auto_pause():
-    return False
-
-def test_init():
-    return True
+    return settings['auto-pause']
 
 def is_ahk_enabled():
     return settings['ahk-enabled']
 
 def is_obs_enabled():
-    return True
+    return settings['obs-enabled']
 
 def only_focus_ready():
     return True
@@ -106,7 +106,10 @@ def get_max_unpaused_time():
     return settings['max-unpaused-time']
 
 def prioritize_booting_over_worldgen():
-    return True
+    return settings['prio-booting-over-worldgen']
 
 def minimum_time_for_settings_reset():
     return 10.0
+
+def get_load_chunk_time():
+    return settings['chunk-load-time']
