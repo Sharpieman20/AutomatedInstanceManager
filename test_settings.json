@@ -2,47 +2,41 @@
     "multi-mc-path": "C:/MultiInstanceMC/MultiMC/MultiMC.exe",
     "livesplit-path": "D:/Program Files (x86)/LiveSplit_1.8.16/LiveSplit.exe",
     "obs-path": "D:/Program Files/obs-studio/bin/64bit",
-
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
     "livesplit-user-config": "",
     "obs-settings" : {
-      "web-host": "localhost",
-      "port": 4444,
-      "password": "password"
+        "web-host": "localhost",
+        "port": 4444,
+        "password": "password"
     },
-    
     "template-instance": "1.16INST",
     "hotkeys": {
-      "reset-active": "U",
-      "reset-focused": "H",
-      "approve-focused": "J",
-      "toggle-hotkeys": "R",
-      "background-debug": "Q",
-      "background-pause": "T"
+        "reset-active": "U",
+        "reset-focused": "H",
+        "approve-focused": "J",
+        "toggle-hotkeys": "R",
+        "background-debug": "Q",
+        "background-pause": "T"
     },
-    "timer-hotkeys": {
-      "timer-reset": "F8",
-      "timer-start": "F9"
-    },
-    "freeze-delay": 170,
+    "freeze-delay": 300,
+    "unfreeze-delay": 300,
     "fullscreen-delay": 50,
-    "switch-delay": 170,
-    "unfreeze-delay": 100,
-    "obs-delay": 50,
     "loop-delay": 50,
-    "boot-delay": 5.0,
+    "boot-delay": 15.0,
+    "chunk-load-time": 5.0,
     "max-unpaused-time": 3.0,
-    "max-time-in-run-autopause": 2.5,
+    "min-time-for-settings-reset": 10.0,
     "num-instances": 3,
-    "max-concurrent": 2, 
+    "max-concurrent": 2,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
+    "obs-enabled": false,
+    "ahk-enabled": false,
     "disable-tts": true,
     "fullscreen": false,
-    "count-attempts": false,
-    "test-mode": false,
+    "test-mode": true,
     "auto-launch": true,
     "auto-pause": true,
-    "obs-enabled": true,
-    "ahk-enabled": false
+    "prio-booting-over-worldgen": true,
+    "only-focus-ready": true
 }

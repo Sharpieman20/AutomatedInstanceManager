@@ -20,6 +20,9 @@ def launch_obs():
 def launch_livesplit():
     os.startfile(settings["livesplit-path"])
 
+def launch_multimc():
+    pass
+
 def launch_all_programs():
     if settings.is_test_mode() or not settings.should_auto_launch():
         return
