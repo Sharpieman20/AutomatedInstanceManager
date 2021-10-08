@@ -33,7 +33,7 @@ defaults_dir.mkdir()
 settings_json = defaults_dir / 'settings.json'
 settings_json.touch()
 
-open('defaults/settings.json', 'w').write(r.content)
+open('defaults/settings.json', 'w').write(r.text)
 
 src_ahk = Path.cwd() / "src" / "ahk"
 custom_directory = Path.cwd() / "custom"
