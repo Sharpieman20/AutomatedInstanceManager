@@ -1,11 +1,12 @@
 
 import subprocess as sp
-import sys, os
+import sys, os, shlex
 
 def run_cmd(cmd):
+    print(cmd)
     sp.call(shlex.split(cmd))
 
-run_cmd('{}/pip3 install requests'.format(os.path.dirname(sys.executable)))
+run_cmd('{}\python.exe -m pip install requests'.format(os.path.dirname(sys.executable)))
 
 import requests
 

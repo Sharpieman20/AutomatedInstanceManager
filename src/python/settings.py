@@ -84,3 +84,7 @@ def get_obs_password():
     if is_test_mode():
         return None
     return settings['obs-settings']['password']
+
+def should_auto_pause():
+    return False
+

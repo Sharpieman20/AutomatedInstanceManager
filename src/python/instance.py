@@ -25,10 +25,11 @@ class State(Enum):
     FREE = 2
     PREGEN = 3
     GEN = 4
-    PAUSED = 5
-    READY = 6
-    APPROVED = 7
-    ACTIVE = 8
+    UNPAUSED = 5
+    PAUSED = 6
+    READY = 7
+    APPROVED = 8
+    ACTIVE = 9
 
 class DisplayState(Enum):
     HIDDEN = 0
