@@ -314,8 +314,8 @@ if __name__ == "__main__":
     kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
     if settings.should_use_tts():
         hlp.run_ahk("ttsInit")
-    # setup_file = Path.cwd() / 'setup.py'
-    # if setup_file.exists():
-    #     setup_file.unlink()
+    setup_file = Path.cwd() / 'setup.py'
+    if setup_file.exists():
+        setup_file.unlink()
     SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
     SCHEDULER.run()

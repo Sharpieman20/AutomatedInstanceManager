@@ -38,6 +38,11 @@ settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
 
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/basic_settings.json'
+r = requests.get(settings_url, allow_redirects=True)
+
+open('my_settings.json', 'w').write(r.text)
+
 src_ahk = Path.cwd() / "src" / "ahk"
 custom_directory = Path.cwd() / "custom"
 if custom_directory.exists():
@@ -48,5 +53,5 @@ else:
 
 run_cmd('py -m ensurepip')
 run_cmd('py -m pip install -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
-run_cmd('py src/python/main.py settings.json'.format(os.path.dirname(sys.executable)))
+run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
 

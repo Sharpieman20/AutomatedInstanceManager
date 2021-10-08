@@ -1,0 +1,14 @@
+{
+    "hotkeys": {
+        "reset-active": "U",
+        "reset-focused": "H",
+        "approve-focused": "J",
+        "toggle-hotkeys": "R",
+        "background-debug": "Q",
+        "background-pause": "T"
+    },
+    "num-instances": 3,
+    "max-concurrent": 2,
+    "fullscreen": false
+}
+
