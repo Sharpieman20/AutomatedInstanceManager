@@ -33,7 +33,7 @@ def get_max_concurrent():
 def get_max_concurrent_boot():
     return int(settings['max-concurrent-boot'])
 
-def get_freeze_delay():
+def get_unfreeze_delay():
     return float(settings['unfreeze-delay']) / 1000.0
 
 def get_unfreeze_delay():
@@ -113,3 +113,6 @@ def minimum_time_for_settings_reset():
 
 def get_load_chunk_time():
     return settings['chunk-load-time']
+
+def get_obs_path():
+    return settings['obs-path']
