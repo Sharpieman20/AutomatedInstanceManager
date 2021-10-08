@@ -147,6 +147,8 @@ def main_loop(sc):
             inst.mark_active()
             inst.mark_primary()
 
+    obs.set_scene_item_properties('Indicator',len(queues.get_unpaused_instances()) > 0)
+
     # Handle paused instances
     for inst in queues.get_paused_instances():
         # let chunks load some amount
@@ -249,6 +251,15 @@ def approve_focused():
     if listening and focused_instance is not None:
         focused_instance.mark_approved()
 
+def debug_background():
+    inst = queues.get_unpaused_instances()[0]
+    hlp.run_ahk('debugGame',pid=inst.pid)
+
+def pause_background():
+    inst = queues.get_unpaused_instances()[0]
+    inst.mark_paused()
+    hlp.run_ahk('pauseGame',pid=inst.pid)
+
 def toggle_hotkeys():
     print("Toggle Hotkeys")
     global listening
@@ -284,6 +295,8 @@ if __name__ == "__main__":
     kb.add_hotkey(settings.get_hotkeys()['reset-focused'], reset_focused)
     kb.add_hotkey(settings.get_hotkeys()['approve-focused'], approve_focused)
     kb.add_hotkey(settings.get_hotkeys()['toggle-hotkeys'], toggle_hotkeys)
+    kb.add_hotkey(settings.get_hotkeys()['background-debug'], background_debug)
+    kb.add_hotkey(settings.get_hotkeys()['background-pause'], background_pause)
     if settings.should_use_tts():
         hlp.run_ahk("ttsInit")
     SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))

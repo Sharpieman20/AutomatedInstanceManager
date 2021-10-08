@@ -29,7 +29,9 @@
     "reset-active": "U",
     "reset-focused": "H",
     "approve-focused": "J",
-    "toggle-hotkeys": "R"
+    "toggle-hotkeys": "R",
+    "background-debug": "Q",
+    "background-pause": "T"
   },
   "timer-hotkeys": {
     "timer-reset": "F8",

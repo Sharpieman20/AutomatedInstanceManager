@@ -82,6 +82,13 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
     
     def mark_worldgen_finished(self):
+        if settings.should_auto_pause():
+            assign_to_state(self, State.PAUSED)
+        else:
+            assign_to_state(self, State.UNPAUSED)
+        self.timestamp = get_time()
+    
+    def mark_paused(self):
         assign_to_state(self, State.PAUSED)
         self.timestamp = get_time()
     
