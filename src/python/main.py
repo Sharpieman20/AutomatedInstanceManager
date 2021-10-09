@@ -80,9 +80,9 @@ def main_loop(sc):
         print(num_to_boot)
         print('---------------')
 
-    if need_to_reset_timer and hlp.is_livesplit_open():
-        hlp.run_ahk("callTimer", timerReset=settings["timer-hotkeys"]["timer-reset"],
-                    timerStart=settings["timer-hotkeys"]["timer-start"])
+    # if need_to_reset_timer and hlp.is_livesplit_open():
+    #     hlp.run_ahk("callTimer", timerReset=settings["timer-hotkeys"]["timer-reset"],
+    #                 timerStart=settings["timer-hotkeys"]["timer-start"])
 
     # Handle dead instances
     for i in range(num_to_boot):
@@ -274,24 +274,6 @@ def toggle_hotkeys():
     print("Toggle Hotkeys")
     global listening
     listening = not listening
-
-def open_instance(inst_id):
-    os.popen(f'{settings["multi-mc-path"]} -l "{inst_id}"')
-
-
-def open_needed_programs():
-    seen_ls, seen_obs = False, False
-    for p in psutil.process_iter():
-        if not seen_obs and "OBS" in p.name():
-            seen_obs = True
-        if not seen_ls and "LiveSplit" in p.name():
-            seen_ls = True
-    if not seen_ls:
-        os.startfile(settings["livesplit-path"])
-        print("Opened LiveSplit")
-    if not seen_obs:
-        os.system(f'start /d "{settings["obs-path"]}" "" obs64.exe')
-        print("Opened OBS")
     
 def wrap(func):
     def inner(event):
