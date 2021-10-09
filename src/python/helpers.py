@@ -20,7 +20,7 @@ def get_pids():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
     # TODO @Specnr - check that this actually works correctly
-    return list(map(int, run_ahk("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
+    return list(map(int, run_ahk_blocking("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
 
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
@@ -41,6 +41,12 @@ def run_ahk(script_name, **kwargs):
         print("Run AHK script {} {}".format(script_name, kwargs))
         return
     return ahk.run_script(file_to_script(script_name, **kwargs), blocking=False)
+
+def run_ahk_blocking(script_name, **kwargs):
+    if settings.is_test_mode() or not settings.is_ahk_enabled():
+        print("Run AHK script {} {}".format(script_name, kwargs))
+        return
+    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=True)
 
 def add_attempt():
     curr_attempts = 0
