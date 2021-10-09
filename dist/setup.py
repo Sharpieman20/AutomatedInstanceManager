@@ -40,6 +40,8 @@ r = requests.get(settings_url, allow_redirects=True)
 
 defaults_dir.mkdir()
 settings_json = defaults_dir / 'settings.json'
+if settings_json.exists():
+    settings_json.unlink()
 settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
@@ -48,7 +50,10 @@ settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/
 r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = 'my_settings.json'
-settings_json.touch()
+
+if my_settings_json.exists():
+    my_settings_json.unlink()
+my_settings_json.touch()
 open('my_settings.json', 'w').write(r.text)
 
 src_ahk = Path.cwd() / "src" / "ahk"

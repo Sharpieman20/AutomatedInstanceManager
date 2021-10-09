@@ -201,7 +201,7 @@ class Instance(ConditionalTransitionable):
         self.timestamp = 0
         self.was_active = False
         self.name = '{}{}'.format(settings.get_base_instance_name(), self.num)
-        self.mcdir = settings.get_multimc_path() / "instances" / self.name / ".minecraft"
+        self.mcdir = settings.get_multimc_path().parent / "instances" / self.name / ".minecraft"
         self.current_world = None
     
     def boot(self):
