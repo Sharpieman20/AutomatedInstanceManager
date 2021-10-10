@@ -122,6 +122,7 @@ class Stateful(Suspendable):
     def mark_active(self):
         assign_to_state(self, State.ACTIVE)
         self.was_active = True
+        hlp.run_ahk("activateWindow", pid=self.pid)
         self.timestamp = get_time()
 
     def mark_inactive(self):
