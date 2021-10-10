@@ -51,10 +51,9 @@ r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = 'my_settings.json'
 
-if my_settings_json.exists():
-    my_settings_json.unlink()
-my_settings_json.touch()
-open('my_settings.json', 'w').write(r.text)
+if not my_settings_json.exists():
+    my_settings_json.touch()
+    open('my_settings.json', 'w').write(r.text)
 
 src_ahk = Path.cwd() / "src" / "ahk"
 custom_directory = Path.cwd() / "custom"
