@@ -276,6 +276,9 @@ class Instance(ConditionalTransitionable):
             if hlp.has_passed(self.timestamp, settings.get_test_worldgen_time()):
                 return True
             return False
+        
+        if not hlp.has_passed(self.timestamp, settings.get_start_create_world_delay()):
+            return False
 
         cur_world = self.get_current_world()
 

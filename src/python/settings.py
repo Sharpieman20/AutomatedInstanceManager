@@ -121,3 +121,6 @@ def get_obs_path():
 
 def get_livesplit_path():
     return settings['livesplit-path']
+
+def get_start_create_world_delay():
+    return 0.5
