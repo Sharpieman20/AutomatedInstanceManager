@@ -234,7 +234,7 @@ class Instance(ConditionalTransitionable):
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             hlp.run_ahk("resetSettings", pid=self.pid)
         else:
-            hlp.run_ahk("reset", pid=self.pid)
+            hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
         self.was_active = False
         self.current_world = None
 
