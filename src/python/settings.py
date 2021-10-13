@@ -38,8 +38,8 @@ def get_max_concurrent_boot():
 def get_unfreeze_delay():
     return float(settings['unfreeze-delay']) / 1000.0
 
-def get_unfreeze_delay():
-    return float(settings['unfreeze-delay']) / 1000.0
+def get_freeze_delay():
+    return float(settings['freeze-delay']) / 1000.0
 
 def get_unfrozen_queue_size():
     return int(settings['unfrozen-queue-size'])
