@@ -124,3 +124,6 @@ def get_livesplit_path():
 
 def get_start_create_world_delay():
     return 0.5
+
+def get_ahk_default_background():
+    return settings['default-ahk-background']

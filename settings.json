@@ -39,6 +39,7 @@
     "auto-launch": true,
     "auto-pause": true,
     "prio-booting-over-worldgen": true,
-    "only-focus-ready": true
+    "only-focus-ready": true,
+    "default-ahk-background": true
 }
 

@@ -46,7 +46,7 @@ def run_ahk_blocking(script_name, **kwargs):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         print("Run AHK script {} {}".format(script_name, kwargs))
         return
-    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=True)
+    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=settings.get_ahk_default_background())
 
 def add_attempt():
     curr_attempts = 0
