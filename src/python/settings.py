@@ -127,3 +127,6 @@ def get_start_create_world_delay():
 
 def get_ahk_default_background():
     return settings['default-ahk-background']
+
+def get_key_delay():
+    return int(settings['key-delay'])
