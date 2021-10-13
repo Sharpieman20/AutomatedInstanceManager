@@ -262,13 +262,15 @@ def approve_focused():
         focused_instance.mark_approved()
 
 def debug_background():
-    inst = queues.get_unpaused_instances()[0]
-    hlp.run_ahk('debugGame',pid=inst.pid)
+    if len(queues.get_unpaused_instances()) > 0:
+        inst = queues.get_unpaused_instances()[0]
+        hlp.run_ahk('debugGame',pid=inst.pid)
 
 def pause_background():
-    inst = queues.get_unpaused_instances()[0]
-    inst.mark_paused()
-    hlp.run_ahk('pauseGame',pid=inst.pid)
+    if len(queues.get_unpaused_instances()) > 0:
+        inst = queues.get_unpaused_instances()[0]
+        inst.mark_paused()
+        hlp.run_ahk('pauseGame',pid=inst.pid)
 
 def toggle_hotkeys():
     print("Toggle Hotkeys")
