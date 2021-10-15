@@ -161,7 +161,7 @@ class ConditionalTransitionable(DisplayStateful):
         return hlp.has_passed(self.timestamp, duration)
 
     def is_ready_for_unfreeze(self):
-        duration = get_unfreeze_delay()
+        duration = settings.get_unfreeze_delay()
         return hlp.has_passed(self.timestamp, duration)
     
     def is_done_booting(self):

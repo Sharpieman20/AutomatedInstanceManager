@@ -152,7 +152,6 @@ def main_loop(sc):
                 inst.pause()
         else:
             inst.mark_active()
-            inst.mark_primary()
 
     obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
 
@@ -163,9 +162,12 @@ def main_loop(sc):
     # Handle paused instances
     for inst in queues.get_paused_instances():
         # let chunks load some amount
+        if inst.is_primary():
+            inst.mark_active()
+            continue
         if not inst.is_ready_for_freeze():
             continue
-        # state = READY
+            # state = READY
         inst.mark_ready()
         inst.suspend()
 

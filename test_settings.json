@@ -23,6 +23,7 @@
     "fullscreen-delay": 50,
     "loop-delay": 50,
     "boot-delay": 15.0,
+    "key-delay": 1,
     "chunk-load-time": 5.0,
     "max-unpaused-time": 3.0,
     "min-time-for-settings-reset": 10.0,
