@@ -111,7 +111,7 @@ def prioritize_booting_over_worldgen():
     return settings['prio-booting-over-worldgen']
 
 def minimum_time_for_settings_reset():
-    return 10.0
+    return settings['min-time-for-settings-reset']
 
 def get_load_chunk_time():
     return settings['chunk-load-time']
@@ -123,7 +123,7 @@ def get_livesplit_path():
     return settings['livesplit-path']
 
 def get_start_create_world_delay():
-    return 0.5
+    return settings['min-time-from-reset-to-world-entry']
 
 def get_ahk_default_background():
     return settings['default-ahk-background']

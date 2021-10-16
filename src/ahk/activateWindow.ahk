@@ -1,3 +1,3 @@
 #Persistent
-WinActivate, ahk_pid %pid%
+WinMoveTop, ahk_pid %pid%
 ExitApp

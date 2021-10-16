@@ -116,7 +116,8 @@ def create_scene_item_for_instance(inst):
 def hide_all():
     scene_items = get_scene_items()
     for s in scene_items:
-        set_scene_item_properties({'id': s['itemId']}, visible=False)
+        if 'active' in s['sourceName'] or 'focused' in s['sourceName']:
+            set_scene_item_properties({'id': s['itemId']}, visible=False)
 
 def hide_primary(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'active{}'.format(inst.num)},visible=False))
