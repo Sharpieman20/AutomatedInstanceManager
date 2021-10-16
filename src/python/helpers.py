@@ -26,7 +26,8 @@ def get_pids():
         process_info = proc.as_dict(attrs=['pid', 'name', 'cpu_percent'])
         if "Minecraft" in process_info['name']:
             my_pids.append((process_info['name'],process_info['pid']))
-    # return list(map(int, run_ahk_blocking("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
+    print(my_pids)
+    return list(map(int, run_ahk_blocking("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
 
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
