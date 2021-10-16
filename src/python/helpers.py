@@ -20,7 +20,13 @@ def get_pids():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
     # TODO @Specnr - check that this actually works correctly
-    return list(map(int, run_ahk_blocking("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
+    my_pids = []
+    for proc in psutil.process_iter():
+        # Get process detail as dictionary
+        process_info = proc.as_dict(attrs=['pid', 'name', 'cpu_percent'])
+        if "Minecraft" in process_info['name']:
+            my_pids.append((process_info['name'],process_info['pid']))
+    # return list(map(int, run_ahk_blocking("getPIDs", instances=int(settings.get_num_instances()), MultiMC=True).split("|")))
 
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
