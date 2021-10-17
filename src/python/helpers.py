@@ -24,7 +24,7 @@ def get_pids():
     for process in psutil.process_iter():
         if 'java' in process.name().lower():
             all_pids.append(process.pid)
-    return None
+    return all_pids
 
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
