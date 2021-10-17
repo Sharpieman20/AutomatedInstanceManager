@@ -5,18 +5,12 @@ import subprocess as sp
 import shlex
 import os
 
-def launch_instance_inner(inst_name):
-    instance_process = sp.Popen(shlex.split(f'{settings.get_multimc_path()} -l "{inst_name}"'))
-    # os.popen()
-    # print(os.getpid())
-    # print(instance_process.pid)
-
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return
-    inst_process = Process(target=launch_instance_inner, args=(inst.name,))
-    inst_process.start()
+    instance_process = sp.Popen(shlex.split(f'{settings.get_multimc_path()} -l "{inst_name}"'))
 
+    # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
     return inst_process.pid
 
 def launch_obs():

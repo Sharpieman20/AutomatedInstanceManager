@@ -208,7 +208,9 @@ class Instance(ConditionalTransitionable):
         self.current_world = None
     
     def boot(self):
-        self.pid = launch_instance(self)
+        # TODO @Sharpieman20 - fix this to give pid from launch
+        # self.pid = launch_instance(self)
+        launch_instance(self)
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
