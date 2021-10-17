@@ -7,8 +7,13 @@ Still a work in progress...
 
 ## Credit
 
-- @Specnr
+Development
 - @Sharpieman20
+- @Specnr
+
+Testing
+- Pncakespoon
+- SpeedNintendo
 
 ## Installation
 
