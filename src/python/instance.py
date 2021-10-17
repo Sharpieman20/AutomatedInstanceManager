@@ -46,17 +46,8 @@ class DisplayState(Enum):
 
 class Process:
     def assign_pid(self, all_processes):
-        if settings.is_test_mode():
-            self.pid = get_global_test_pid()
-            return
-        all_pids = hlp.get_pids()
-        for pid in all_pids:
-            pid_maps_to_instance = False
-            for instance in all_processes:
-                if instance.pid == pid:
-                    pid_maps_to_instance = True
-            if not pid_maps_to_instance:
-                self.pid = pid
+        # for now, require auto-launch mode enabled
+        pass
 
 class Suspendable(Process):
     def suspend(self):
@@ -105,9 +96,9 @@ class Stateful(Suspendable):
     
     def release(self):
         if self.is_suspended():
-            assign_to_state(self, State.FREE)
+            self.mark_free()
         else:
-            assign_to_state(self, State.PREGEN)
+            self.mark_pregen()
         self.timestamp = get_time()
 
     def mark_ready(self):
@@ -125,8 +116,9 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
 
     def mark_inactive(self):
-        # add to pregen
-        self.mark_pregen()
+        # add to free
+        self.mark_free()
+        self.timestamp = get_time()
 
 class DisplayStateful(Stateful):
 
@@ -206,7 +198,7 @@ class Instance(ConditionalTransitionable):
         self.current_world = None
     
     def boot(self):
-        launch_instance(self)
+        self.pid = launch_instance(self)
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
@@ -221,7 +213,7 @@ class Instance(ConditionalTransitionable):
         # assign our pid somehow
         self.assign_pid(all_instances)
         # start generating world w/ duncan mod
-        hlp.run_ahk("resetFromTitle", pid=self.pid)
+        hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
         self.mark_generating()
 
@@ -232,14 +224,14 @@ class Instance(ConditionalTransitionable):
 
     def reset(self):
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
-            hlp.run_ahk("resetSettings", pid=self.pid)
+            hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
         self.was_active = False
         self.current_world = None
 
     def pause(self):
-        hlp.run_ahk("pauseGame", pid=self.pid)
+        hlp.run_ahk("pauseGame", pid=self.pid, keydelay=settings.get_key_delay())
 
     # TODO - call this method somewhere
     def move_worlds(self, old_worlds):

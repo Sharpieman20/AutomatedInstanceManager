@@ -1,17 +1,23 @@
 import settings
 import psutil
 from copy import copy
-from multiprocessing import Process
+import subprocess as sp
+import shlex
 import os
 
 def launch_instance_inner(inst_name):
-    os.popen(f'{settings.get_multimc_path()} -l "{inst_name}"')
+    instance_process = sp.Popen(shlex.split(f'{settings.get_multimc_path()} -l "{inst_name}"'))
+    # os.popen()
+    # print(os.getpid())
+    print(instance_process.pid)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return
-    inst = Process(target=launch_instance_inner, args=(inst.name,))
-    inst.start()
+    inst_process = Process(target=launch_instance_inner, args=(inst.name,))
+    inst_process.start()
+
+    return inst_process.pid
 
 def launch_obs():
     # TODO @Sharpieman20 - replace with something better

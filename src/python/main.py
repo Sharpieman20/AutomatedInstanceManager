@@ -272,7 +272,7 @@ def pause_background():
     if len(queues.get_unpaused_instances()) > 0:
         inst = queues.get_unpaused_instances()[0]
         inst.mark_paused()
-        hlp.run_ahk('pauseGame',pid=inst.pid)
+        inst.pause()
 
 def toggle_hotkeys():
     print("Toggle Hotkeys")
@@ -303,6 +303,6 @@ if __name__ == "__main__":
     setup_file = Path.cwd() / 'setup.py'
     if setup_file.exists():
         setup_file.unlink()
-    print(hlp.get_pids())
-    # SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
-    # SCHEDULER.run()
+    # print(hlp.get_pids())
+    SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
+    SCHEDULER.run()
