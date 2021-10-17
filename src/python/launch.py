@@ -12,7 +12,7 @@ def launch_instance(inst):
     instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
-    return inst_process.pid
+    return instance_process.pid
     # return None
 
 def launch_obs():
