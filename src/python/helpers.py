@@ -20,7 +20,10 @@ def has_passed(start_time, duration):
 def get_pids():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
-    # TODO @Sharpieman20 - Re-implement this so that auto-launch isn't required
+    all_pids = []
+    for process in psutil.process_iter():
+        if 'java' in process.name().lower():
+            all_pids.append(process.pid)
     return None
 
 def is_livesplit_open():

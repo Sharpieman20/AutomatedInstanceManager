@@ -47,7 +47,17 @@ class DisplayState(Enum):
 class Process:
     def assign_pid(self, all_processes):
         # for now, require auto-launch mode enabled
-        pass
+        if settings.is_test_mode():
+            self.pid = get_global_test_pid()
+            return
+        all_pids = hlp.get_pids()
+        for pid in all_pids:
+            pid_maps_to_instance = False
+            for instance in all_processes:
+                if instance.pid == pid:
+                    pid_maps_to_instance = True
+            if not pid_maps_to_instance:
+                self.pid = pid
 
 class Suspendable(Process):
     def suspend(self):
@@ -202,7 +212,7 @@ class Instance(ConditionalTransitionable):
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
-        # probably make some click macro to import instance from zip
+        # import from zip in launch command or something
         pass
 
     # not yet implemented (not needed in v1)

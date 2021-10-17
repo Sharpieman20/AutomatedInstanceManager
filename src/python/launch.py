@@ -9,7 +9,7 @@ def launch_instance_inner(inst_name):
     instance_process = sp.Popen(shlex.split(f'{settings.get_multimc_path()} -l "{inst_name}"'))
     # os.popen()
     # print(os.getpid())
-    print(instance_process.pid)
+    # print(instance_process.pid)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
