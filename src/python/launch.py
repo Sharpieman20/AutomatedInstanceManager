@@ -8,11 +8,12 @@ import os
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return
-    os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
+    # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
+    instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
-    # return inst_process.pid
-    return None
+    return inst_process.pid
+    # return None
 
 def launch_obs():
     # TODO @Sharpieman20 - replace with something better
