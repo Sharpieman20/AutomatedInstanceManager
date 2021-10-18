@@ -145,7 +145,7 @@ class DisplayStateful(Stateful):
 
     def mark_primary(self):
         obs.show_primary(self)
-        hlp.run_ahk("activateWindow", pid=self.window_pid)
+        hlp.run_ahk("activateWindow", pid=self.pid)
         self.displayState = DisplayState.PRIMARY
 
     def is_primary(self):
@@ -210,7 +210,7 @@ class Instance(ConditionalTransitionable):
     
     def boot(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
-        self.window_pid = launch_instance(self)
+        launch_instance(self)
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
