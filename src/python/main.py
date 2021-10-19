@@ -52,7 +52,8 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 # did_error = False
 
-max_concurrent = settings.get_max_concurrent()
+max_concurrent_global = settings.get_max_concurrent()
+max_concurrent_in_run = settings.get_max_concurrent_in_run()
 max_concurrent_boot = settings.get_max_concurrent_boot()
 
 unfreeze_delay = settings.get_unfreeze_delay()
@@ -142,6 +143,7 @@ def main_loop(sc):
     num_booting_instances = len(queues.get_booting_instances())
 
     num_to_boot = max_concurrent - num_working_instances
+
     if not settings.prioritize_booting_over_worldgen():
         num_to_boot -= len(queues.get_free_instances())
 
@@ -284,6 +286,8 @@ def main_loop(sc):
             inst.mark_worldgen_finished()
         else:
             inst.mark_active()
+            if settings.should_auto_pause_active():
+                inst.pause()
 
     obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
 
@@ -311,15 +315,15 @@ def main_loop(sc):
 
     for inst in queues.get_ready_instances():
         index += 1
+        if inst.is_primary():
+            inst.mark_active()
+            continue
         if inst.check_should_auto_reset():
             continue
         if index <= total_to_unfreeze:
             inst.resume()
             continue
         # state = ?
-        if inst.is_primary():
-            inst.mark_active()
-            continue
         inst.suspend()
 
     # Handle approved instances
@@ -402,7 +406,7 @@ def try_download_beta():
     download_branch('beta')
 
 if __name__ == "__main__":
-    # TODO @Sharpieman20 - add more good assertions
+    # TODO @Sharpieman20 - add more good assertios
     # TODO @Sharpieman20 - add error messages explaining
     try:
         if not settings.is_test_mode():

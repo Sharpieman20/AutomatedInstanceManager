@@ -140,6 +140,7 @@ def should_parallelize_ahk():
 def get_key_delay():
     return int(settings['key-delay'])
 
+
 def get_is_borderless():
     return settings['borderless']
 
@@ -216,3 +217,12 @@ def wait_for_all_to_launch_before_booting():
 
 def get_multimc_delay():
     return settings['multi-mc-delay']
+
+def get_max_concurrent_in_run():
+    return int(settings['max-concurrent-in-run']) 
+
+def get_recording_instance_height():
+    return 180
+
+def get_recording_instance_width():
+    return 320
