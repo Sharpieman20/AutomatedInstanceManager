@@ -54,7 +54,9 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 # did_error = False
 
-max_concurrent = settings.get_max_concurrent()
+max_concurrent_global = settings.get_max_concurrent()
+max_concurrent_in_run = settings.get_max_concurrent_in_run()
+max_concurrent_boot = settings.get_max_concurrent_boot()
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
@@ -332,6 +334,9 @@ def main_loop(sc):
             inst.mark_active()
             continue
         index += 1
+        if inst.is_primary():
+            inst.mark_active()
+            continue
         if inst.check_should_auto_reset():
             continue
         if index <= total_to_unfreeze:
@@ -428,7 +433,7 @@ def kill_on_exit():
             hlp.run_cmd(cmd, blocking=True)
 
 if __name__ == "__main__":
-    # TODO @Sharpieman20 - add more good assertions
+    # TODO @Sharpieman20 - add more good assertios
     # TODO @Sharpieman20 - add error messages explaining
     atexit.register(kill_on_exit)
     try:

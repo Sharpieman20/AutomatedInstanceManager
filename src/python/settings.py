@@ -141,6 +141,7 @@ def should_parallelize_ahk():
 def get_key_delay():
     return int(settings['key-delay'])
 
+
 def get_is_borderless():
     return settings['borderless']
 
@@ -236,3 +237,11 @@ def should_show_focused_as_active():
 
 def should_auto_launch_apps():
     return settings['auto-launch-apps']
+def get_max_concurrent_in_run():
+    return int(settings['max-concurrent-in-run']) 
+
+def get_recording_instance_height():
+    return 180
+
+def get_recording_instance_width():
+    return 320

@@ -14,6 +14,7 @@ focused_ids = {}
 focused_instance = None
 primary_instance = None
 stream_obs = None
+recording_obs = None
 
 def get_primary_instance():
     global primary_instance
@@ -180,3 +181,34 @@ def hide_focused(inst):
 
 def show_focused(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=True))
+
+
+
+def setup_recording_obs():
+    # set canvas size
+    # initialize sources
+    # start recording
+    pass
+
+def tile(count):
+    width = 1
+    height = 1
+
+    while width * height < count:
+        if width == height:
+            width += 1
+        else:
+            height += 1
+
+    return (width, height)
+
+def get_coords_for_instance_recording_obs(instance):
+    width, height = tile(settings.get_num_instances)
+
+    instance_row = int(instance.num // width)
+    instance_col = int(instance.num % height)
+
+    canvax_x = instance_col * settings.get_recording_instance_height()
+    canvas_y = instance_row * settings.get_recording_instance_width()
+
+    return (canvas_x, canvas_y)
