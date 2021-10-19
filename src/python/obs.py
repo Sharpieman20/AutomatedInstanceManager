@@ -130,7 +130,6 @@ def update_scene_item_order():
     call_stream_websocket(obsrequests.ReorderSceneItems(new_order))
 
 def set_new_primary(inst):
-    # print(inst)
     if inst is not None:
         update_scene_item_order()
         global primary_instance
@@ -189,26 +188,3 @@ def setup_recording_obs():
     # initialize sources
     # start recording
     pass
-
-def tile(count):
-    width = 1
-    height = 1
-
-    while width * height < count:
-        if width == height:
-            width += 1
-        else:
-            height += 1
-
-    return (width, height)
-
-def get_coords_for_instance_recording_obs(instance):
-    width, height = tile(settings.get_num_instances)
-
-    instance_row = int(instance.num // width)
-    instance_col = int(instance.num % height)
-
-    canvax_x = instance_col * settings.get_recording_instance_height()
-    canvas_y = instance_row * settings.get_recording_instance_width()
-
-    return (canvas_x, canvas_y)
