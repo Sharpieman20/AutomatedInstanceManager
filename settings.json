@@ -24,6 +24,7 @@
     "loop-delay": 50,
     "boot-delay": 30.0,
     "key-delay": 20,
+    "switch-delay": 100,
     "chunk-load-time": 5.0,
     "max-unpaused-time": 2.0,
     "min-time-for-settings-reset": 999999.0,

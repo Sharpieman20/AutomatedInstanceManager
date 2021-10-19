@@ -66,7 +66,7 @@ def get_boot_delay():
     return float(settings['boot-delay'])
 
 def get_switch_delay():
-    return float(settings['switch-delay'])
+    return int(settings['switch-delay'])
 
 def get_obs_delay():
     return float(settings['obs-delay'])
