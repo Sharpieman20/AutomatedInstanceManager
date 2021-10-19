@@ -127,6 +127,7 @@ class Stateful(Suspendable):
 
     def mark_inactive(self):
         # add to free
+        # i had it pregen earlier, i changed it to free because when we reset an instance, we are making another instance that is inactive become active
         self.mark_free()
         self.timestamp = get_time()
 

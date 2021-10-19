@@ -19,7 +19,8 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 # did_error = False
 
-max_concurrent = settings.get_max_concurrent()
+max_concurrent_global = settings.get_max_concurrent()
+max_concurrent_in_run = settings.get_max_concurrent_in_run()
 max_concurrent_boot = settings.get_max_concurrent_boot()
 
 unfrozen_queue_size = settings.get_unfrozen_queue_size()
@@ -70,13 +71,16 @@ def main_loop(sc):
     queues.update_all()
 
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
-    
-    if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
-        num_working_instances += 1
-    
     num_booting_instances = len(queues.get_booting_instances())
 
+    if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
+        num_working_instances += 1
+        max_concurrent = max_concurrent_in_run
+    else:
+        max_concurrent = max_concurrent_global
+
     num_to_boot = max_concurrent - num_working_instances
+
     if not settings.prioritize_booting_over_worldgen():
         num_to_boot -= len(queues.get_free_instances())
     num_to_boot = max(0,min(1, num_to_boot))
@@ -183,6 +187,8 @@ def main_loop(sc):
                 inst.pause()
         else:
             inst.mark_active()
+            if settings.should_auto_pause_active():
+                inst.pause()
 
     obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
 
@@ -208,15 +214,15 @@ def main_loop(sc):
     total_to_unfreeze = unfrozen_queue_size - len(queues.get_approved_instances())
     for inst in queues.get_ready_instances():
         index += 1
+        if inst.is_primary():
+            inst.mark_active()
+            continue
         if inst.check_should_auto_reset():
             continue
         if index <= total_to_unfreeze:
             inst.resume()
             continue
         # state = ?
-        if inst.is_primary():
-            inst.mark_active()
-            continue
         inst.suspend()
 
     # Handle approved instances
@@ -342,7 +348,7 @@ def wrap(func, override=False):
 assure_globals()
 
 if __name__ == "__main__":
-    # TODO @Sharpieman20 - add more good assertions
+    # TODO @Sharpieman20 - add more good assertios
     # TODO @Sharpieman20 - add error messages explaining
     try:
         assert unfrozen_queue_size < max_concurrent

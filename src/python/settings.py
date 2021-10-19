@@ -135,6 +135,7 @@ def get_ahk_default_background():
 def get_key_delay():
     return int(settings['key-delay'])
 
+
 def get_is_borderless():
     return settings['borderless']
 
@@ -150,3 +151,15 @@ def should_maximize():
 
 def get_max_time_before_auto_reset():
     return settings['max-time-before-auto-reset']
+
+def get_max_concurrent_in_run():
+    return int(settings['max-concurrent-in-run']) 
+
+def should_auto_pause_active():
+    return False
+
+def get_recording_instance_height():
+    return 180
+
+def get_recording_instance_width():
+    return 320
