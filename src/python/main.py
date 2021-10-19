@@ -330,6 +330,7 @@ def unfreeze_all():
         inst.mark_ready()
 
 def toggle_hotkeys():
+    # TODO @Sharpieman20 - toggle listening on/off if game is focused
     global listening
     listening = not listening
     if listening:
