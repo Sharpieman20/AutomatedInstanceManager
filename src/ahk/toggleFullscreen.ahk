@@ -1,4 +1,3 @@
 #Persistent
-send {F11}
-sleep, %fullScreenDelay%
+WinMaximize, ahk_pid %pid%
 ExitApp
