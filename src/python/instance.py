@@ -146,6 +146,8 @@ class DisplayStateful(Stateful):
     def mark_primary(self):
         obs.show_primary(self)
         hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay())
+        # if settings.is_fullscreen_enabled():
+        #     hlp.run_ahk("toggleFullscreen", pid=self.pid)
         self.displayState = DisplayState.PRIMARY
 
     def is_primary(self):
