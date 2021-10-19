@@ -100,7 +100,7 @@ def set_new_primary(inst):
         # TODO @Specnr: Update ls user config (is this still needed?)
         # TODO @Specnr: Change sound source on stream maybe?
         if settings.is_fullscreen_enabled():
-            run_ahk("toggleFullscreen")
+            run_ahk("toggleFullscreen", pid=primary_instance.pid)
 
 def set_new_focused(inst):
     global focused_instance
