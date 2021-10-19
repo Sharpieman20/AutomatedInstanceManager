@@ -65,6 +65,9 @@ def main_loop(sc):
     num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
     num_to_boot = min(num_to_boot, len(queues.get_dead_instances()))
 
+    if not settings.should_auto_launch():
+        num_to_boot = len(queues.get_dead_instances())
+
     if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():
         last_log_time = time.time()
         tmp_all_queues = queues.get_all_queues()
@@ -79,10 +82,6 @@ def main_loop(sc):
         print(f'DisplayState.PRIMARY {obs.get_primary_instance()}')
         print(num_to_boot)
         print('---------------')
-
-    # if need_to_reset_timer and hlp.is_livesplit_open():
-    #     hlp.run_ahk("callTimer", timerReset=settings["timer-hotkeys"]["timer-reset"],
-    #                 timerStart=settings["timer-hotkeys"]["timer-start"])
 
     # Handle dead instances
     for i in range(num_to_boot):
@@ -107,7 +106,6 @@ def main_loop(sc):
             inst.suspend()
             inst.release()
         else:
-            inst.mark_generating()
             inst.initialize_after_boot(queues.get_all_instances())
 
     if not settings.should_auto_launch():
