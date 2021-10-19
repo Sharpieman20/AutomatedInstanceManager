@@ -130,3 +130,6 @@ def get_ahk_default_background():
 
 def get_key_delay():
     return int(settings['key-delay'])
+
+def get_is_borderless():
+    return settings['borderless']
