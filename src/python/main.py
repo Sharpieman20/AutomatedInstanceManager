@@ -94,7 +94,7 @@ def main_loop(sc):
             num_working_instances += 1
         else:
             old_pid = inst.pid
-            inst.assign_pid()
+            inst.assign_pid(queues.get_all_instances())
             if inst.pid != old_pid:
                 inst.mark_booting()
             break
