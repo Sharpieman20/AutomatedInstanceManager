@@ -111,7 +111,7 @@ def main_loop(sc):
             inst.initialize_after_boot(queues.get_all_instances())
 
     if not settings.should_auto_launch():
-        if len(free_instances) < settings.get_num_instances():
+        if len(settings.get_dead_instances()) > 0:
             schedule_next(sc)
             return
 
