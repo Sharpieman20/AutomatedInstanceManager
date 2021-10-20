@@ -244,6 +244,12 @@ def main_loop(sc):
 
     schedule_next(sc)
 
+def main_loop_wrapper(sc):
+    try:
+        main_loop(sc)
+    except:
+        time.sleep(5000)
+
 # Callbacks
 def reset_primary():
     primary_instance = obs.get_primary_instance()
@@ -302,7 +308,7 @@ if __name__ == "__main__":
         setup_file = Path.cwd() / 'setup.py'
         if setup_file.exists():
             setup_file.unlink()
-        SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
+        SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
     except:
         time.sleep(5000)
