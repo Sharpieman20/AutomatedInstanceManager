@@ -285,21 +285,24 @@ def wrap(func):
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
     # TODO @Sharpieman20 - add error messages explaining
-    assert unfrozen_queue_size < max_concurrent
-    launch.launch_all_programs()
-    input("Press any key to continue...")
-    obs.connect_to_stream_obs()
-    obs.hide_all()
-    kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
-    kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
-    kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
-    kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
-    kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
-    kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
-    if settings.should_use_tts():
-        hlp.run_ahk("ttsInit")
-    setup_file = Path.cwd() / 'setup.py'
-    if setup_file.exists():
-        setup_file.unlink()
-    SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
-    SCHEDULER.run()
+    try:
+        assert unfrozen_queue_size < max_concurrent
+        launch.launch_all_programs()
+        input("Press any key to continue...")
+        obs.connect_to_stream_obs()
+        obs.hide_all()
+        kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
+        kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
+        kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
+        kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
+        kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
+        kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
+        if settings.should_use_tts():
+            hlp.run_ahk("ttsInit")
+        setup_file = Path.cwd() / 'setup.py'
+        if setup_file.exists():
+            setup_file.unlink()
+        SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
+        SCHEDULER.run()
+    except :
+        time.sleep(50)
