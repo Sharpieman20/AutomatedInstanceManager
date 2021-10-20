@@ -64,7 +64,9 @@ else:
     custom_directory.mkdir()
 
 run_cmd('py -m ensurepip')
-# run_cmd('py -m pip install --upgrade setuptools')
+run_cmd('py -m pip install --upgrade setuptools')
+run_cmd('py -m pip install wheel')
+# run_cmd('py -m pip install res/')
 run_cmd('py -m pip install --only-binary :all: -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
 
