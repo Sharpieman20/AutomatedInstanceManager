@@ -304,5 +304,5 @@ if __name__ == "__main__":
             setup_file.unlink()
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (SCHEDULER,))
         SCHEDULER.run()
-    except :
-        time.sleep(50)
+    except:
+        time.sleep(5000)
