@@ -66,6 +66,14 @@ else:
 run_cmd('py -m ensurepip')
 run_cmd('py -m pip install --upgrade setuptools')
 run_cmd('py -m pip install wheel')
+
+wheel_urls = []
+
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/websocket_client-1.2.1-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+
+run_cmd('py -m pip install {}'.format(url))
 # run_cmd('py -m pip install res/')
 run_cmd('py -m pip install --only-binary :all: -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
