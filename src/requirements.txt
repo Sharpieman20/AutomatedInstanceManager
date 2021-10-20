@@ -1,3 +1,2 @@
 ahk
 keyboard
-psutil

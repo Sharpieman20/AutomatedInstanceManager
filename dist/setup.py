@@ -72,6 +72,7 @@ wheel_urls = []
 wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
 wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/websocket_client-1.2.1-py2.py3-none-any.whl')
 wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/psutil-5.8.0-cp39-cp39-win_amd64.whl')
 
 for url in wheel_urls:
     run_cmd('py -m pip install {}'.format(url))
