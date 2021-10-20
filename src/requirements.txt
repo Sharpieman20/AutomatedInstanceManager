@@ -1,4 +1,3 @@
 ahk
-obs-websocket-py
 keyboard
 psutil
