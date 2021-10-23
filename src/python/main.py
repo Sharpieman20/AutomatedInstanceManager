@@ -21,7 +21,7 @@ listening = True
 done_with_manual_launch = False
 is_first_check_manual_launch = True
 need_to_reset_timer = False
-did_error = False
+# did_error = False
 
 max_concurrent = settings.get_max_concurrent()
 max_concurrent_boot = settings.get_max_concurrent_boot()
