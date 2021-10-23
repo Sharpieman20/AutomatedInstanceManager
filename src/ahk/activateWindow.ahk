@@ -1,4 +1,5 @@
 #Persistent
+WinMaximize, ahk_pid %pid%
 WinSet, AlwaysOnTop, On, ahk_pid %pid%
 Sleep, %switchDelay%
 send {LButton}
