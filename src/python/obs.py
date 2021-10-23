@@ -96,8 +96,11 @@ def get_scene_items(stream=True):
         return []
     return websocket_result.getSceneItems()
 
-def set_scene_item_visible(name, visible):
-    call_stream_websocket(obsrequests.SetSceneItemProperties(name, visible=visible))
+def set_scene_item_visible(name, visible, stream=True):
+    if stream:
+        call_stream_websocket(obsrequests.SetSceneItemProperties(name, visible=visible))
+    else:
+        call_recording_websocket(obsrequests.SetSceneItemProperties(name, visible=visible))
 
 '''
 High level utility OBS functions
@@ -183,7 +186,21 @@ def setup_stream_obs():
 
 def is_recording_obs_configured():
     scene_items = get_scene_items(False)
-    return False
+    correct_scene_items = ['recording{}'.format(inst.num) for inst in queues.get_all_instances()]
+    recording_current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'recording' in scene_item['sourceName']]
+    if len(correct_scene_items) != len(recording_current_scene_items):
+        return False
+    for correct_scene_item in recording_current_scene_items:
+        has_match = False
+        for recording_scene_item in recording_current_scene_items:
+            if recording_scene_item == correct_scene_item:
+                has_match = True
+        if not has_match:
+            return False
+        set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
+        time.sleep(0.1)
+    return True
+    # return False
     # for item in scene_items:
     #     print(item)
     # return True
