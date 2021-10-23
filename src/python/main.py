@@ -289,18 +289,18 @@ def main_loop_wrapper(sc):
 # Callbacks
 def reset_primary():
     primary_instance = obs.get_primary_instance()
-    if listening and primary_instance is not None:
+    if primary_instance is not None:
         primary_instance.reset_active()
 
 def reset_focused():
     focused_instance = obs.get_focused_instance()
-    if listening and focused_instance is not None:
+    if focused_instance is not None:
         if focused_instance.state == State.PAUSED or focused_instance.state == State.READY:
             focused_instance.release()
 
 def approve_focused():
     focused_instance = obs.get_focused_instance()
-    if listening and focused_instance is not None:
+    if focused_instance is not None:
         focused_instance.mark_approved()
 
 def debug_background():
@@ -319,9 +319,6 @@ def mark_manual_launch_batch_done():
     done_with_manual_launch_batch = True
 
 def unfreeze_all():
-    global listening
-    if not listening:
-        return
     for inst in queues.get_all_instances():
         inst.resume(True)
         inst.mark_ready()
@@ -336,6 +333,9 @@ def toggle_hotkeys():
 
 def wrap(func):
     def inner(event):
+        global listening
+        if not listening:
+            return
         func()
     return inner
 
