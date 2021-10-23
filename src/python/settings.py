@@ -139,3 +139,7 @@ def get_manual_launch_batch_size():
     if batch_size > 0:
         return batch_size
     return get_max_concurrent()
+
+def should_maximize():
+    return settings['should-maximize']
+

@@ -45,6 +45,7 @@
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true,
     "default-ahk-background": true,
+    "should-maximize": true,
     "borderless": false
 }
 
