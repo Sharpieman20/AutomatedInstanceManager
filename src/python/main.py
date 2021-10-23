@@ -18,8 +18,9 @@ import traceback
 SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 listening = True
-done_with_manual_launch = False
 is_first_check_manual_launch = True
+first_check_after_all_processes_started = False
+done_with_manual_launch = False
 need_to_reset_timer = False
 # did_error = False
 
@@ -308,9 +309,12 @@ def mark_manual_launch_batch_done():
     done_with_manual_launch = True
 
 def toggle_hotkeys():
-    print("Toggle Hotkeys")
     global listening
     listening = not listening
+    if listening:
+        print('Hotkeys enabled')
+    else:
+        print('Hotkeys disabled')
     
 def wrap(func):
     def inner(event):
@@ -332,6 +336,8 @@ if __name__ == "__main__":
         kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
         kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
+        if not settings.should_auto_launch():
+            kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(mark_manual_launch_batch_done))
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
