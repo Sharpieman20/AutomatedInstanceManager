@@ -331,10 +331,10 @@ def toggle_hotkeys():
     else:
         print('Hotkeys disabled')
 
-def wrap(func):
+def wrap(func, override=False):
     def inner(event):
         global listening
-        if not listening:
+        if not override and not listening:
             return
         func()
     return inner
@@ -356,7 +356,7 @@ if __name__ == "__main__":
         kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
         kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
         kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
-        kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
+        kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys, override=True))
         kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
         kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
