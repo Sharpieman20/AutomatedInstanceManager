@@ -11,6 +11,7 @@ from pathlib import Path
 from datetime import datetime
 import launch
 import obs
+import sys
 import traceback
 
 # Load settings
@@ -266,10 +267,10 @@ def main_loop(sc):
 def main_loop_wrapper(sc):
     try:
         main_loop(sc)
-    except:
+    except Exception, err:
         global did_error
         did_error = True
-        traceback.print_exc()
+        traceback.print_exc(file=sys.stdout)
         time.sleep(5000)
 
 # Callbacks
@@ -336,8 +337,8 @@ if __name__ == "__main__":
             setup_file.unlink()
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
-    except:
+    except Exception, err:
         global did_error
         did_error = True
-        traceback.print_exc()
+        traceback.print_exc(file=sys.stdout)
         time.sleep(5000)
