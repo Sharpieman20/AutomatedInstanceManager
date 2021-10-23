@@ -21,11 +21,11 @@ if default_settings_file.parent.exists() and default_settings_file.exists():
 
 for key in default_settings.keys():
     if key not in settings.keys():
-        if key == 'hotkeys':
-            for sub_key in default_settings[key].keys():
-                if sub_key not in settings[key]:
-                    settings[key][sub_key] = default_settings[key][sub_key]
         settings[key] = default_settings[key]
+    elif key == 'hotkeys':
+        for sub_key in default_settings[key].keys():
+            if sub_key not in settings[key]:
+                settings[key][sub_key] = default_settings[key][sub_key]
 
 def is_test_mode():
     return settings['test-mode']
