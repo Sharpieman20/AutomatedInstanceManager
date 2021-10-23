@@ -66,8 +66,8 @@ class Suspendable(Process):
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
-    def resume(self):
-        if not self.is_suspended():
+    def resume(self, force=False):
+        if not force and not self.is_suspended():
             return
         self.suspended = False
         hlp.run_ahk("resumeInstance", pid=self.pid)

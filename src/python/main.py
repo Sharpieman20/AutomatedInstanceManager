@@ -319,7 +319,7 @@ def mark_manual_launch_batch_done():
 
 def unfreeze_all():
     for inst in queues.get_all_instances():
-        inst.resume()
+        inst.resume(True)
         inst.mark_ready()
 
 def toggle_hotkeys():
