@@ -349,6 +349,7 @@ if __name__ == "__main__":
         print("Connecting to OBS")
         obs.connect_to_stream_obs()
         obs.hide_all()
+        print(settings.get_hotkeys())
         kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
         kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
         kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
