@@ -1,9 +1,10 @@
 import settings
-import wmi
 from copy import copy
 import subprocess as sp
 import shlex
 import os
+if not settings.is_test_mode():
+    import wmi
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():

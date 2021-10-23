@@ -6,9 +6,11 @@ import subprocess as sp
 from datetime import datetime
 import settings
 from pathlib import Path
+
 if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk import AHK
     ahk = AHK()
+    import wmi
 
 def get_time():
     return time.time()
