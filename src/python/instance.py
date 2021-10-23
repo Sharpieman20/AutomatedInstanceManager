@@ -9,6 +9,7 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from launch import launch_instance
+from process import PrioritizeableProcess
 
 num_per_state = {}
 
@@ -44,40 +45,7 @@ class DisplayState(Enum):
     FOCUSED = 1
     PRIMARY = 2
 
-class Process:
-    def assign_pid(self, all_processes):
-        # for now, require auto-launch mode enabled
-        if settings.is_test_mode():
-            self.pid = get_global_test_pid()
-            return
-        all_pids = hlp.get_pids()
-        for pid in all_pids:
-            pid_maps_to_instance = False
-            for instance in all_processes:
-                if instance.pid == pid:
-                    pid_maps_to_instance = True
-            if not pid_maps_to_instance:
-                self.pid = pid
-
-class Suspendable(Process):
-    def suspend(self):
-        if self.is_suspended():
-            return
-        self.suspended = True
-        hlp.run_ahk("suspendInstance", pid=self.pid)
-
-    def resume(self, force=False):
-        if not force and not self.is_suspended():
-            return
-        self.suspended = False
-        hlp.run_ahk("resumeInstance", pid=self.pid)
-
-    def is_suspended(self):
-        return self.suspended
-
-
-
-class Stateful(Suspendable):
+class Stateful(PrioritizeableProcess):
 
     def mark_booting(self):
         assign_to_state(self, State.BOOTING)

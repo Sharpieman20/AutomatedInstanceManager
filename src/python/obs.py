@@ -53,6 +53,22 @@ def call_stream_websocket(arg):
     global stream_obs
     return stream_obs.call(arg)
 
+def connect_to_recording_obs():
+    if not settings.is_obs_enabled():
+        return
+    global stream_obs
+    recording_obs = obsws(settings.get_obs_web_host(),
+               settings.get_obs_port(),
+               settings.get_obs_password())
+    stream_obs.connect()
+
+def call_recording_websocket(arg):
+    # print(args)
+    if not settings.is_obs_enabled():
+        return
+    global recording_obs
+    return recording_obs.call(arg)
+
 def get_scene_items():
     websocket_result = call_stream_websocket(obsrequests.GetSceneItemList())
     if websocket_result is None:
@@ -135,7 +151,8 @@ def show_focused(inst):
 
 
 def setup_recording_obs():
-    # set canvas size
-    # initialize sources
+    # check if sources exist
+        # if not, prompt user to set canvas siz
+        # initialize sources
     # start recording
     pass

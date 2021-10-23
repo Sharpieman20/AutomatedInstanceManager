@@ -163,3 +163,6 @@ def get_recording_instance_height():
 
 def get_recording_instance_width():
     return 320
+
+def use_prioritization():
+    return True
