@@ -11,6 +11,7 @@ from pathlib import Path
 from datetime import datetime
 import launch
 import obs
+import traceback
 
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
@@ -19,6 +20,7 @@ listening = True
 done_with_manual_launch = False
 is_first_check_manual_launch = True
 need_to_reset_timer = False
+did_error = False
 
 max_concurrent = settings.get_max_concurrent()
 max_concurrent_boot = settings.get_max_concurrent_boot()
@@ -44,7 +46,9 @@ def try_set_focused(new_focused_instance):
             obs.set_new_focused(new_focused_instance)
 
 def schedule_next(sc):
-    SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop, (sc,))
+    global did_error
+    if not did_error:
+        SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (sc,))
 
 def main_loop(sc):
     global need_to_reset_timer
@@ -263,6 +267,9 @@ def main_loop_wrapper(sc):
     try:
         main_loop(sc)
     except:
+        global did_error
+        did_error = True
+        traceback.print_exc()
         time.sleep(5000)
 
 # Callbacks
@@ -292,6 +299,10 @@ def pause_background():
         inst = queues.get_unpaused_instances()[0]
         inst.mark_paused()
         inst.pause()
+
+def mark_manual_launch_batch_done():
+    global done_with_manual_launch
+    done_with_manual_launch = True
 
 def toggle_hotkeys():
     print("Toggle Hotkeys")
@@ -326,4 +337,7 @@ if __name__ == "__main__":
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
     except:
+        global did_error
+        did_error = True
+        traceback.print_exc()
         time.sleep(5000)
