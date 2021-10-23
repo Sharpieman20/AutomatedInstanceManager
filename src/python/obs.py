@@ -88,7 +88,7 @@ def get_indicator_item():
     return get_item_with_name('indicator')
 
 def set_new_primary(inst):
-    print(inst)
+    # print(inst)
     if inst is not None:
         global primary_instance
         if primary_instance is not None:
