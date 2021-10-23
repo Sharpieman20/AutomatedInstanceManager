@@ -179,7 +179,7 @@ def get_recording_instance_width():
     return 320
 
 def use_prioritization():
-    return True
+    return False
 
 def launch_java_test_processes():
     return True

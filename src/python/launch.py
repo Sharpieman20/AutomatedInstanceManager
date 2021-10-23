@@ -10,7 +10,7 @@ def run_cmd(cmd):
     sp.Popen(shlex.split(cmd))
 
 def launch_test_instance(inst):
-    run_cmd('java test/LaunchMockMC.java {}'.format(inst.num))
+    run_cmd('java -Xdock:name=java test/LaunchMockMC.java {}'.format(inst.num))
 
 def launch_instance(inst):
     if settings.is_test_mode():
