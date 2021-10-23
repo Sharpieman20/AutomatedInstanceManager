@@ -35,7 +35,7 @@
     "num-instances": 3,
     "max-concurrent": 2,
     "max-concurrent-boot": 1,
-    "unfrozen-queue-size": 0,
+    "unfrozen-queue-size": 1,
     "manual-launch-batch-size": -1,
     "obs-enabled": true,
     "ahk-enabled": true,
