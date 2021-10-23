@@ -1,5 +1,5 @@
 import settings
-import psutil
+import wmi
 from copy import copy
 import subprocess as sp
 import shlex
@@ -32,11 +32,9 @@ def launch_all_programs():
     all_programs = ["OBS", "LiveSplit", "MultiMC"]
     are_launched = {program: False for program in all_programs}
     launch_funcs = {all_programs[0]: launch_obs, all_programs[1]: launch_livesplit, all_programs[2]: launch_multimc}
-    # TODO @Sharpieman20 - change from psutil to ctypes 
-    # https://stackoverflow.com/questions/12554176/how-to-get-all-running-python-processes-under-windows-in-an-acceptable-time
-    for process in psutil.process_iter():
+    for process in wmi.WMI().Win32_Process():
         for program in all_programs:
-            if program.lower() in process.name().lower():
+            if program.lower() in process.Name.lower():
                 are_launched[program] = True
     for program in all_programs:
         if not are_launched[program]:

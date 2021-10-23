@@ -1,7 +1,6 @@
 import time
 import os
 import shutil
-import psutil
 import uuid
 import subprocess as sp
 from datetime import datetime
@@ -21,11 +20,9 @@ def get_pids():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
     all_pids = []
-    # TODO @Sharpieman20 - change from psutil to ctypes 
-    # https://stackoverflow.com/questions/12554176/how-to-get-all-running-python-processes-under-windows-in-an-acceptable-time
-    for process in psutil.process_iter():
-        if 'java' in process.name().lower():
-            all_pids.append(process.pid)
+    for process in wmi.WMI().Win32_Process():
+        if 'java' in process.Name.lower():
+            all_pids.append(process.ProcessId)
     return all_pids
 
 def is_livesplit_open():

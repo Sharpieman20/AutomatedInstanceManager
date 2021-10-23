@@ -1,2 +1,3 @@
 ahk
 keyboard
+wmi
