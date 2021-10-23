@@ -147,3 +147,6 @@ def get_manual_launch_batch_size():
 def should_maximize():
     return settings['should-maximize']
 
+
+def get_max_time_before_auto_reset():
+    return settings['max-time-before-auto-reset']

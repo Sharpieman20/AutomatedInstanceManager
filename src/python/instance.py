@@ -177,7 +177,7 @@ class ConditionalTransitionable(DisplayStateful):
         if self.state == State.UNPAUSED:
             duration = settings.get_max_unpaused_time()
         else:
-            duration = 300.0
+            duration = settings.get_max_time_before_auto_reset()
         if hlp.has_passed(self.timestamp, duration):
             self.suspend()
             self.release()
