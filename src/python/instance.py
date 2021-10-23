@@ -281,6 +281,7 @@ class Instance(ConditionalTransitionable):
     
     def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
+        obs.set_source_settings_for_instance(self, False)
         launch_instance(self)
         
     # not yet implemented (not needed in v1)

@@ -289,7 +289,7 @@ def main_loop(sc):
             if settings.should_auto_pause_active():
                 inst.pause()
 
-    obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
+    obs.set_scene_item_visible('indicator',len(queues.get_unpaused_instances()) > 0)
 
     for inst in queues.get_unpaused_instances():
         if inst.check_should_auto_reset():

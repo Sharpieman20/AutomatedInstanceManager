@@ -92,14 +92,28 @@ def get_test_worldgen_time():
 def should_auto_launch():
     return settings['auto-launch']
 
-def get_obs_web_host():
-    return settings['obs-settings']['web-host']
+def get_stream_obs_web_host():
+    return settings['stream-obs-settings']['web-host']
 
-def get_obs_port():
-    return settings['obs-settings']['port']
+def get_stream_obs_port():
+    return settings['stream-obs-settings']['port']
 
-def get_obs_password():
-    return settings['obs-settings']['password']
+def get_stream_obs_password():
+    return settings['stream-obs-settings']['password']
+
+def get_recording_obs_web_host():
+    return settings['recording-obs-settings']['web-host']
+
+def get_recording_obs_port():
+    return settings['recording-obs-settings']['port']
+
+def get_recording_obs_password():
+    return settings['recording-obs-settings']['password']
+
+def get_obs_source_type():
+    if settings['use-game-capture']:
+        return 'game_capture'
+    return 'window_capture'
 
 def should_auto_pause():
     return settings['auto-pause']
