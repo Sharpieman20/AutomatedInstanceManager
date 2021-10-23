@@ -4,16 +4,23 @@
     "obs-path": "D:/Program Files/obs-studio/bin/64bit",
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
     "livesplit-user-config": "",
-    "obs-settings" : {
-        "web-host": "localhost",
-        "port": 4444,
-        "password": "password"
-    },
     "template-instance": "1.16INST",
     "hotkeys": {
         "reset-active": "U",
         "toggle-hotkeys": "R"
     },
+    "stream-obs-settings" : {
+        "web-host": "localhost",
+        "port": 4444,
+        "password": "password"
+    },
+    "recording-obs-settings" : {
+        "web-host": "localhost",
+        "port": 4445,
+        "password": "password"
+    },
+    "recording-instance-width": 320,
+    "recording-instance-height": 180,
     "freeze-delay": 300,
     "unfreeze-delay": 300,
     "fullscreen-delay": 50,
@@ -35,5 +42,6 @@
     "auto-launch": true,
     "auto-pause": true,
     "prio-booting-over-worldgen": true,
-    "only-focus-ready": true
+    "only-focus-ready": true,
+    "parallelize-ahk": true
 }

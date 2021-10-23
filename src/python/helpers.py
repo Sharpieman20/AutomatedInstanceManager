@@ -5,6 +5,7 @@ import uuid
 import subprocess as sp
 from datetime import datetime
 import settings
+import queues
 from pathlib import Path
 import queues
 import shlex
