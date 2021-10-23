@@ -335,6 +335,8 @@ if __name__ == "__main__":
         setup_file = Path.cwd() / 'setup.py'
         if setup_file.exists():
             setup_file.unlink()
+        global did_error
+        did_error = False
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
     except Exception:
