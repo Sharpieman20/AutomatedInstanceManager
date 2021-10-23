@@ -34,7 +34,7 @@
     "max-concurrent": 2,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
-    "obs-enabled": false,
+    "obs-enabled": true,
     "ahk-enabled": false,
     "disable-tts": true,
     "fullscreen": false,
@@ -43,5 +43,6 @@
     "auto-pause": true,
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true,
-    "parallelize-ahk": true
+    "parallelize-ahk": true,
+    "use-game-capture": false
 }

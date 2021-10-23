@@ -305,7 +305,7 @@ def main_loop(sc):
         if not inst.is_in_world():
             continue
 
-    obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
+    obs.set_scene_item_visible('indicator',len(queues.get_unpaused_instances()) > 0)
 
     for inst in queues.get_unpaused_instances():
         if inst.check_should_auto_reset():
