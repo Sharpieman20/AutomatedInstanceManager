@@ -44,9 +44,15 @@ def try_launch_instance(inst):
         else:
             hlp.run_ahk('selectFirstMultiMCInstance',multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
             hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+def run_cmd(cmd):
+    sp.Popen(shlex.split(cmd))
+
+def launch_test_instance(inst):
+    run_cmd('java test/LaunchMockMC.java {}'.format(inst.num))
 
 def launch_instance(inst):
-    if settings.is_test_mode() or not settings.is_ahk_enabled():
+    if settings.is_test_mode():
+        launch_test_instance(inst)
         return
     if settings.get_num_instances() > 5 and settings.use_click_macro():
         try_launch_instance(inst)

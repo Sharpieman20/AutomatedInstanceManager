@@ -1,6 +1,8 @@
 import settings
 import helpers as hlp
-import win32process
+from enum import Enum
+if not settings.is_test_mode():
+    import win32process
 
 def set_process_priority(process_handle, priority):
     if settings.is_test_mode():
@@ -8,12 +10,14 @@ def set_process_priority(process_handle, priority):
     win32process.SetPriorityClass(process_handle, priority)
 
 def set_memory_priority(process_handle, priority):
+    # SetProcessInformation
+    # but i cna't find any examples of anyone using it?? does it even work???
     pass
 
 class Process:
     def assign_pid(self, all_processes):
         # for now, require auto-launch mode enabled
-        if settings.is_test_mode():
+        if settings.is_test_mode() and not settings.launch_java_test_processes():
             self.pid = get_global_test_pid()
             return
         all_pids = hlp.get_pids()
@@ -42,7 +46,7 @@ class SuspendableProcess(Process):
         return self.suspended
 
 
-class Priority(enum):
+class Priority(Enum):
     IDLE = 64
 
 class MemoryPriority(Enum):

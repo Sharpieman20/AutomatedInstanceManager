@@ -3,16 +3,6 @@
     "livesplit-path": "C:/Program Files/LiveSplit_1.8.16/LiveSplit.exe",
     "obs-path": "C:/Program Files/obs-studio/bin/64bit",
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
-    "stream-obs-settings" : {
-        "web-host": "localhost",
-        "port": 4444,
-        "password": "password"
-    },
-    "recording-obs-settings" : {
-        "web-host": "localhost",
-        "port": 4445,
-        "password": "password"
-    },
     "template-instance": "1.16INST",
     "version": "1.16",
     "window-title-template": "Minecraft* - Instance #",
@@ -25,6 +15,16 @@
         "background-pause": "T",
         "manual-launch-complete": "P",
         "unfreeze-all": "|"
+    },
+    "stream-obs-settings" : {
+        "web-host": "localhost",
+        "port": 4444,
+        "password": "password"
+    },
+    "recording-obs-settings" : {
+        "web-host": "localhost",
+        "port": 4445,
+        "password": "password"
     },
     "freeze-delay": 500,
     "unfreeze-delay": 2000,

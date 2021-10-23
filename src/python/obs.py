@@ -3,6 +3,7 @@ from obswebsocket import requests as obsrequests
 from obswebsocket import obsws
 import queues
 import helpers as hlp
+from wall import Wall
 
 '''
 Manage global state
@@ -15,6 +16,21 @@ focused_instance = None
 primary_instance = None
 stream_obs = None
 recording_obs = None
+recording_wall = None
+
+
+class OBS:
+    def connect():
+        pass
+    
+    def start_recording():
+        pass
+
+    def clear_scene_items():
+        pass
+
+    def get_scene_items():
+        pass
 
 def get_primary_instance():
     global primary_instance
@@ -69,8 +85,11 @@ def call_recording_websocket(arg):
     global recording_obs
     return recording_obs.call(arg)
 
-def get_scene_items():
-    websocket_result = call_stream_websocket(obsrequests.GetSceneItemList())
+def get_scene_items(stream=True):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.GetSceneItemList())
+    else:
+        websocket_result = call_recording_websocket(obsrequests.GetSceneItemList())
     if websocket_result is None:
         return []
     return websocket_result.getSceneItems()
@@ -157,9 +176,47 @@ def show_focused(inst):
 
 
 
+def setup_stream_obs():
+    pass
+
+
+def is_recording_obs_configured():
+    scene_items = get_scene_items(False)
+    if len(scene_items) != settings.get_num_instances():
+        return False
+    for item in scene_items:
+        print(item)
+    return True
+
+
+def prompt_for_correct_dimensions():
+    global recording_wall
+    print('Detecting recording OBS is not configured.')
+    recording_wall = Wall(settings.get_num_instances(), settings.get_recording_instance_width(), settings.get_recording_instance_height())
+    x, y = recording_wall.get_pixel_dimensions()
+    input('Please set your recording OBS to output resolution {}x{}, then press any key to continue.'.format(x,y))
+
+def clear_recording_scene_items():
+    for scene_item in get_scene_items(False):
+        delete_scene_item(scene_item)
+
+
+def create_recording_scene_items():
+
+
+
 def setup_recording_obs():
+
+    if not is_recording_obs_configured():
+        prompt_for_correct_dimensions()
+        clear_recording_scene_items()
+        create_recording_scene_items()
+
+
     # check if sources exist
         # if not, prompt user to set canvas siz
         # initialize sources
     # start recording
-    pass
+
+    print(scene_items)
+    raise
