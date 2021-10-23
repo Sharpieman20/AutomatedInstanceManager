@@ -319,6 +319,9 @@ def mark_manual_launch_batch_done():
     done_with_manual_launch_batch = True
 
 def unfreeze_all():
+    global listening
+    if not listening:
+        return
     for inst in queues.get_all_instances():
         inst.resume(True)
         inst.mark_ready()
