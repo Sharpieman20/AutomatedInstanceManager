@@ -225,11 +225,10 @@ def setup_stream_obs():
 
 def is_recording_obs_configured():
     scene_items = get_scene_items(False)
-    if len(scene_items) != settings.get_num_instances():
-        return False
-    for item in scene_items:
-        print(item)
-    return True
+    return False
+    # for item in scene_items:
+    #     print(item)
+    # return True
 
 
 def prompt_for_correct_dimensions():
@@ -303,8 +302,9 @@ def set_source_settings_for_instance(inst, stream=False):
     global recording_wall
     source_settings = {}
     source_settings['owner_name'] = 'java'
-    source_settings['window'] = inst.num
-    source_settings['window_name'] = 'Minecraft* 1.16.1'
+    source_settings['window'] = 99999+inst.num
+    source_settings['window_name'] = 'Instance {}'.format(inst.num)
+    source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('recording{}'.format(inst.num), source_settings)
     print(result)
 
@@ -312,9 +312,9 @@ def set_scene_item_properties_for_instance(inst, stream=False):
     global recording_wall
     scene_item = {}
     coords = recording_wall.get_coords_for_instance(inst)
-    bounds = (coords[0]+settings.get_recording_instance_width(), coords[1]+settings.get_recording_instance_height())
+    bounds = (settings.get_recording_instance_width(), settings.get_recording_instance_height())
     scene_item['position'] = {'x': coords[0], 'y': coords[1]}
-    scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1]}
+    scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1], 'type': 'OBS_BOUNDS_STRETCH'}
     result = set_scene_item_properties('recording{}'.format(inst.num), scene_item)
     print(result)
 
@@ -334,9 +334,10 @@ def clear_recording_scene_items():
 def create_recording_scene_items():
     for inst in queues.get_all_instances():
         create_scene_item_for_instance(inst)
-        # set_source_settings_for_instance(inst)
+        set_source_settings_for_instance(inst)
+        time.sleep(0.1)
         set_scene_item_properties_for_instance(inst)
-        time.sleep(0.5)
+        time.sleep(0.25)
     pass
 
 
