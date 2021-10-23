@@ -308,6 +308,11 @@ def mark_manual_launch_batch_done():
     global done_with_manual_launch
     done_with_manual_launch = True
 
+def unfreeze_all():
+    for inst in queues.get_all_instances():
+        inst.resume()
+        inst.mark_ready()
+
 def toggle_hotkeys():
     global listening
     listening = not listening
