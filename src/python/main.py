@@ -267,7 +267,7 @@ def main_loop(sc):
 def main_loop_wrapper(sc):
     try:
         main_loop(sc)
-    except Exception, err:
+    except Exception:
         global did_error
         did_error = True
         traceback.print_exc(file=sys.stdout)
@@ -337,7 +337,7 @@ if __name__ == "__main__":
             setup_file.unlink()
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
-    except Exception, err:
+    except Exception:
         global did_error
         did_error = True
         traceback.print_exc(file=sys.stdout)
