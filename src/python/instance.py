@@ -11,6 +11,7 @@ from launch import launch_instance
 import random
 import threading
 import time
+from process import PrioritizeableProcess
 
 num_per_state = {}
 

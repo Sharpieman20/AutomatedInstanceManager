@@ -3,9 +3,14 @@
     "livesplit-path": "C:/Program Files/LiveSplit_1.8.16/LiveSplit.exe",
     "obs-path": "C:/Program Files/obs-studio/bin/64bit",
     "old-worlds-folder": "C:/MultiInstanceMC/oldWorlds",
-    "obs-settings" : {
+    "stream-obs-settings" : {
         "web-host": "localhost",
         "port": 4444,
+        "password": "password"
+    },
+    "recording-obs-settings" : {
+        "web-host": "localhost",
+        "port": 4445,
         "password": "password"
     },
     "template-instance": "1.16INST",

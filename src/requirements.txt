@@ -1,3 +1,4 @@
 ahk
 keyboard
 wmi
+pynput
