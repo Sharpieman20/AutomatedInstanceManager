@@ -17,11 +17,6 @@ import traceback
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
 
-listening = True
-is_first_check_manual_launch = True
-first_check_after_all_processes_started = False
-done_with_manual_launch = False
-need_to_reset_timer = False
 # did_error = False
 
 max_concurrent = settings.get_max_concurrent()
@@ -47,10 +42,24 @@ def try_set_focused(new_focused_instance):
         if not focused_instance.is_ready() and new_focused_instance.num != focused_instance.num and new_focused_instance.num != primary_instance.num:
             obs.set_new_focused(new_focused_instance)
 
-def schedule_next(sc):
-    global did_error
-    if 'did_error' not in globals():
+def assure_globals():
+    if 'did_init_globals' not in globals():
+        global did_error
         did_error = False
+        global listening
+        listening = True
+        global is_first_check_manual_launch
+        is_first_check_manual_launch = True
+        global first_check_after_all_processes_started
+        first_check_after_all_processes_started = False
+        global done_with_manual_launch_batch
+        done_with_manual_launch_batch = False
+        global done_with_all_manual_launch_batches
+        done_with_all_manual_launch_batches = False
+        global did_init_globals
+        did_init_globals = True
+
+def schedule_next(sc):
     if not did_error:
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (sc,))
 
@@ -121,11 +130,11 @@ def main_loop(sc):
             schedule_next(sc)
             return
         global is_first_check_manual_launch
-        global done_with_manual_launch
+        global done_with_manual_launch_batch
         if is_first_check_manual_launch:
-            done_with_manual_launch = False
+            done_with_manual_launch_batch = False
             is_first_check_manual_launch = False
-        if not done_with_manual_launch:
+        if not done_with_manual_launch_batch:
             schedule_next(sc)
             return
         for inst in queues.get_booting_instances():
@@ -305,8 +314,8 @@ def pause_background():
         inst.pause()
 
 def mark_manual_launch_batch_done():
-    global done_with_manual_launch
-    done_with_manual_launch = True
+    global done_with_manual_launch_batch
+    done_with_manual_launch_batch = True
 
 def unfreeze_all():
     for inst in queues.get_all_instances():
@@ -320,11 +329,13 @@ def toggle_hotkeys():
         print('Hotkeys enabled')
     else:
         print('Hotkeys disabled')
-    
+
 def wrap(func):
     def inner(event):
         func()
     return inner
+
+assure_globals()
 
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
@@ -341,8 +352,6 @@ if __name__ == "__main__":
         kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
         kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
-        if not settings.should_auto_launch():
-            kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(mark_manual_launch_batch_done))
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
@@ -350,6 +359,15 @@ if __name__ == "__main__":
             setup_file.unlink()
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
+        if not settings.should_auto_launch():
+            index = 0
+            global done_with_all_manual_launch_batches
+            while not done_with_all_manual_launch_batches:
+                start_ind = index*settings.get_manual_launch_batch_size()+1
+                end_ind = (index+1)*settings.get_manual_launch_batch_size()
+                input("Manually open instances {} through {}. Then press any key once they've finished launching.".format(start_ind, end_ind))
+                mark_manual_launch_batch_done()
+                time.sleep(1)
     except Exception:
         global did_error
         did_error = True
