@@ -16,6 +16,8 @@ import obs
 SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 listening = True
+done_with_manual_launch = False
+is_first_check_manual_launch = True
 need_to_reset_timer = False
 
 max_concurrent = settings.get_max_concurrent()
@@ -100,16 +102,29 @@ def main_loop(sc):
     
     # Handle booting instances
     for inst in queues.get_booting_instances():
-        if not inst.is_done_booting():
-            continue
-        if not settings.should_auto_launch():
-            inst.suspend()
-            inst.release()
-        else:
-            inst.initialize_after_boot(queues.get_all_instances())
+        if settings.should_auto_launch():
+            old_pid = inst.pid
+            inst.assign_pid(queues.get_all_instances())
+            if inst.is_done_booting():
+                inst.initialize_after_boot()
 
     if not settings.should_auto_launch():
+        if len(queues.get_dead_instances()) > 0 and len(queues.get_booting_instances()) < settings.get_manual_launch_batch_size():
+            schedule_next(sc)
+            return
+        global is_first_check_manual_launch
+        global done_with_manual_launch
+        if is_first_check_manual_launch:
+            done_with_manual_launch = False
+            is_first_check_manual_launch = False
+        if not done_with_manual_launch:
+            schedule_next(sc)
+            return
+        for inst in queues.get_booting_instances():
+            inst.suspend()
+            inst.free()
         if len(queues.get_dead_instances()) > 0:
+            is_first_check_manual_launch = True
             schedule_next(sc)
             return
 

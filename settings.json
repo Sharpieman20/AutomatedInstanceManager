@@ -16,7 +16,8 @@
         "approve-focused": "J",
         "toggle-hotkeys": "R",
         "background-debug": "Q",
-        "background-pause": "T"
+        "background-pause": "T",
+        "manual-launch-complete": "P"
     },
     "freeze-delay": 500,
     "unfreeze-delay": 500,
@@ -33,6 +34,7 @@
     "max-concurrent": 2,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
+    "manual-launch-batch-size": -1,
     "obs-enabled": true,
     "ahk-enabled": true,
     "disable-tts": true,

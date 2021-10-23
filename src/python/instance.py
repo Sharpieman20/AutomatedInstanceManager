@@ -223,13 +223,13 @@ class Instance(ConditionalTransitionable):
     def create_obs_instance(self):
         obs.create_scene_item_for_instance(self)
 
-    def initialize_after_boot(self, all_instances):
+    def initialize_after_boot(self):
         # assign our pid somehow
-        self.assign_pid(all_instances)
         # start generating world w/ duncan mod
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
         self.mark_generating()
+        self.first_reset = False
 
     def reset_active(self):
         if self.is_active():
@@ -240,8 +240,7 @@ class Instance(ConditionalTransitionable):
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
         elif self.first_reset and not settings.should_auto_launch():
-            hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
-            self.first_reset = False
+            self.initialize_after_boot()
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
         self.was_active = False

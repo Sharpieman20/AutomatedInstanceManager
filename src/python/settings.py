@@ -133,3 +133,9 @@ def get_key_delay():
 
 def get_is_borderless():
     return settings['borderless']
+
+def get_manual_launch_batch_size():
+    batch_size = settings['manual-launch-batch-size']
+    if batch_size > 0:
+        return batch_size
+    return get_max_concurrent()
