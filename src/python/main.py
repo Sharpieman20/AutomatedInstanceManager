@@ -345,6 +345,8 @@ if __name__ == "__main__":
         assert unfrozen_queue_size < max_concurrent
         launch.launch_all_programs()
         input("Press any key to continue...")
+        print("Macro started")
+        print("Connecting to OBS")
         obs.connect_to_stream_obs()
         obs.hide_all()
         kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
@@ -359,6 +361,7 @@ if __name__ == "__main__":
         setup_file = Path.cwd() / 'setup.py'
         if setup_file.exists():
             setup_file.unlink()
+        print("Starting launch procedure")
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         SCHEDULER.run()
         if not settings.should_auto_launch():
