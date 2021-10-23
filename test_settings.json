@@ -16,7 +16,8 @@
         "approve-focused": "J",
         "toggle-hotkeys": "R",
         "background-debug": "Q",
-        "background-pause": "T"
+        "background-pause": "T",
+        "unfreeze-all": "O"
     },
     "freeze-delay": 300,
     "unfreeze-delay": 300,
