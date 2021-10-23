@@ -37,7 +37,7 @@
     "max-unpaused-time": 3.0,
     "min-time-for-settings-reset": 10.0,
     "min-time-from-reset-to-world-entry": 2.0,
-    "num-instances": 4,
+    "num-instances": 64,
     "max-concurrent": 3,
     "max-concurrent-in-run": 2,
     "max-concurrent-boot": 1,

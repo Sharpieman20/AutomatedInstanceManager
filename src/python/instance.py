@@ -181,7 +181,7 @@ class Instance(ConditionalTransitionable):
     
     def boot(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
-        # obs.set_source_settings_for_instance(self, False)
+        obs.set_scene_item_visible({'name': 'recording{}'.format(self.num)}, visible=True, stream=False)
         launch_instance(self)
         
     # not yet implemented (not needed in v1)
@@ -196,6 +196,7 @@ class Instance(ConditionalTransitionable):
     def initialize_after_boot(self):
         # assign our pid somehow
         # start generating world w/ duncan mod
+        hlp.run_ahk("updateTitle", pid=self.pid, title='Instance {}'.format(self.num))
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
         self.mark_generating()
