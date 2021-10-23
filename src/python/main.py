@@ -353,6 +353,7 @@ if __name__ == "__main__":
         kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys))
         kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
+        kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
