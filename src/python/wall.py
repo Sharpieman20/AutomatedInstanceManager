@@ -18,11 +18,12 @@ class Wall:
         self.pixel_width = self.instance_pixel_width * self.tile_width
         self.pixel_height = self.instance_pixel_height * self.tile_height
     
-    def get_coords_for_instance(inst):
-        instance_row = int(instance.num // self.tile_width)
-        instance_col = int(instance.num % self.tile_height)
+    def get_coords_for_instance(self, inst):
+        idx = inst.num-1
+        instance_row = int(idx // self.tile_width)
+        instance_col = int(idx % self.tile_height)
 
-        canvax_x = instance_col * self.instance_pixel_width
+        canvas_x = instance_col * self.instance_pixel_width
         canvas_y = instance_row * self.instance_pixel_height
 
         return (canvas_x, canvas_y)
@@ -74,14 +75,3 @@ def tile(count):
             height += 1
 
     return (width, height)
-
-def get_coords_for_instance_recording_obs(instance):
-    width, height = tile(settings.get_num_instances)
-
-    instance_row = int(instance.num // width)
-    instance_col = int(instance.num % height)
-
-    canvax_x = instance_col * settings.get_recording_instance_height()
-    canvas_y = instance_row * settings.get_recording_instance_width()
-
-    return (canvas_x, canvas_y)

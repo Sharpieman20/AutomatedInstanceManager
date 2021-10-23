@@ -4,6 +4,8 @@ from obswebsocket import obsws
 import queues
 import helpers as hlp
 from wall import Wall
+import helpers as hlp
+import time
 
 '''
 Manage global state
@@ -57,9 +59,9 @@ def connect_to_stream_obs():
     if not settings.is_obs_enabled():
         return
     global stream_obs
-    stream_obs = obsws(settings.get_obs_web_host(),
-               settings.get_obs_port(),
-               settings.get_obs_password())
+    stream_obs = obsws(settings.get_stream_obs_web_host(),
+               settings.get_stream_obs_port(),
+               settings.get_stream_obs_password())
     stream_obs.connect()
 
 def call_stream_websocket(arg):
@@ -72,11 +74,11 @@ def call_stream_websocket(arg):
 def connect_to_recording_obs():
     if not settings.is_obs_enabled():
         return
-    global stream_obs
-    recording_obs = obsws(settings.get_obs_web_host(),
-               settings.get_obs_port(),
-               settings.get_obs_password())
-    stream_obs.connect()
+    global recording_obs
+    recording_obs = obsws(settings.get_recording_obs_web_host(),
+               settings.get_recording_obs_port(),
+               settings.get_recording_obs_password())
+    recording_obs.connect()
 
 def call_recording_websocket(arg):
     # print(args)
@@ -94,7 +96,7 @@ def get_scene_items(stream=True):
         return []
     return websocket_result.getSceneItems()
 
-def set_scene_item_properties(name, visible):
+def set_scene_item_visible(name, visible):
     call_stream_websocket(obsrequests.SetSceneItemProperties(name, visible=visible))
 
 '''
@@ -146,14 +148,13 @@ def set_new_focused(inst):
         set_focused_instance(inst)
         focused_instance.mark_focused()
 
-def create_scene_item_for_instance(inst):
-    pass
+
 
 def hide_all():
     scene_items = get_scene_items()
     for s in scene_items:
         if 'active' in s['sourceName'] or 'focused' in s['sourceName']:
-            set_scene_item_properties({'id': s['itemId']}, visible=False)
+            set_scene_item_visible({'id': s['itemId']}, visible=False)
 
 def hide_primary(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'active{}'.format(inst.num)},visible=False))
@@ -189,16 +190,110 @@ def prompt_for_correct_dimensions():
     x, y = recording_wall.get_pixel_dimensions()
     input('Please set your recording OBS to output resolution {}x{}, then press any key to continue.'.format(x,y))
 
+
+def delete_scene_item(scene_item, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.DeleteSceneItem(scene_item))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.DeleteSceneItem(scene_item))
+
+def create_scene_item(scene_item_args, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.CreateSource(*scene_item_args))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.CreateSource(*scene_item_args))
+    return websocket_result
+    
+def get_source_settings(source, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.GetSourceSettings(source))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.GetSourceSettings(source))
+    return websocket_result
+
+def get_scene_item_properties(name, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.GetSceneItemProperties(name))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.GetSceneItemProperties(name))
+    return websocket_result
+
+def set_scene_item_properties(name, props, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.SetSceneItemProperties(name, **props))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.SetSceneItemProperties(name, **props))
+    return websocket_result
+
+def set_source_settings(name, source_settings, stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.SetSourceSettings(name, source_settings))
+    else:
+        websocket_result = call_recording_websocket(obsrequests.SetSourceSettings(name, source_settings))
+    return websocket_result
+
+def get_scene_name(stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.GetCurrentScene())
+    else:
+        websocket_result = call_recording_websocket(obsrequests.GetCurrentScene())
+    return websocket_result.getName()
+
+
+def create_scene_item_for_instance(inst, stream=False):
+    scene_item = {}
+    sceneName = get_scene_name(stream)
+    scene_item['sourceName'] = 'recording{}'.format(inst.num)
+    scene_item['sourceKind'] = settings.get_obs_source_type()
+    scene_item['sceneName'] = sceneName
+    # scene_item['sourceSettings'] = 
+    result = create_scene_item([item for item in scene_item.values()], stream)
+    print(result)
+
+def set_source_settings_for_instance(inst, stream=False):
+    global recording_wall
+    source_settings = {}
+    source_settings['owner_name'] = 'java'
+    source_settings['window'] = inst.num
+    source_settings['window_name'] = 'Minecraft* 1.16.1'
+    result = set_source_settings('recording{}'.format(inst.num), source_settings)
+    print(result)
+
+def set_scene_item_properties_for_instance(inst, stream=False):
+    global recording_wall
+    scene_item = {}
+    coords = recording_wall.get_coords_for_instance(inst)
+    bounds = (coords[0]+settings.get_recording_instance_width(), coords[1]+settings.get_recording_instance_height())
+    scene_item['position'] = {'x': coords[0], 'y': coords[1]}
+    scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1]}
+    result = set_scene_item_properties('recording{}'.format(inst.num), scene_item)
+    print(result)
+
+
+
 def clear_recording_scene_items():
     for scene_item in get_scene_items(False):
-        delete_scene_item(scene_item)
+        print(scene_item)
+        print(get_scene_item_properties(scene_item['sourceName']))
+        print(get_source_settings(scene_item['sourceName']))
+        print()
+        my_scene_item = {'name': scene_item['sourceName']}
+        if 'recording' in scene_item['sourceName']:
+            delete_scene_item(my_scene_item)
 
 
 def create_recording_scene_items():
+    for inst in queues.get_all_instances():
+        create_scene_item_for_instance(inst)
+        # set_source_settings_for_instance(inst)
+        set_scene_item_properties_for_instance(inst)
+        time.sleep(0.5)
+    pass
 
 
 
 def setup_recording_obs():
+    print('pids {}'.format(hlp.get_pids()))
 
     if not is_recording_obs_configured():
         prompt_for_correct_dimensions()
@@ -210,6 +305,3 @@ def setup_recording_obs():
         # if not, prompt user to set canvas siz
         # initialize sources
     # start recording
-
-    print(scene_items)
-    raise
