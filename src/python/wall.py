@@ -1,4 +1,4 @@
-
+from pynput import mouse
 
 
 class Wall:
@@ -8,8 +8,45 @@ class Wall:
         self.num_instances = 0
         self.is_interactive = False
 
+        self.instance_x_height = 32
+        self.instance_y_height = 32
+
     def make_layout():
         pass
+    
+    def get_coords_for_instance(inst):
+        pass
+    
+    def get_all_coords(self):
+        pass
+    
+    def press_instance_at_coords(self, x, y):
+        x_ind = int(x // self.instance_x_height)
+        y_ind = int(y // self.instance_y_height)
+        instance_to_press = self.instances[x_ind][y_ind]
+        instance_to_press.press()
+
+def register_mouse_listener():
+
+    def on_click(x, y, button, pressed):
+        if pressed:
+            if pressed and button == mouse.Button.left:
+                cur_wall.press_instance_at_coords(x, y)
+                return False
+
+    with mouse.Listener(on_click=on_click) as listener:
+        # listener.start()
+        listener.join()
+
+
+def stop_mouse_listener():
+    global listener
+    mouse.Listener.stop(listener)
+    window.quit()
+
+
+def setup_wall_scenes():
+    pass
 
 
 def tile(count):
