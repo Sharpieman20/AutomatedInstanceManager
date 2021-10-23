@@ -3,22 +3,36 @@ from pynput import mouse
 
 class Wall:
 
-    def __init__(self):
+    def __init__(self, num_instances, instance_width, instance_height):
 
-        self.num_instances = 0
+        self.num_instances = num_instances
         self.is_interactive = False
+        self.instance_pixel_width = instance_width
+        self.instance_pixel_height = instance_height
 
-        self.instance_x_height = 32
-        self.instance_y_height = 32
+        self.make_layout()
 
-    def make_layout():
-        pass
+    def make_layout(self):
+        self.tile_width, self.tile_height = tile(self.num_instances)
+
+        self.pixel_width = self.instance_pixel_width * self.tile_width
+        self.pixel_height = self.instance_pixel_height * self.tile_height
     
     def get_coords_for_instance(inst):
-        pass
+        instance_row = int(instance.num // self.tile_width)
+        instance_col = int(instance.num % self.tile_height)
+
+        canvax_x = instance_col * self.instance_pixel_width
+        canvas_y = instance_row * self.instance_pixel_height
+
+        return (canvas_x, canvas_y)
     
     def get_all_coords(self):
         pass
+    
+    def get_pixel_dimensions(self):
+        return (self.pixel_width, self.pixel_height)
+
     
     def press_instance_at_coords(self, x, y):
         x_ind = int(x // self.instance_x_height)

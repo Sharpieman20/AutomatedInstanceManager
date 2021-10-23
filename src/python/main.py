@@ -353,11 +353,17 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add error messages explaining
     try:
         assert unfrozen_queue_size < max_concurrent
+        print("Launching programs")
         launch.launch_all_programs()
-        input("Press any key to continue...")
-        print("Macro started")
+        if not settings.is_test_mode():
+        time.sleep(5)
         print("Connecting to OBS")
         obs.connect_to_stream_obs()
+        obs.connect_to_recording_obs()
+        time.sleep(1)
+        print("Configuring OBS")
+        obs.setup_stream_obs()
+        obs.setup_recording_obs()
         obs.hide_all()
         print(settings.get_hotkeys())
         kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))

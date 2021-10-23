@@ -6,8 +6,15 @@ import os
 if not settings.is_test_mode():
     import wmi
 
+def run_cmd(cmd):
+    sp.Popen(shlex.split(cmd))
+
+def launch_test_instance(inst):
+    run_cmd('java test/LaunchMockMC.java {}'.format(inst.num))
+
 def launch_instance(inst):
-    if settings.is_test_mode() or not settings.is_ahk_enabled():
+    if settings.is_test_mode():
+        launch_test_instance(inst)
         return
     # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
     instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')

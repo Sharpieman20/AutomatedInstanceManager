@@ -5,6 +5,7 @@ import uuid
 import subprocess as sp
 from datetime import datetime
 import settings
+import queues
 from pathlib import Path
 
 if settings.is_ahk_enabled() and not settings.is_test_mode():
@@ -45,7 +46,7 @@ def run_ahk(script_name, **kwargs):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         print("Run AHK script {} {}".format(script_name, kwargs))
         return
-    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=settings.get_ahk_default_background())
+    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=not settings.should_parallelize_ahk())
 
 def run_ahk_blocking(script_name, **kwargs):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
