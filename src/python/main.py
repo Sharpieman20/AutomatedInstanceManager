@@ -379,7 +379,7 @@ if __name__ == "__main__":
             while not done_with_all_manual_launch_batches:
                 start_ind = index*settings.get_manual_launch_batch_size()+1
                 end_ind = min(settings.get_num_instances(),(index+1)*settings.get_manual_launch_batch_size())
-                input("Manually open instances {} through {}. Then press any key once they've finished launching.".format(start_ind, end_ind))
+                print("Manually open instances {} through {}. Then press '{}' once they've finished launching.".format(start_ind, end_ind, settings.get_hotkeys()['manual-launch-completed']))
                 mark_manual_launch_batch_done()
                 time.sleep(1)
     except Exception:
