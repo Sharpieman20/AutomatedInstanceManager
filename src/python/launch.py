@@ -25,6 +25,7 @@ def launch_livesplit():
     os.startfile(settings.get_livesplit_path())
 
 def launch_multimc():
+    # TODO @Sharpieman20 - launch multimc and close the update window
     pass
 
 def launch_all_programs():
