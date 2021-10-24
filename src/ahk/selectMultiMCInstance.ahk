@@ -1,12 +1,11 @@
 #SingleInstance, Force
-SendMode Input
-CoordMode, Mouse, Screen
 SetKeyDelay, %keydelay%
 
-WinActivate, MultiMC
-WinMove, A,,0,0,640,400
-Send, {Click 75, 150} ;
-Loop, %instance% {
-  Send, {RightArrow} ;
+Loop, %downarrows% {
+  ControlSend,, {Down}, MultiMC
+  sleep, 50
+}
+Loop, %rightarrows% {
+  ControlSend,, {Right}, MultiMC
   sleep, 50
 }

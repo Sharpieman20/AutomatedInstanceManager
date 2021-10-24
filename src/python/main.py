@@ -53,6 +53,15 @@ unfreeze_delay = settings.get_unfreeze_delay()
 
 last_log_time = time.time()
 
+
+def try_launch_instance():
+    ahk.launchSelectedInstance(blocking=True)
+    if not next_launch_instancae.exists():
+        ahk.createInstanceFromTemplate(blocking=True)
+    else:
+        ahk.selectFirstMultiMCInstance(blocking=True)
+        ahk.selectMultiMCInstance(instance, blocking=False)
+
 # TODO @Sharpieman20 - fix this to be more like how queue states are handled
 def try_set_primary(new_primary_instance):
     primary_instance = obs.get_primary_instance()
