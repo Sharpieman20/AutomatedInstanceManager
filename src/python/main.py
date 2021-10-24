@@ -350,7 +350,7 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
     # TODO @Sharpieman20 - add error messages explaining
     try:
-        assert unfrozen_queue_size < max_concurrent
+        assert settings.get_unfrozen_queue_size() < max_concurrent
         launch.launch_all_programs()
         input("Press any key to continue...")
         print("Macro started")
