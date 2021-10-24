@@ -111,6 +111,7 @@ class Stateful(Suspendable):
         assign_to_state(self, State.MAINMENU)
 
     def mark_booting(self):
+        self.mark_hidden_on_wall()
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
 
@@ -153,6 +154,7 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
 
     def mark_ready(self):
+        self.mark_shown_on_wall()
         assign_to_state(self, State.READY)
         self.timestamp = get_time()
     
@@ -213,8 +215,16 @@ class DisplayStateful(InstanceStateful):
     def is_focused(self):
         return self.displayState == DisplayState.FOCUSED
 
+class WallDisplayStateful(DisplayStateful):
+
+    def mark_hidden_on_wall(self):
+        self.isShownOnWall = False
+    
+    def mark_shown_on_wall(self):
+        self.isShownOnWall = True
+
 # TODO @Sharpieman20 - get these durations from settings
-class ConditionalTransitionable(DisplayStateful):
+class ConditionalTransitionable(WallDisplayStateful):
 
     def is_done_unfreezing(self):
         duration = settings.get_freeze_delay()
