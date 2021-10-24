@@ -3,7 +3,7 @@ from obswebsocket import requests as obsrequests
 from obswebsocket import obsws
 import queues
 import helpers as hlp
-from wall import Wall
+from wall import Wall, SquareWall
 import helpers as hlp
 import time
 
@@ -343,7 +343,7 @@ def create_scene_item_for_instance(inst, template='recording', stream=False):
     scene_item['sceneName'] = sceneName
     # scene_item['sourceSettings'] = 
     result = create_scene_item([item for item in scene_item.values()], stream)
-    print(result)
+    # print(result)
 
 def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
@@ -353,7 +353,7 @@ def set_source_settings_for_instance(inst, template='recording', stream=False):
     source_settings['window_name'] = 'Instance {}'.format(inst.num)
     source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
-    print(result)
+    # print(result)
 
 def set_scene_item_properties_for_instance(inst, stream=False):
     global recording_wall
@@ -363,16 +363,16 @@ def set_scene_item_properties_for_instance(inst, stream=False):
     scene_item['position'] = {'x': coords[0], 'y': coords[1]}
     scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1], 'type': 'OBS_BOUNDS_STRETCH'}
     result = set_scene_item_properties('recording{}'.format(inst.num), scene_item)
-    print(result)
+    # print(result)
 
 
 
 def clear_recording_scene_items():
     for scene_item in get_scene_items(False):
-        print(scene_item)
-        print(get_scene_item_properties(scene_item['sourceName']))
-        print(get_source_settings(scene_item['sourceName']))
-        print()
+        # print(scene_item)
+        # print(get_scene_item_properties(scene_item['sourceName']))
+        # print(get_source_settings(scene_item['sourceName']))
+        # print()
         my_scene_item = {'name': scene_item['sourceName']}
         if 'recording' in scene_item['sourceName']:
             delete_scene_item(my_scene_item)
@@ -403,9 +403,15 @@ def set_scene_item_properties_for_instance_from_template(inst, template, stream=
     result = get_scene_item_properties(name, stream)
     time.sleep(1.0)
     template_item = result.datain
-    print(template_item)
+    # print(template_item)
     scene_item = {}
-    scene_item['bounds'] = template_item['bounds']
+    if template == 'tile':
+        coords = get_stream_wall().get_coords_for_instance(inst)
+        bounds = (get_stream_wall().instance_pixel_width, get_stream_wall().instance_pixel_height)
+        scene_item['position'] = {'x': coords[0], 'y': coords[1]}
+        scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1], 'type': 'OBS_BOUNDS_STRETCH'}
+    else:
+        scene_item['bounds'] = template_item['bounds']
     scene_item['crop'] = template_item['crop']
     scene_item['scale'] = template_item['scale']
     return set_scene_item_properties('{}{}'.format(template, inst.num), scene_item, stream)
@@ -436,8 +442,13 @@ def setup_recording_obs():
         clear_recording_scene_items()
         create_recording_scene_items()
 
+def get_stream_wall():
+    global stream_wall
+    return stream_wall
 
 def setup_stream_obs():
+    global stream_wall
+    stream_wall = SquareWall(settings.get_num_instances(), 900, 600)
     if not is_stream_obs_configured():
         clear_stream_scene_items()
         create_stream_scene_items()
