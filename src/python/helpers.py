@@ -12,6 +12,13 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk import AHK
     ahk = AHK()
     import wmi
+if settings.is_test_mode():
+    import shlex
+    import time
+    from AppKit import NSRunningApplication
+
+def run_cmd(cmd):
+    sp.call(shlex.split(cmd))
 
 def get_time():
     return time.time()
@@ -59,3 +66,12 @@ def add_attempt():
             curr_attempts = int(f.read().strip())
     with open("attempts.txt", "w") as f:
         f.write(str(curr_attempts + 1))
+
+
+def hide_mac_window(inst):
+    process = NSRunningApplication.runningApplicationWithProcessIdentifier_(inst.pid)
+    process.hide()
+
+def show_mac_window(inst):
+    process = NSRunningApplication.runningApplicationWithProcessIdentifier_(inst.pid)
+    process.unhide()

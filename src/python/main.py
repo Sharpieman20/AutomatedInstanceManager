@@ -120,7 +120,7 @@ def main_loop(sc):
             if inst.pid != old_pid:
                 inst.mark_booting()
             break
-    
+
     # Handle booting instances
     for inst in queues.get_booting_instances():
         if settings.should_auto_launch():
