@@ -303,6 +303,15 @@ def create_scene_item_for_instance(inst, template='recording', stream=False):
     result = create_scene_item([item for item in scene_item.values()], stream)
     # print(result)
 
+def reset_source_settings_for_instance(inst, template='recording', stream=False):
+    global recording_wall
+    source_settings = {}
+    source_settings['owner_name'] = None
+    source_settings['window'] = 99999+inst.num
+    source_settings['window_name'] = None
+    source_settings['sourceType'] = settings.get_obs_source_type()
+    result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
+
 def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
@@ -376,22 +385,25 @@ def set_scene_item_properties_for_instance_from_template(inst, template, stream=
 
 def create_stream_scene_items():
     for inst in queues.get_all_instances():
-        if inst.num == 1:
-            continue
-        create_scene_item_for_instance(inst, 'tile', True)
+        if inst.num != 1:
+            create_scene_item_for_instance(inst, 'tile', True)
+            time.sleep(0.1)
+        reset_source_settings_for_instance(inst, 'tile', True)
         time.sleep(0.1)
         set_source_settings_for_instance(inst, 'tile', True)
         time.sleep(0.1)
         set_scene_item_properties_for_instance_from_template(inst, 'tile')
         time.sleep(0.1)
     for inst in queues.get_all_instances():
-        if inst.num == 1:
-            continue
-        create_scene_item_for_instance(inst, 'active', True)
+        if inst.num != 1:
+            create_scene_item_for_instance(inst, 'active', True)
+            time.sleep(0.1)
+        reset_source_settings_for_instance(inst, 'active', True)
         time.sleep(0.1)
         set_source_settings_for_instance(inst, 'active', True)
         time.sleep(0.1)
         set_scene_item_properties_for_instance_from_template(inst, 'active')
+        time.sleep(0.1)
 
 
 def setup_recording_obs():
