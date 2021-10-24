@@ -342,8 +342,6 @@ def main_loop(sc):
         if index <= total_to_unfreeze:
             inst.resume()
             continue
-        if inst.is_force_resumed():
-            continue
         # state = ?
         # print('inst {} is ready'.format(inst.num))
         inst.suspend()
