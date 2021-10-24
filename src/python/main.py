@@ -35,7 +35,10 @@ last_log_time = time.time()
 
 
 def try_launch_instance():
+    # let's make sure to not try and set primary until after this is over
+    # launch the instance that we have selected
     ahk.launchSelectedInstance(blocking=True)
+    # select another instance for next time
     if not next_launch_instancae.exists():
         ahk.createInstanceFromTemplate(blocking=True)
     else:
@@ -120,7 +123,8 @@ def main_loop(sc):
 
     unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
-    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
+    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_launching_instances()) + len(queues.get_pregen_instances())
+    num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
     
     if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
         num_working_instances += 1
@@ -133,7 +137,6 @@ def main_loop(sc):
     num_to_boot = max_concurrent - num_working_instances
     if not settings.prioritize_booting_over_worldgen():
         num_to_boot -= len(queues.get_free_instances())
-    num_to_boot = max(0,min(1, num_to_boot))
 
     num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
     num_to_boot = min(num_to_boot, len(queues.get_dead_instances()))
@@ -157,13 +160,17 @@ def main_loop(sc):
         print('---------------')
 
     # Handle dead instances
-    for i in range(num_to_boot):
+    # num_to_launch should always be 0 if we're in a run
+    # also we should never launch an instance when we already have one launching
+    # TODO @Sharpieman20 - redo this code for auto launch
+    for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
             inst.mark_booting()
             inst.boot()
             num_booting_instances += 1
             num_working_instances += 1
+            break
         else:
             old_pid = inst.pid
             inst.assign_pid(queues.get_all_instances())
@@ -174,20 +181,36 @@ def main_loop(sc):
     # Handle launching instances
     for inst in queues.get_launching_instances():
         if settings.should_auto_launch():
-            if inst.is_done_booting():
+            old_pid = inst.pid
+            if old_pid == -1:
                 inst.assign_pid(queues.get_all_instances())
-                inst.initialize_after_boot()
+            if old_pid != inst.pid:
+                inst.mark_preboot()
+                inst.suspend()
 
-    
+    # Handle preboot instances (recently frozen instances that are candidates to be unfrozen and boot up)
+    for inst in queues.get_preboot_instances():
+        # check if it's not frozen
+            # if so, throw error
+        # check if it's been at least X time since it got frozen
+            # if not, continue
+        # check if less than num_to_boot
+            # if so, unfreeze
+            # set timestamp
+            # mark booting
+
     # Handle booting instances
     for inst in queues.get_booting_instances():
-        # check if it's frozen
-            # if it is, try and unfreeze. set timestamp
-        # if it's unfrozen
-            # check if it's been at least X time since its timestamp
-                # if so, check if latest.log mod time is > timestamp
-                    # if so, check if latestl.log mod time is < cur_time - 5 seconds
-                        # then mark it as main menu
+        # check if it's been at least X time since its timestamp
+            # if not, continue
+        # check if latest.log file exists
+            # if not, continue
+        # check if latest.log mod time is > timestamp
+            # if not, continue
+        # check if latestl.log mod time is < cur_time - boot-delay
+            # if not, continue
+        # mark as main menu
+        # don't update timestamp
 
     if not settings.should_auto_launch():
         if len(queues.get_dead_instances()) > 0 and len(queues.get_booting_instances()) < settings.get_manual_launch_batch_size():
@@ -205,12 +228,19 @@ def main_loop(sc):
             schedule_next(sc)
             return
 
+    # Handle main menu instances
+    for inst in queues.get_mainmenu_instances():
+        # exact same as pregen
+        # except we call different reset function
+
     # Handle pregen instances (recently unfrozen worlds that need to be generated)
     for inst in queues.get_pregen_instances():
         if not inst.is_done_unfreezing():
             continue
         # state = FREE
         if num_working_instances > max_concurrent:
+            # strictly greater than because it means we've surpassed the cap
+            # ideally we shouldn't enter this if. this is a safeguard.
             inst.suspend()
             inst.release()
             continue
@@ -220,6 +250,7 @@ def main_loop(sc):
 
     # Handle free instances (frozen instances that are on a world, and we've decided to reset this world)
     for inst in queues.get_free_instances():
+        # >= because we don't want to unfreeze while at the cap
         if num_working_instances >= max_concurrent:
             continue
         if not inst.is_ready_for_unfreeze():
@@ -309,6 +340,7 @@ def main_loop_wrapper(sc):
 
 # Callbacks
 def reset_primary():
+    # TODO - add safeguard after X time in run
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None:
         primary_instance.reset_active()
