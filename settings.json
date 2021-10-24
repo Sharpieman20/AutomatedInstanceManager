@@ -14,7 +14,7 @@
         "reset-active": "U",
         "reset-focused": "H",
         "approve-focused": "J",
-        "toggle-hotkeys": "R",
+        "toggle-hotkeys": "[",
         "background-debug": "Q",
         "background-pause": "T",
         "manual-launch-complete": "P",
