@@ -1,8 +1,6 @@
 from pynput import mouse
+import obs as obs
 
-
-
-def get_recording_wall()
 
 class Wall:
 
@@ -42,6 +40,7 @@ class Wall:
         return (self.pixel_width, self.pixel_height)
     
     def press_instance_at_coords(self, x, y):
+        # TODO - convert from screen coords to canvas coords
         x_ind = int(x // self.instance_x_height)
         y_ind = int(y // self.instance_y_height)
         instance_to_press = self.instances[x_ind][y_ind]
@@ -54,8 +53,7 @@ class Wall:
     def update_shown(self):
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
-                # TODO - replace this with a call to helpers
-                obs.set_scene_item_visible('tile{}'.format(inst.num), inst.isShownOnWall)
+                inst.update_obs_wall_visibility()
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
 
     def enable():
@@ -67,6 +65,16 @@ class Wall:
         hide()
         # go to active
 
+class SquareWall(Wall):
+
+    def make_layout(self):
+        self.pixel_width = self.instance_pixel_width
+        self.pixel_height = self.instance_pixel_height
+
+        self.instance_pixel_width = calculate_square_side(self.num_instances, self.pixel_width, self.pixel_height)
+        self.instance_pixel_height = self.instance_pixel_width
+
+        self.tile_width, self.tile_height = tile_fill(self.num_instances, self.instance_pixel_width, self.pixel_width, self.pixel_height)
 
 def register_mouse_listener(cur_wall):
 
@@ -83,7 +91,7 @@ def register_mouse_listener(cur_wall):
 
 
 def stop_mouse_listener():
-    global listener
+    global mouse_listener
     mouse.Listener.stop(mouse_listener)
 
 
@@ -102,3 +110,28 @@ def tile(count):
             height += 1
 
     return (width, height)
+
+
+def calculate_square_side(count, width, height):
+    longer_dim = max(width, height)
+    shorter_dim = min(width, height)
+
+    lower_bound_square_side = floor(shorter_dim/ceil(sqrt(count)))
+    upper_bound_square_side = ceil(sqrt(width * height / count))
+
+    for i in range(lower_bound_square_side, upper_bound_square_side+1):
+        num_across = floor(width / i)
+        num_down = floor(height / i)
+
+        if (num_across * num_down) < count:
+            return i-1
+    
+    return upper_bound_square_side
+
+
+def tile_fill(count, square_side, width, height):
+    return (int(width/square_side), int(height/square_side))
+
+
+
+

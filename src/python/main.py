@@ -323,8 +323,6 @@ def main_loop(sc):
         if index <= total_to_unfreeze:
             inst.resume()
             continue
-        if inst.is_force_resumed():
-            continue
         # state = ?
         inst.suspend()
 
@@ -341,8 +339,6 @@ def main_loop(sc):
             continue
         if inst.is_primary():
             inst.mark_active()
-            continue
-        if inst.is_force_resumed():
             continue
         inst.suspend()
 

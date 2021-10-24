@@ -164,7 +164,7 @@ def set_new_focused(inst):
 def hide_all():
     scene_items = get_scene_items()
     for s in scene_items:
-        if 'active' in s['sourceName'] or 'focused' in s['sourceName']:
+        if 'active' in s['sourceName'] or 'focused' in s['sourceName'] or 'tile' in s['sourceName']:
             set_scene_item_visible({'id': s['itemId']}, visible=False)
 
 def hide_primary(inst):
@@ -210,7 +210,7 @@ def is_stream_obs_configured():
     scene_items = get_scene_items(True)
     correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
     current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'tile' in scene_item['sourceName']]
-    for correct_scene_item in recording_current_scene_items:
+    for correct_scene_item in correct_scene_items:
         has_match = False
         for scene_item in current_scene_items:
             if scene_item == correct_scene_item:
@@ -222,7 +222,7 @@ def is_stream_obs_configured():
         correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
     correct_scene_items = ['active{}'.format(inst.num) for inst in queues.get_all_instances()]
     current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'active' in scene_item['sourceName']]
-    for correct_scene_item in recording_current_scene_items:
+    for correct_scene_item in correct_scene_items:
         has_match = False
         for scene_item in current_scene_items:
             if scene_item == correct_scene_item:
@@ -231,7 +231,8 @@ def is_stream_obs_configured():
             return False
         set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
         time.sleep(0.1)
-    return True
+    return False
+    # return True
 
 
 
@@ -292,24 +293,24 @@ def get_scene_name(stream=False):
     return websocket_result.getName()
 
 
-def create_scene_item_for_instance(inst, stream=False):
+def create_scene_item_for_instance(inst, template='recording', stream=False):
     scene_item = {}
     sceneName = get_scene_name(stream)
-    scene_item['sourceName'] = 'recording{}'.format(inst.num)
+    scene_item['sourceName'] = '{}{}'.format(template, inst.num)
     scene_item['sourceKind'] = settings.get_obs_source_type()
     scene_item['sceneName'] = sceneName
     # scene_item['sourceSettings'] = 
     result = create_scene_item([item for item in scene_item.values()], stream)
     print(result)
 
-def set_source_settings_for_instance(inst, stream=False):
+def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
     source_settings['owner_name'] = 'java'
     source_settings['window'] = 99999+inst.num
     source_settings['window_name'] = 'Instance {}'.format(inst.num)
     source_settings['sourceType'] = settings.get_obs_source_type()
-    result = set_source_settings('recording{}'.format(inst.num), source_settings)
+    result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
     print(result)
 
 def set_scene_item_properties_for_instance(inst, stream=False):
@@ -355,22 +356,36 @@ def clear_stream_scene_items():
             if 'active1' not in scene_item['sourceName']:
                 delete_scene_item(my_scene_item, True)
 
-def create_scene_item_for_instance_from_template(inst, template, stream=True):
+def set_scene_item_properties_for_instance_from_template(inst, template, stream=True):
+    name = '{}1'.format(template)
+    result = get_scene_item_properties(name, stream)
+    time.sleep(1.0)
+    template_item = result.datain
+    print(template_item)
+    scene_item = {}
+    scene_item['bounds'] = template_item['bounds']
+    scene_item['crop'] = template_item['crop']
+    scene_item['scale'] = template_item['scale']
+    return set_scene_item_properties('{}{}'.format(template, inst.num), scene_item, stream)
 
 def create_stream_scene_items():
     for inst in queues.get_all_instances():
-        create_scene_item_for_instance_from_template(inst, 'tile')
-        time.sleep(0.25)
-        create_scene_item_for_instance_from_template(inst, 'tile')
-        time.sleep(0.25)
-        create_scene_item_for_instance_from_template(inst, 'tile')
-        time.sleep(0.25)
-        create_scene_item_for_instance_from_template(inst, 'active')
-        time.sleep(0.25)
-        create_scene_item_for_instance_from_template(inst, 'active')
-        time.sleep(0.25)
-        create_scene_item_for_instance_from_template(inst, 'active')
-        time.sleep(0.25)
+        if inst.num == 1:
+            continue
+        create_scene_item_for_instance(inst, 'tile', True)
+        time.sleep(0.1)
+        set_source_settings_for_instance(inst, 'tile', True)
+        time.sleep(0.1)
+        set_scene_item_properties_for_instance_from_template(inst, 'tile')
+        time.sleep(0.1)
+    for inst in queues.get_all_instances():
+        if inst.num == 1:
+            continue
+        create_scene_item_for_instance(inst, 'active', True)
+        time.sleep(0.1)
+        set_source_settings_for_instance(inst, 'active', True)
+        time.sleep(0.1)
+        set_scene_item_properties_for_instance_from_template(inst, 'active')
 
 
 def setup_recording_obs():
