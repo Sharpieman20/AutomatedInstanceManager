@@ -58,6 +58,8 @@ def assure_globals():
         done_with_all_manual_launch_batches = False
         global did_init_globals
         did_init_globals = True
+        global manual_launch_index
+        manual_launch_index = 0
 
 def schedule_next(sc):
     if not did_error:
@@ -135,11 +137,7 @@ def main_loop(sc):
         if len(queues.get_dead_instances()) > 0 and len(queues.get_booting_instances()) < settings.get_manual_launch_batch_size():
             schedule_next(sc)
             return
-        global is_first_check_manual_launch
         global done_with_manual_launch_batch
-        if is_first_check_manual_launch:
-            done_with_manual_launch_batch = False
-            is_first_check_manual_launch = False
         if not done_with_manual_launch_batch:
             schedule_next(sc)
             return
@@ -344,6 +342,28 @@ def wrap(func, override=False):
         func()
     return inner
 
+def handle_manual_launch_inner(sc):
+    global done_with_manual_launch_batch
+    if not done_with_manual_launch_batch:
+        SCHEDULER.enter(settings.get_loop_delay(), 1, handle_manual_launch_inner, (sc,))
+        return
+    global done_with_all_manual_launch_batches
+    global manual_launch_index
+    start_ind = manual_launch_index*settings.get_manual_launch_batch_size()+1
+    end_ind = min(settings.get_num_instances(),(index+1)*settings.get_manual_launch_batch_size())
+    if start_ind >= end_ind:
+        done_with_all_manual_launch_batches = True
+        return
+    done_with_manual_launch_batch = False
+    print("Manually open instances {} through {}. Then press '{}' once they've finished launching.".format(start_ind, end_ind, settings.get_hotkeys()['manual-launch-completed']))
+    SCHEDULER.enter(settings.get_loop_delay(), 1, handle_manual_launch_inner, (sc,))
+
+
+def handle_manual_launch(sc):
+    global done_with_manual_launch_batch
+    done_with_manual_launch_batch = True
+    handle_manual_launch_inner(sc)
+
 assure_globals()
 
 if __name__ == "__main__":
@@ -365,6 +385,9 @@ if __name__ == "__main__":
         kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
         kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
+        if not settings.should_auto_launch():
+            kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(mark_manual_launch_batch_done))
+            
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
@@ -372,16 +395,10 @@ if __name__ == "__main__":
             setup_file.unlink()
         print("Starting launch procedure")
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
-        SCHEDULER.run()
         if not settings.should_auto_launch():
-            index = 0
-            global done_with_all_manual_launch_batches
-            while not done_with_all_manual_launch_batches:
-                start_ind = index*settings.get_manual_launch_batch_size()+1
-                end_ind = min(settings.get_num_instances(),(index+1)*settings.get_manual_launch_batch_size())
-                print("Manually open instances {} through {}. Then press '{}' once they've finished launching.".format(start_ind, end_ind, settings.get_hotkeys()['manual-launch-completed']))
-                mark_manual_launch_batch_done()
-                time.sleep(1)
+            SCHEDULER.enter(0.01, 1, handle_manual_launch_inner, (SCHEDULER,))
+        # while 
+        SCHEDULER.run()
     except Exception:
         global did_error
         did_error = True
