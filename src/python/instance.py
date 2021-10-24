@@ -48,6 +48,7 @@ class DisplayState(Enum):
 class Stateful(PrioritizeableProcess):
 
     def mark_booting(self):
+        self.mark_hidden_on_wall()
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
     
@@ -80,6 +81,7 @@ class Stateful(PrioritizeableProcess):
         self.timestamp = get_time()
 
     def mark_ready(self):
+        self.mark_shown_on_wall()
         assign_to_state(self, State.READY)
 
     def mark_approved(self):
@@ -121,6 +123,14 @@ class DisplayStateful(Stateful):
 
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
+
+class WallDisplayStateful(DisplayStateful):
+
+    def mark_hidden_on_wall(self):
+        self.isShownOnWall = False
+    
+    def mark_shown_on_wall(self):
+        self.isShownOnWall = True
 
 # TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(DisplayStateful):

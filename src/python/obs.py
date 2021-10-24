@@ -18,6 +18,7 @@ focused_instance = None
 primary_instance = None
 stream_obs = None
 recording_obs = None
+stream_wall = None
 recording_wall = None
 
 
@@ -198,6 +199,34 @@ def is_recording_obs_configured():
     #     print(item)
     # return True
 
+def is_stream_obs_configured():
+    scene_items = get_scene_items(True)
+    correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
+    current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'tile' in scene_item['sourceName']]
+    for correct_scene_item in recording_current_scene_items:
+        has_match = False
+        for scene_item in current_scene_items:
+            if scene_item == correct_scene_item:
+                has_match = True
+        if not has_match:
+            return False
+        set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
+        time.sleep(0.1)
+        correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
+    correct_scene_items = ['active{}'.format(inst.num) for inst in queues.get_all_instances()]
+    current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'active' in scene_item['sourceName']]
+    for correct_scene_item in recording_current_scene_items:
+        has_match = False
+        for scene_item in current_scene_items:
+            if scene_item == correct_scene_item:
+                has_match = True
+        if not has_match:
+            return False
+        set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
+        time.sleep(0.1)
+    return True
+
+
 
 def prompt_for_correct_dimensions():
     global recording_wall
@@ -309,17 +338,42 @@ def create_recording_scene_items():
     pass
 
 
+def clear_stream_scene_items():
+    for scene_item in get_scene_items(True):
+        my_scene_item = {'name': scene_item['sourceName']}
+        if 'tile' in scene_item['sourceName']:
+            if 'tile1' not in scene_item['sourceName']:
+                delete_scene_item(my_scene_item, True)
+        if 'active' in scene_item['sourceName']:
+            if 'active1' not in scene_item['sourceName']:
+                delete_scene_item(my_scene_item, True)
+
+def create_scene_item_for_instance_from_template(inst, template, stream=True):
+
+def create_stream_scene_items():
+    for inst in queues.get_all_instances():
+        create_scene_item_for_instance_from_template(inst, 'tile')
+        time.sleep(0.25)
+        create_scene_item_for_instance_from_template(inst, 'tile')
+        time.sleep(0.25)
+        create_scene_item_for_instance_from_template(inst, 'tile')
+        time.sleep(0.25)
+        create_scene_item_for_instance_from_template(inst, 'active')
+        time.sleep(0.25)
+        create_scene_item_for_instance_from_template(inst, 'active')
+        time.sleep(0.25)
+        create_scene_item_for_instance_from_template(inst, 'active')
+        time.sleep(0.25)
+
 
 def setup_recording_obs():
-    print('pids {}'.format(hlp.get_pids()))
-
     if not is_recording_obs_configured():
         prompt_for_correct_dimensions()
         clear_recording_scene_items()
         create_recording_scene_items()
 
 
-    # check if sources exist
-        # if not, prompt user to set canvas siz
-        # initialize sources
-    # start recording
+def setup_stream_obs():
+    if not is_stream_obs_configured():
+        clear_stream_scene_items()
+        create_stream_scene_items()
