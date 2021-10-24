@@ -156,6 +156,7 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
 
     def mark_approved(self):
+        self.mark_hidden_on_wall()
         assign_to_state(self, State.APPROVED)
 
     def is_ready(self):
@@ -291,6 +292,7 @@ class Instance(ConditionalTransitionable):
         self.current_world = None
         self.is_always_on_top = False
         self.forceResumed = False
+        self.isShownOnWall = False
     
     def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch

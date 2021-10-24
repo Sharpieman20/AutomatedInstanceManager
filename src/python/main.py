@@ -114,6 +114,8 @@ def main_loop(sc):
         try_set_primary(new_primary_instance)
         need_to_reset_timer = True
 
+    obs.get_stream_wall().update_shown()
+
     # Pick focused instance
     if focused_instance is None:
         new_focused_instance = None
@@ -302,11 +304,13 @@ def main_loop(sc):
     for inst in queues.get_paused_instances():
         # let chunks load some amount
         if inst.is_primary():
+            print('inst {} is primary'.format(inst.num))
             inst.mark_active()
             continue
         if not inst.is_ready_for_freeze():
             continue
             # state = READY
+        print('inst {} ready now'.format(inst.num))
         inst.mark_ready()
 
     # Handle ready instances (paused instances on a world we haven't evaluated yet. may or may not be frozen)

@@ -1,6 +1,8 @@
 from pynput import mouse
 import obs as obs
-
+import math
+import queues
+import time
 
 class Wall:
 
@@ -21,15 +23,18 @@ class Wall:
         self.pixel_height = self.instance_pixel_height * self.tile_height
     
     def initialize_instance_shown_states(self):
-        self.instance_shown_states = {i: False for i in range(self.num_instances)}
+        self.instance_shown_states = {i+1: True for i in range(self.num_instances)}
     
     def get_coords_for_instance(self, inst):
         idx = inst.num-1
-        instance_row = int(idx // self.tile_width)
-        instance_col = int(idx % self.tile_height)
+
+        instance_row = int(idx / self.tile_width)
+        instance_col = int(idx % self.tile_width)
 
         canvas_x = instance_col * self.instance_pixel_width
         canvas_y = instance_row * self.instance_pixel_height
+
+        print('inst {} at coords {},{} grid size {},{}'.format(inst.num, canvas_x, canvas_y, self.tile_width, self.tile_height))
 
         return (canvas_x, canvas_y)
     
@@ -47,13 +52,15 @@ class Wall:
         self.press_instance(instance_to_press)
 
     def press_instance(self, inst):
-        inst.mark_approved()
-        inst.mark_hidden()
+        pass
+        # inst.mark_approved()
+        # inst.mark_hidden()
 
     def update_shown(self):
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
                 inst.update_obs_wall_visibility()
+                time.sleep(0.25)
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
 
     def enable():
@@ -68,6 +75,8 @@ class Wall:
 class SquareWall(Wall):
 
     def make_layout(self):
+
+        print('make the square layout')
         self.pixel_width = self.instance_pixel_width
         self.pixel_height = self.instance_pixel_height
 
@@ -116,12 +125,12 @@ def calculate_square_side(count, width, height):
     longer_dim = max(width, height)
     shorter_dim = min(width, height)
 
-    lower_bound_square_side = floor(shorter_dim/ceil(sqrt(count)))
-    upper_bound_square_side = ceil(sqrt(width * height / count))
+    lower_bound_square_side = math.floor(shorter_dim/math.ceil(math.sqrt(count)))
+    upper_bound_square_side = math.ceil(math.sqrt(width * height / count))
 
     for i in range(lower_bound_square_side, upper_bound_square_side+1):
-        num_across = floor(width / i)
-        num_down = floor(height / i)
+        num_across = math.floor(width / i)
+        num_down = math.floor(height / i)
 
         if (num_across * num_down) < count:
             return i-1
