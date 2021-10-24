@@ -22,7 +22,7 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 max_concurrent = settings.get_max_concurrent()
 max_concurrent_boot = settings.get_max_concurrent_boot()
 
-unfrozen_queue_size = settings.get_unfrozen_queue_size()
+
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
@@ -68,6 +68,11 @@ def main_loop(sc):
     global last_log_time
 
     queues.update_all()
+
+    unfrozen_queue_size = settings.get_unfrozen_queue_size()
+
+    if len(queues.get_dead_instances()) > 0:
+        unfrozen_queue_size = 0
 
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
     
