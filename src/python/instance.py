@@ -65,8 +65,10 @@ class Stateful(PrioritizeableProcess):
         else:
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
+        self.mark_shown_on_wall()
     
     def mark_paused(self):
+
         assign_to_state(self, State.PAUSED)
         self.timestamp = get_time()
     
@@ -81,7 +83,6 @@ class Stateful(PrioritizeableProcess):
         self.timestamp = get_time()
 
     def mark_ready(self):
-        self.mark_shown_on_wall()
         assign_to_state(self, State.READY)
 
     def mark_approved(self):
