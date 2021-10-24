@@ -283,6 +283,7 @@ def main_loop(sc):
     total_to_unfreeze = unfrozen_queue_size - len(queues.get_approved_instances())
 
     # Handle paused instances
+    # TODO - when resetting a paused instance, we should prioritize it since we can reduce suspend/unsuspends
     for inst in queues.get_paused_instances():
         # let chunks load some amount
         if inst.is_primary():
