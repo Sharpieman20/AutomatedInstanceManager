@@ -31,15 +31,18 @@ def get_global_test_pid():
 
 class State(Enum):
     DEAD = 0
-    BOOTING = 1
-    FREE = 2
-    PREGEN = 3
-    GEN = 4
-    UNPAUSED = 5
-    PAUSED = 6
-    READY = 7
-    APPROVED = 8
-    ACTIVE = 9
+    LAUNCHING = 1
+    PREBOOT = 2
+    BOOTING = 3
+    MAINMENU = 4
+    FREE = 5
+    PREGEN = 6
+    GEN = 7
+    UNPAUSED = 8
+    PAUSED = 9
+    READY = 10
+    APPROVED = 11
+    ACTIVE = 12
 
 class DisplayState(Enum):
     HIDDEN = 0

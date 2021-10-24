@@ -21,8 +21,8 @@
         "manual-launch-complete": "P",
         "unfreeze-all": "|"
     },
-    "freeze-delay": 500,
-    "unfreeze-delay": 500,
+    "freeze-delay": 2000,
+    "unfreeze-delay": 2000,
     "fullscreen-delay": 50,
     "loop-delay": 100,
     "boot-delay": 15.0,
