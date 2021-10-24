@@ -171,12 +171,23 @@ def main_loop(sc):
                 inst.mark_booting()
             break
     
-    # Handle booting instances
-    for inst in queues.get_booting_instances():
+    # Handle launching instances
+    for inst in queues.get_launching_instances():
         if settings.should_auto_launch():
             if inst.is_done_booting():
                 inst.assign_pid(queues.get_all_instances())
                 inst.initialize_after_boot()
+
+    
+    # Handle booting instances
+    for inst in queues.get_booting_instances():
+        # check if it's frozen
+            # if it is, try and unfreeze. set timestamp
+        # if it's unfrozen
+            # check if it's been at least X time since its timestamp
+                # if so, check if latest.log mod time is > timestamp
+                    # if so, check if latestl.log mod time is < cur_time - 5 seconds
+                        # then mark it as main menu
 
     if not settings.should_auto_launch():
         if len(queues.get_dead_instances()) > 0 and len(queues.get_booting_instances()) < settings.get_manual_launch_batch_size():
