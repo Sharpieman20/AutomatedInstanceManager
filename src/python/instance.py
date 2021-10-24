@@ -132,8 +132,11 @@ class WallDisplayStateful(DisplayStateful):
     def mark_shown_on_wall(self):
         self.isShownOnWall = True
 
+    def update_obs_wall_visibility(self):
+        obs.set_scene_item_visible('tile{}'.format(self.num), self.isShownOnWall)
+
 # TODO @Sharpieman20 - get these durations from settings
-class ConditionalTransitionable(DisplayStateful):
+class ConditionalTransitionable(WallDisplayStateful):
 
     def is_ready_for_freeze(self):
         duration = settings.get_load_chunk_time()

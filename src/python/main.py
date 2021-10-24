@@ -222,8 +222,6 @@ def main_loop(sc):
         if index <= total_to_unfreeze:
             inst.resume()
             continue
-        if inst.is_force_resumed():
-            continue
         # state = ?
         inst.suspend()
 
@@ -240,8 +238,6 @@ def main_loop(sc):
             continue
         if inst.is_primary():
             inst.mark_active()
-            continue
-        if inst.is_force_resumed():
             continue
         inst.suspend()
     
@@ -356,11 +352,11 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertios
     # TODO @Sharpieman20 - add error messages explaining
     try:
-        assert unfrozen_queue_size < max_concurrent
+        assert unfrozen_queue_size < max_concurrent_global
         print("Launching programs")
         launch.launch_all_programs()
         if not settings.is_test_mode():
-        time.sleep(5)
+            time.sleep(5)
         print("Connecting to OBS")
         obs.connect_to_stream_obs()
         obs.connect_to_recording_obs()

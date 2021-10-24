@@ -5,6 +5,8 @@ import shlex
 import os
 if not settings.is_test_mode():
     import wmi
+else:
+    import shutil
 
 def run_cmd(cmd):
     sp.Popen(shlex.split(cmd))
