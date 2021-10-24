@@ -88,7 +88,7 @@ def get_debug_interval():
     return 2.0
 
 def get_test_worldgen_time():
-    return 5.0
+    return 1.7
 
 def should_auto_launch():
     return settings['auto-launch']
@@ -255,10 +255,10 @@ def get_max_concurrent_in_run():
     return int(settings['max-concurrent-in-run']) 
 
 def get_recording_instance_height():
-    return 180
+    return settings['recording-instance-height']
 
 def get_recording_instance_width():
-    return 320
+    return settings['recording-instance-width']
 
 def use_prioritization():
     return False

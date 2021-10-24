@@ -3,6 +3,9 @@ import helpers as hlp
 from enum import Enum
 if not settings.is_test_mode():
     import win32process
+else:
+    import threading
+    import time
 
 def set_process_priority(process_handle, priority):
     if settings.is_test_mode():
@@ -34,12 +37,28 @@ class SuspendableProcess(Process):
         if self.is_suspended():
             return
         self.suspended = True
+        if settings.is_test_mode():
+            def sleep_and_stop():
+                time.sleep(1)
+                hlp.run_cmd('kill -STOP {}'.format(self.pid))
+            hlp.hide_mac_window(self)
+            th = threading.Thread(target=sleep_and_stop)
+            th.start()
+            return
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
     def resume(self):
         if not self.is_suspended():
             return
         self.suspended = False
+        if settings.is_test_mode():
+            def show_mac_window_inner():
+                time.sleep(1)
+                hlp.show_mac_window(self)
+            hlp.run_cmd('kill -CONT {}'.format(self.pid))
+            th = threading.Thread(target=show_mac_window_inner)
+            th.start()
+            return
         hlp.run_ahk("resumeInstance", pid=self.pid)
 
     def is_suspended(self):

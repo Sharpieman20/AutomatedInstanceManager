@@ -1,4 +1,4 @@
-from pynput import mouse
+# from pynput import mouse
 
 
 class Wall:
