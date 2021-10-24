@@ -396,7 +396,7 @@ if __name__ == "__main__":
         print("Starting launch procedure")
         SCHEDULER.enter(settings.get_loop_delay(), 1, main_loop_wrapper, (SCHEDULER,))
         if not settings.should_auto_launch():
-            SCHEDULER.enter(0.01, 1, handle_manual_launch_inner, (SCHEDULER,))
+            SCHEDULER.enter(0.01, 1, handle_manual_launch, (SCHEDULER,))
         # while 
         SCHEDULER.run()
     except Exception:
