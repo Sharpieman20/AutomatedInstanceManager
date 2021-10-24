@@ -12,6 +12,13 @@ import queues
 if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk.script import _resolve_executable_path
     import wmi
+if settings.is_test_mode():
+    import shlex
+    import time
+    from AppKit import NSRunningApplication
+
+def run_cmd(cmd):
+    sp.call(shlex.split(cmd))
 
 def get_time():
     return time.time()
@@ -143,3 +150,11 @@ def increment_reset_counter():
         attempts_fil_opened.write(str(num_attempts+1))
 
 
+
+def hide_mac_window(inst):
+    process = NSRunningApplication.runningApplicationWithProcessIdentifier_(inst.pid)
+    process.hide()
+
+def show_mac_window(inst):
+    process = NSRunningApplication.runningApplicationWithProcessIdentifier_(inst.pid)
+    process.unhide()
