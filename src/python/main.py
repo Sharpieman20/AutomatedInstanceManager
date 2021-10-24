@@ -70,6 +70,8 @@ def main_loop(sc):
 
     queues.update_all()
 
+    obs.get_stream_wall().update_shown()
+
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
     num_booting_instances = len(queues.get_booting_instances())
 
@@ -200,11 +202,13 @@ def main_loop(sc):
     for inst in queues.get_paused_instances():
         # let chunks load some amount
         if inst.is_primary():
+            print('inst {} is primary'.format(inst.num))
             inst.mark_active()
             continue
         if not inst.is_ready_for_freeze():
             continue
             # state = READY
+        print('inst {} ready now'.format(inst.num))
         inst.mark_ready()
         inst.suspend()
 

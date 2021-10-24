@@ -47,7 +47,7 @@ class SuspendableProcess(Process):
             return
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
-    def resume(self):
+    def resume(self, override=False):
         if not self.is_suspended():
             return
         self.suspended = False
@@ -83,9 +83,9 @@ class PrioritizeableProcess(SuspendableProcess):
         set_process_priority(self.pid, Priority.IDLE)
         set_memory_priority(self.pid, Priority.IDLE)
     
-    def resume(self):
+    def resume(self, override=False):
         if not settings.use_prioritization():
-            return super().resume()
+            return super().resume(override)
         if not self.is_suspended():
             return
         self.suspended = False

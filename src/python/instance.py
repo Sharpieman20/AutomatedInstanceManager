@@ -85,6 +85,7 @@ class Stateful(PrioritizeableProcess):
         assign_to_state(self, State.READY)
 
     def mark_approved(self):
+        self.mark_hidden_on_wall()
         assign_to_state(self, State.APPROVED)
 
     def is_ready(self):
@@ -191,6 +192,7 @@ class Instance(ConditionalTransitionable):
         self.name = '{}{}'.format(settings.get_base_instance_name(), self.num)
         self.mcdir = settings.get_multimc_path().parent / "instances" / self.name / ".minecraft"
         self.current_world = None
+        self.isShownOnWall = False
     
     def boot(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
