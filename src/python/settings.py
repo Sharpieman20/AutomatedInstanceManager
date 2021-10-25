@@ -129,8 +129,8 @@ def get_livesplit_path():
 def get_start_create_world_delay():
     return settings['min-time-from-reset-to-world-entry']
 
-def get_ahk_default_background():
-    return settings['default-ahk-background']
+def should_parallelize_ahk():
+    return settings['parallelize-ahk']
 
 def get_key_delay():
     return int(settings['key-delay'])
