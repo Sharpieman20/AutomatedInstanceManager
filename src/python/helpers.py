@@ -8,8 +8,7 @@ import settings
 from pathlib import Path
 
 if settings.is_ahk_enabled() and not settings.is_test_mode():
-    from ahk import AHK
-    ahk = AHK()
+    from ahk.script import _resolve_executable_path
     import wmi
 
 def get_time():
@@ -36,7 +35,7 @@ def file_to_script(script_name, **kwargs):
     script_str = ""
     for key in kwargs:
         script_str += f'global {key} := "{kwargs[key]}"\n'
-    path = Path.cwd() / "src" / "ahk" / "{}.ahk".format(script_name)
+
     with open(path, "r") as ahk_script:
         script_str += ahk_script.read()
     return script_str
@@ -45,13 +44,19 @@ def run_ahk(script_name, **kwargs):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         print("Run AHK script {} {}".format(script_name, kwargs))
         return
-    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=not settings.should_parallelize_ahk())
-
-def run_ahk_blocking(script_name, **kwargs):
-    if settings.is_test_mode() or not settings.is_ahk_enabled():
-        print("Run AHK script {} {}".format(script_name, kwargs))
-        return
-    return ahk.run_script(file_to_script(script_name, **kwargs), blocking=True)
+    # return ahk.run_script(file_to_script(script_name, **kwargs), blocking=not settings.should_parallelize_ahk())
+    ahk_path = _resolve_executable_path()
+    script_path = Path.cwd() / "src" / "ahk" / "{}.ahk".format(script_name)
+    args = [ahk_path, "/force", "/ErrorStdOut", script_path.resolve()]
+    for key in kwargs:
+        if isinstance(kwargs[key], bool):
+            args.append('{}'.format(kwargs[key]).lower())
+        else:
+            args.append(kwargs[key])
+    if settings.should_parallelize_ahk():
+        sp.call(args)
+    else:
+        sp.Popen(args)
 
 def add_attempt():
     curr_attempts = 0
