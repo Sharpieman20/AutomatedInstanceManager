@@ -53,7 +53,7 @@ def run_ahk(script_name, **kwargs):
         if isinstance(kwargs[key], bool):
             args.append('{}'.format(kwargs[key]).lower())
         else:
-            args.append(kwargs[key])
+            args.append(str(kwargs[key]))
     if settings.should_parallelize_ahk():
         sp.Popen(args)
     else:
