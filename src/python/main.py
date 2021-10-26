@@ -127,10 +127,8 @@ def main_loop(sc):
     # Handle booting instances
     for inst in queues.get_booting_instances():
         if settings.should_auto_launch():
-            old_pid = inst.pid
-            if old_pid == -1:
-                inst.assign_pid(queues.get_all_instances())
             if inst.is_done_booting():
+                inst.assign_pid(queues.get_all_instances())
                 inst.initialize_after_boot()
 
     if not settings.should_auto_launch():
