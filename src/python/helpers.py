@@ -21,9 +21,12 @@ def get_pids():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return list(inst for inst in queues.get_all_instances() if inst.pid != -1)
     all_pids = []
+    print('get all pids')
     for process in wmi.WMI().Win32_Process():
+        print('name {} pid {}'.format(process.Name, process.ProcessId))
         if 'java' in process.Name.lower():
             all_pids.append(process.ProcessId)
+    print('-------')
     return all_pids
 
 def is_livesplit_open():
