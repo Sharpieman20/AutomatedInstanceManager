@@ -276,8 +276,9 @@ class Instance(ConditionalTransitionable):
         for world in (self.mcdir / "saves").iterdir():
             world_time = world.stat().st_mtime
             if world_time > max_time:
-                max_time = world_time
-                self.current_world = world
+                if world.is_dir() and not (world / 'icon.png').exists():
+                    max_time = world_time
+                    self.current_world = world
         return self.current_world
 
     def is_in_world(self):
