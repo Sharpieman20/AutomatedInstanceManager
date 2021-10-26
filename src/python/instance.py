@@ -87,6 +87,10 @@ class Suspendable(Process):
 
 class Stateful(Suspendable):
 
+    def mark_preboot(self):
+        assign_to_state(self, State.PREBOOT)
+        self.timestamp = get_time()
+
     def mark_booting(self):
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
@@ -100,8 +104,14 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
     
     def mark_worldgen_finished(self):
-        if settings.should_auto_pause():
+        if self.first_reset and settings.should_settings_reset_first_world():
+            self.first_reset = False
+            self.settings_reset()
+            self.mark_generating()
+            self.timestamp += settings.get_settings_reset_delay()
+        elif settings.should_auto_pause():
             assign_to_state(self, State.PAUSED)
+            self.pause()
         else:
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
@@ -175,22 +185,38 @@ class DisplayStateful(Stateful):
 # TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(DisplayStateful):
 
-    def is_ready_for_freeze(self):
-        duration = settings.get_load_chunk_time()
-        return hlp.has_passed(self.timestamp, duration)
-
     def is_done_unfreezing(self):
         duration = settings.get_freeze_delay()
         return hlp.has_passed(self.timestamp, duration)
 
-    def is_ready_for_unfreeze(self):
-        duration = settings.get_unfreeze_delay()
+    def is_done_freezing(self):
+        duration = settings.get_freeze_delay()
         return hlp.has_passed(self.timestamp, duration)
+
+    def is_ready_for_unfreeze(self):
+        return is_done_freezing()
+    
+    def is_ready_for_freeze(self):
+        if self.state == State.PAUSED:
+            duration = settings.get_load_chunk_time()
+            return hlp.has_passed(self.timestamp, duration)
+        return is_done_unfreezing()
     
     def is_done_booting(self):
         # TODO @Sharpieman20 - dynamically check if booted
-        duration = settings.get_boot_delay()
-        return hlp.has_passed(self.timestamp, duration)
+        if not hlp.has_passed(self.timestamp, settings.get_unfreeze_delay()):
+            return False
+        if not hlp.has_passed(self.timestamp, settings.get_boot_delay()):
+            return False
+        log_file = self.mcdir / 'latest.log'
+        if not log_file.exists():
+            return False
+        mod_time = log_file.stat().st_mtime
+        if mod_time < self.timestamp:
+            return False
+        if not hlp.has_passed(mod_time, settings.get_boot_delay()):
+            return False
+        return True
 
     def check_should_auto_reset(self):
         if self.state == State.UNPAUSED:
@@ -231,7 +257,7 @@ class Instance(ConditionalTransitionable):
         self.is_always_on_top = False
         self.forceResumed = False
     
-    def boot(self):
+    def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
         launch_instance(self)
         
@@ -248,18 +274,18 @@ class Instance(ConditionalTransitionable):
         # assign our pid somehow
         # start generating world w/ duncan mod
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
-        # set state to generating
-        self.mark_generating()
-        self.first_reset = False
 
     def reset_active(self):
         if self.is_active():
             self.pause()
             self.mark_inactive()
+    
+    def settings_reset(self):
+        hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
 
     def reset(self):
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
-            hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
+            self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
             self.initialize_after_boot()
         else:

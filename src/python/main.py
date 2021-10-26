@@ -125,9 +125,12 @@ def main_loop(sc):
 
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_launching_instances()) + len(queues.get_pregen_instances())
     num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
+
+    num_to_launch = min(1, 1-len(queues.get_launching_instances()))
     
     if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
         num_working_instances += 1
+        num_to_launch = 0
     
     # instead of adding unfrozen queue size to num working, we should add min(unfrozen queue size, num_ready + num_approved)
     num_working_instances += min(unfrozen_queue_size, len(queues.get_ready_instances()) + len(queues.get_approved_instances()))
@@ -143,6 +146,7 @@ def main_loop(sc):
 
     if not settings.should_auto_launch():
         num_to_boot = len(queues.get_dead_instances())
+        num_to_launch = len(queues.get_dead_instances())
 
     if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():
         last_log_time = time.time()
@@ -166,8 +170,8 @@ def main_loop(sc):
     for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
-            inst.mark_booting()
-            inst.boot()
+            inst.mark_launching()
+            inst.launch()
             num_booting_instances += 1
             num_working_instances += 1
             break
@@ -175,7 +179,7 @@ def main_loop(sc):
             old_pid = inst.pid
             inst.assign_pid(queues.get_all_instances())
             if inst.pid != old_pid:
-                inst.mark_booting()
+                inst.mark_launching()
             break
     
     # Handle launching instances
@@ -192,23 +196,21 @@ def main_loop(sc):
     for inst in queues.get_preboot_instances():
         # check if it's not frozen
             # if so, throw error
-        # check if it's been at least X time since it got frozen
-            # if not, continue
-        # check if less than num_to_boot
-            # if so, unfreeze
-            # set timestamp
-            # mark booting
+        if not inst.is_ready_for_unfreeze():
+            continue
+        if num_booting_instances < num_to_boot:
+            inst.mark_booting()
+            inst.resume()
+            num_booting_instances += 1
 
     # Handle booting instances
     for inst in queues.get_booting_instances():
         # check if it's been at least X time since its timestamp
+            # why do we need this again
             # if not, continue
-        # check if latest.log file exists
-            # if not, continue
-        # check if latest.log mod time is > timestamp
-            # if not, continue
-        # check if latestl.log mod time is < cur_time - boot-delay
-            # if not, continue
+        if not inst.is_done_booting():
+            continue
+        inst.mark_mainmenu()
         # mark as main menu
         # don't update timestamp
 
@@ -232,6 +234,8 @@ def main_loop(sc):
     for inst in queues.get_mainmenu_instances():
         # exact same as pregen
         # except we call different reset function
+        inst.mark_generating()
+        inst.reset_settings()
 
     # Handle pregen instances (recently unfrozen worlds that need to be generated)
     for inst in queues.get_pregen_instances():
@@ -241,6 +245,7 @@ def main_loop(sc):
         if num_working_instances > max_concurrent:
             # strictly greater than because it means we've surpassed the cap
             # ideally we shouldn't enter this if. this is a safeguard.
+            # it can maybe happen due to us using this fact about pregen being optimistic
             inst.suspend()
             inst.release()
             continue
@@ -269,8 +274,6 @@ def main_loop(sc):
         # TODO - why do we need to pause after creating a world? shouldnt it auto-pause?
         if not inst.is_primary():
             inst.mark_worldgen_finished()
-            if settings.should_auto_pause():
-                inst.pause()
         else:
             inst.mark_active()
 
