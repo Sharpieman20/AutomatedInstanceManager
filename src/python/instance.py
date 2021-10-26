@@ -57,7 +57,8 @@ class Process:
                 if instance.pid == pid:
                     pid_maps_to_instance = True
             if not pid_maps_to_instance:
-                self.pid = pid
+                if pid > self.pid:
+                    self.pid = pid
 
 class Suspendable(Process):
     def suspend(self):
