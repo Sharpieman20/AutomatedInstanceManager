@@ -348,7 +348,7 @@ def handle_manual_launch_inner(sc):
     global done_with_all_manual_launch_batches
     global manual_launch_index
     start_ind = manual_launch_index*settings.get_manual_launch_batch_size()+1
-    end_ind = min(settings.get_num_instances(),(index+1)*settings.get_manual_launch_batch_size())
+    end_ind = min(settings.get_num_instances(),(manual_launch_index+1)*settings.get_manual_launch_batch_size())
     if start_ind >= end_ind:
         done_with_all_manual_launch_batches = True
         return
