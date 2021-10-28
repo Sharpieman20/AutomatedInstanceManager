@@ -138,9 +138,9 @@ class DisplayStateful(Stateful):
             obs.hide_focused(self)
         elif self.displayState == DisplayState.PRIMARY:
             obs.hide_primary(self)
+            hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize())
+            self.is_always_on_top = False
         self.displayState = DisplayState.HIDDEN
-        hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize())
-        self.is_always_on_top = False
     
     def mark_focused(self):
         obs.show_focused(self)
