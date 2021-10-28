@@ -97,9 +97,9 @@ def set_new_primary(inst):
             global focused_instance
             focused_instance = None
         set_primary_instance(inst)
-        primary_instance.mark_primary(len(queues.get_dead_instances()) > 0)
         if primary_instance.is_ready():
             primary_instance.mark_active()
+        primary_instance.mark_primary(len(queues.get_dead_instances()) > 0)
         primary_instance.resume()
         # TODO @Specnr: Update ls user config (is this still needed?)
         # TODO @Specnr: Change sound source on stream maybe?
