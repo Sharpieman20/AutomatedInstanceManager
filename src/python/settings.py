@@ -150,3 +150,6 @@ def should_maximize():
 
 def get_max_time_before_auto_reset():
     return settings['max-time-before-auto-reset']
+
+def should_auto_unpause():
+    return settings['auto-unpause']
