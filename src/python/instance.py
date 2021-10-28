@@ -117,6 +117,7 @@ class Stateful(Suspendable):
 
     def mark_ready(self):
         assign_to_state(self, State.READY)
+        self.timestamp = get_time()
 
     def mark_approved(self):
         assign_to_state(self, State.APPROVED)
