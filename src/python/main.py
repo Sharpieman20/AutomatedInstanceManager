@@ -76,10 +76,13 @@ def main_loop(sc):
     if len(queues.get_dead_instances()) > 0:
         unfrozen_queue_size = 0
 
-    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
+    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
     
     if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
         num_working_instances += 1
+    
+    # instead of adding unfrozen queue size to num working, we should add min(unfrozen queue size, num_ready + num_approved)
+    num_working_instances += min(unfrozen_queue_size, len(queues.get_ready_instances()) + len(queues.get_approved_instances()))
     
     num_booting_instances = len(queues.get_booting_instances())
 
@@ -190,6 +193,8 @@ def main_loop(sc):
     for inst in queues.get_unpaused_instances():
         if inst.check_should_auto_reset():
             continue
+    
+    total_to_unfreeze = unfrozen_queue_size - len(queues.get_approved_instances())
 
     # Handle paused instances
     for inst in queues.get_paused_instances():
@@ -201,12 +206,11 @@ def main_loop(sc):
             continue
             # state = READY
         inst.mark_ready()
-        inst.suspend()
 
     # Handle ready instances (paused instances on a world we haven't evaluated yet. may or may not be frozen)
     index = 0
     # make sure we prioritize having approved worlds unfrozen since they will become active before us
-    total_to_unfreeze = unfrozen_queue_size - len(queues.get_approved_instances())
+
     for inst in queues.get_ready_instances():
         index += 1
         if inst.check_should_auto_reset():
