@@ -39,7 +39,7 @@ def try_set_focused(new_focused_instance):
     primary_instance = obs.get_primary_instance()
     focused_instance = obs.get_focused_instance()
     if primary_instance is not None and new_focused_instance is not None:
-        if not focused_instance.is_ready() and new_focused_instance.num != focused_instance.num and new_focused_instance.num != primary_instance.num:
+        if focused_instance is None or (not focused_instance.is_ready() and new_focused_instance.num != focused_instance.num and new_focused_instance.num != primary_instance.num):
             obs.set_new_focused(new_focused_instance)
 
 def assure_globals():
@@ -111,6 +111,39 @@ def main_loop(sc):
         print(f'DisplayState.PRIMARY {obs.get_primary_instance()}')
         print(num_to_boot)
         print('---------------')
+
+    # Pick primary instance
+    primary_instance = obs.get_primary_instance()
+    focused_instance = obs.get_focused_instance()
+    if primary_instance is None:
+        # only needed for initialization, so let's just show nothing until a world is ready
+        if len(queues.get_gen_instances()) > 0:
+            obs.set_new_primary(queues.get_gen_instances()[0])
+            need_to_reset_timer = True
+    elif not primary_instance.is_active():
+        new_primary_instance = None
+        if len(queues.get_approved_instances()) > 0:
+            new_primary_instance = queues.get_approved_instances()[0]
+        elif len(queues.get_ready_instances()) > 0:
+            new_primary_instance = queues.get_ready_instances()[0]
+        elif len(queues.get_paused_instances()) > 0:
+            new_primary_instance = queues.get_paused_instances()[0]
+        elif len(queues.get_gen_instances()) > 0:
+            new_primary_instance = queues.get_gen_instances()[0]
+        try_set_primary(new_primary_instance)
+        need_to_reset_timer = True
+
+    # Pick focused instance
+    if focused_instance is None:
+        new_focused_instance = None
+        if len(queues.get_ready_instances()) > 0:
+            new_focused_instance = queues.get_ready_instances()[0]
+        elif not settings.only_focus_ready():
+            if len(queues.get_paused_instances()) > 0:
+                new_focused_instance = queues.get_paused_instances()[0]
+            elif len(queues.get_gen_instances()) > 0:
+                new_focused_instance = queues.get_gen_instances()[0]
+        try_set_focused(new_focused_instance)
 
     # Handle dead instances
     for i in range(num_to_boot):
@@ -239,46 +272,7 @@ def main_loop(sc):
             inst.mark_active()
             continue
         inst.suspend()
-    
-    # Pick primary instance
-    primary_instance = obs.get_primary_instance()
-    focused_instance = obs.get_focused_instance()
-    if primary_instance is None:
-        # only needed for initialization, so let's just show nothing until a world is ready
-        if len(queues.get_gen_instances()) > 0:
-            obs.set_new_primary(queues.get_gen_instances()[0])
-            need_to_reset_timer = True
-    elif not primary_instance.is_active():
-        new_primary_instance = None
-        if len(queues.get_approved_instances()) > 0:
-            new_primary_instance = queues.get_approved_instances()[0]
-        elif len(queues.get_ready_instances()) > 0:
-            new_primary_instance = queues.get_ready_instances()[0]
-        elif len(queues.get_paused_instances()) > 0:
-            new_primary_instance = queues.get_paused_instances()[0]
-        elif len(queues.get_gen_instances()) > 0:
-            new_primary_instance = queues.get_gen_instances()[0]
-        try_set_primary(new_primary_instance)
-        need_to_reset_timer = True
 
-    # Pick focused instance
-    if focused_instance is None:
-        # only needed for initialization, so let's just show nothing until a world is ready
-        if len(queues.get_gen_instances()) > 0 and primary_instance is not None:
-            # we don't want an instance to be both focused and primary
-            focused_instance = queues.get_gen_instances()[0]
-            if not focused_instance.is_primary():
-                obs.set_new_focused(focused_instance)
-    else:
-        new_focused_instance = None
-        if len(queues.get_ready_instances()) > 0:
-            new_focused_instance = queues.get_ready_instances()[0]
-        elif not settings.only_focus_ready():
-            if len(queues.get_paused_instances()) > 0:
-                new_focused_instance = queues.get_paused_instances()[0]
-            elif len(queues.get_gen_instances()) > 0:
-                new_focused_instance = queues.get_gen_instances()[0]
-        try_set_focused(new_focused_instance)
 
     schedule_next(sc)
 

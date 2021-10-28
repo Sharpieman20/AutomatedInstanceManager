@@ -161,6 +161,9 @@ class DisplayStateful(Stateful):
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
 
+    def is_focused(self):
+        return self.displayState == DisplayState.FOCUSED
+
 # TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(DisplayStateful):
 

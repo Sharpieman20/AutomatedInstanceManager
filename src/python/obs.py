@@ -93,6 +93,9 @@ def set_new_primary(inst):
         global primary_instance
         if primary_instance is not None:
             primary_instance.mark_hidden()
+        if inst.is_focused():
+            global focused_instance
+            focused_instance = None
         set_primary_instance(inst)
         primary_instance.mark_primary(len(queues.get_dead_instances()) > 0)
         if primary_instance.is_ready():
