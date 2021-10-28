@@ -94,7 +94,7 @@ def set_new_primary(inst):
         if primary_instance is not None:
             primary_instance.mark_hidden()
         set_primary_instance(inst)
-        primary_instance.mark_primary()
+        primary_instance.mark_primary(len(queues.get_dead_instances()) > 0)
         if primary_instance.is_ready():
             primary_instance.mark_active()
         primary_instance.resume()

@@ -139,17 +139,21 @@ class DisplayStateful(Stateful):
         elif self.displayState == DisplayState.PRIMARY:
             obs.hide_primary(self)
         self.displayState = DisplayState.HIDDEN
+        hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize())
+        self.is_always_on_top = False
     
     def mark_focused(self):
         obs.show_focused(self)
         self.displayState = DisplayState.FOCUSED
 
-    def mark_primary(self):
+    def mark_primary(self, stayOnTop=False):
         obs.show_primary(self)
-        hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize())
+
+        hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop)
         # if settings.is_fullscreen_enabled():
         #     hlp.run_ahk("toggleFullscreen", pid=self.pid)
         self.displayState = DisplayState.PRIMARY
+        self.is_always_on_top = stayOnTop
 
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
@@ -210,6 +214,7 @@ class Instance(ConditionalTransitionable):
         self.name = '{}{}'.format(settings.get_base_instance_name(), self.num)
         self.mcdir = settings.get_multimc_path().parent / "instances" / self.name / ".minecraft"
         self.current_world = None
+        self.is_always_on_top = False
     
     def boot(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
