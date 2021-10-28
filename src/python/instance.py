@@ -128,8 +128,7 @@ class Stateful(Suspendable):
 
     def mark_inactive(self):
         # add to free
-        self.mark_free()
-        self.timestamp = get_time()
+        self.mark_pregen()
 
 class DisplayStateful(Stateful):
 
