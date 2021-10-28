@@ -73,9 +73,6 @@ def main_loop(sc):
 
     unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
-    if len(queues.get_dead_instances()) > 0:
-        unfrozen_queue_size = 0
-
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_booting_instances()) + len(queues.get_pregen_instances()) + len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
     
     if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
