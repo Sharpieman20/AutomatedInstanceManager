@@ -89,6 +89,7 @@ class Stateful(Suspendable):
     
     def mark_pregen(self):
         assign_to_state(self, State.PREGEN)
+        self.timestamp = get_time()
     
     def mark_generating(self):
         assign_to_state(self, State.GEN)
@@ -131,8 +132,8 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
 
     def mark_inactive(self):
-        # add to free
-        self.mark_pregen()
+        # add to pregen w/o setting timestamp
+        assign_to_state(self, State.PREGEN)
 
 class DisplayStateful(Stateful):
 
