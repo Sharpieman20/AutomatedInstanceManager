@@ -62,7 +62,7 @@ class Process:
 
 class Suspendable(Process):
     def suspend(self):
-        if self.is_suspended():
+        if self.is_suspended() or self.forceResumed:
             return
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
@@ -71,6 +71,9 @@ class Suspendable(Process):
         if not force and not self.is_suspended():
             return
         self.suspended = False
+        if not self.forceResumed:
+            self.forceResumed = True
+        
         hlp.run_ahk("resumeInstance", pid=self.pid)
 
     def is_suspended(self):
@@ -147,7 +150,6 @@ class DisplayStateful(Stateful):
 
     def mark_primary(self, stayOnTop=False):
         obs.show_primary(self)
-
         shouldAutoUnpause = settings.should_auto_unpause() and self.is_active()
 
         hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause)
@@ -216,6 +218,7 @@ class Instance(ConditionalTransitionable):
         self.mcdir = settings.get_multimc_path().parent / "instances" / self.name / ".minecraft"
         self.current_world = None
         self.is_always_on_top = False
+        self.forceResumed = False
     
     def boot(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
