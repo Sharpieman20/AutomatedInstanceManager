@@ -153,3 +153,6 @@ def get_max_time_before_auto_reset():
 
 def should_auto_unpause():
     return settings['auto-unpause']
+
+def get_maximize_delay():
+    return settings['maximize-delay']
