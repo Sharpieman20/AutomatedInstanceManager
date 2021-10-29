@@ -1,7 +1,7 @@
 
 from pathlib import Path
 import subprocess as sp
-import sys, os, shlex
+import sys, os, shlex, urllib
 
 os.chdir(Path(__file__).parent.resolve())
 
