@@ -49,6 +49,7 @@
     "should-maximize": true,
     "auto-unpause": true,
     "parallelize-ahk": false,
+    "use-switching-daemon": false,
     "borderless": false
 }
 

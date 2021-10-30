@@ -156,3 +156,7 @@ def should_auto_unpause():
 
 def get_maximize_delay():
     return settings['maximize-delay']
+
+def use_switching_daemon():
+    return settings['use-switching-daemon']
+
