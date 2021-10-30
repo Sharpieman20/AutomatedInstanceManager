@@ -17,7 +17,7 @@ import requests
 import subprocess as sp
 import shlex
 
-IS_BETA = False
+IS_BETA = True
 
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
