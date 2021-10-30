@@ -160,3 +160,5 @@ def get_maximize_delay():
 def use_switching_daemon():
     return settings['use-switching-daemon']
 
+def should_use_beta():
+    return settings['use-beta']

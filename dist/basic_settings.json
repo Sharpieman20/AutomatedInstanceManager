@@ -13,6 +13,7 @@
     "max-concurrent": 2,
     "fullscreen": false,
     "borderless": false,
-    "auto-launch": true
+    "auto-launch": true,
+    "use-beta": false
 }
 

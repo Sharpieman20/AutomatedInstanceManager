@@ -13,6 +13,9 @@ import launch
 import obs
 import sys
 import traceback
+import requests
+
+IS_BETA = False
 
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
@@ -351,11 +354,31 @@ def handle_manual_launch_inner(sc):
     print("Manually open instances {} through {}. Then press '{}' once they've finished launching.".format(start_ind, end_ind, settings.get_hotkeys()['manual-launch-completed']))
     SCHEDULER.enter(settings.get_loop_delay(), 1, handle_manual_launch_inner, (sc,))
 
-
 def handle_manual_launch(sc):
     global done_with_manual_launch_batch
     done_with_manual_launch_batch = True
     handle_manual_launch_inner(sc)
+
+def download_branch(branch):
+    installer_file = Path.cwd() / "run_aim.py"
+    if installer_file.exists():
+        installer_file.unlink()
+    installer_file_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/{}/run_aim.py'.format(branch)
+    r = requests.get(installer_file_url, allow_redirects=True)
+    installer_file.touch()
+    open(installer_file.name, 'w').write(r.text)
+
+def try_download_regular():
+    global IS_BETA
+    if not IS_BETA:
+        return
+    download_branch('main')
+
+def try_download_beta():
+    global IS_BETA
+    if IS_BETA:
+        return
+    download_branch('beta')
 
 assure_globals()
 
@@ -363,6 +386,10 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
     # TODO @Sharpieman20 - add error messages explaining
     try:
+        if settings.should_use_beta():
+            try_download_beta()
+        else:
+            try_download_regular()
         assert settings.get_unfrozen_queue_size() < max_concurrent
         launch.launch_all_programs()
         input("Press any key to continue...")
