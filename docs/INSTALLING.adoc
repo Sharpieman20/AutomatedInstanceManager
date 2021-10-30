@@ -1,0 +1,42 @@
+:hardbreaks:
+:nofooter:
+
+== Prerequisites
+
+It's assumed you are running Windows 8/10, and you have Python 3 and AHK installed.
+
+MultiMC is required, and OBS is strongly recommended. Internet connection is also required.
+
+== Instance setup
+
+Create an instance in MultiMC called "1.16INST", and set it as your first instance in MultiMC.
+
+Configure it with all of the mods/resource packs/maps that you want.
+
+Then duplicate it until you have as many instances as you want to play with, with the name scheme "1.16INST1", "1.16INST2", "1.16INST3", etc.
+
+== OBS Setup
+
+OBS Websocket is required for having the macro manage your OBS environment. You can install it link:https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/[here].
+
+You want to set the port to 4444, and the password to "password".
+
+Once this is done, you want to create an OBS Source for each instance. They should have the following name scheme:
+
+- active1
+- active2
+- active3
+- ...
+- activeN
+
+== Starting the macro
+
+When you're ready to use the macro, link:https://github.com/Sharpieman20/AutomatedInstanceManager/releases/download/v1.0.0/run_aim.py[click here] to download run_aim.py, or get it from the link:https://github.com/Sharpieman20/AutomatedInstanceManager/releases[releases tab].
+
+After this, you'll need to set your settings in my_settings.json.
+
+Change "multi-mc-path" to be the location of your MultiMC executable, and you should be good to go.
+
+Simply right click on run_aim.py, select "Open With Python", and the macro will start up.
+
+For more advanced configuration, see link:SETTINGS.adoc[our settings guide].

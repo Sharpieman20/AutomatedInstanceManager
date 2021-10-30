@@ -1,0 +1,28 @@
+:nofooter:
+:hardbreaks:
+# Automated Instance Manager - AIM
+
+AIM is a comprehensive Minecraft Speedrunning Multi-Instance environment.
+
+It's first and foremost a reset macro, but it has other tools built into it as well, such as an OBS setup tool, automatic launching of specified programs, and more.
+
+The concept AIM is built around is the idea of capping the number of instances that are allowed to be running at any given time, allowing runners to play with far more instances than they're capable of having running simulatenously.
+
+For more details on AIM, please read link:docs/ABOUT.adoc[the about page].
+
+## Credit
+
+##### Development
+- Sharpieman20
+- Specnr
+
+
+##### Testing
+- Pncakespoon
+- SpeedNintendo
+- Silverr
+
+## Installation
+
+Please read the installation guide link:docs/INSTALLING.adoc[available here].
+If you have any questions, reach out to one of our testers over Discord.

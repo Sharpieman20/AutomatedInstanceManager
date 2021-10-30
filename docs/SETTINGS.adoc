@@ -1,0 +1,29 @@
+:hardbreaks:
+:nofooter:
+
+== Basic settings
+
+==== **IMPORTANT** - ONLY EDIT "my_settings.json". DO NOT EDIT "settings.json".
+
+If there are fields in settings.json you wish to edit, copy them into my_settings.json and then change them!
+
+=== Hotkeys
+
+The main hotkeys you'll probably want to change are "reset-active" and "toggle-hotkeys".
+reset-active is your main reset key, and toggle-hotkeys will enable/disable all your hotkeys.
+
+=== Configuration
+
+Set "num-instances" to the number of instances you want to use, and "max-concurrent" to the number of instances you want to have open simultaneously.
+
+Increasing num-instances should NOT increase lag! Any number of instances should work as long as you set them up in MultiMC and OBS.
+
+max-concurrent WILL increase lag. You should set it based on how many instances you can run using traditional multi, i.e. if you can do 4 instance multi, set it to 4. With wall, you probably want to set it to some amount less than you use.
+
+If you notice lag during runs, turn down max-concurrent. If you keep dropping max-concurrent and still see lag issues, reach out to one of our testers.
+
+=== Launch parameters
+
+Currently, AIM only supports up to 5 instances in auto launch mode. To disable auto launch mode, change "auto-launch" to false.
+
+In manual launch mode, you will be prompted to open certain instances in the terminal. Follow the prompt, then once all instances have been opened and you completed the last prompt, your session will automatically begin.

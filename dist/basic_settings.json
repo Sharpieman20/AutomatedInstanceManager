@@ -8,9 +8,11 @@
         "background-pause": "T",
         "unfreeze-all": "O"
     },
-    "multi-mc-path":  "C:/Users/thoma/OneDrive/Desktop/MultiMC/MultiMC.exe",
+    "multi-mc-path":  "C:/Users/TestUser/Applications/MultiMC/MultiMC.exe",
     "num-instances": 3,
     "max-concurrent": 2,
-    "fullscreen": false
+    "fullscreen": false,
+    "borderless": false,
+    "auto-launch": true
 }
 
