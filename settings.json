@@ -50,6 +50,7 @@
     "auto-unpause": true,
     "parallelize-ahk": false,
     "use-switching-daemon": false,
-    "borderless": false
+    "borderless": false,
+    "use-beta": false
 }
 
