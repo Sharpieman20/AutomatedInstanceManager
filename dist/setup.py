@@ -20,7 +20,7 @@ src_dir = Path.cwd() / 'src'
 if src_dir.exists():
     shutil.rmtree(Path.cwd() / 'src')
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/dist/release.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
  
@@ -35,6 +35,7 @@ with zipfile.ZipFile('release.zip', 'r') as zip_ref:
 
 os.remove('release.zip')
 
+<<<<<<< HEAD
 wheel_urls = []
 
 wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
@@ -52,7 +53,11 @@ defaults_dir = Path.cwd() / 'defaults'
 if defaults_dir.exists():
     shutil.rmtree(Path.cwd() / 'defaults')
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
+=======
+
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
+>>>>>>> Update dist file branch targets
 r = requests.get(settings_url, allow_redirects=True)
 
 defaults_dir.mkdir()
@@ -63,7 +68,8 @@ settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/dist/basic_settings.json'
+
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = Path('my_settings.json')

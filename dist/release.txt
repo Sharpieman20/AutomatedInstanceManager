@@ -1,1 +1,1 @@
-https://github.com/Sharpieman20/AutomatedInstanceManager/blob/main/build/release.zip?raw=true
+https://github.com/Sharpieman20/AutomatedInstanceManager/blob/beta/build/release.zip?raw=true
