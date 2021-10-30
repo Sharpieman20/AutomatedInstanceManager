@@ -2,6 +2,7 @@
 from pathlib import Path
 import subprocess as sp
 import sys, os, shlex, urllib
+import urllib.request
 
 os.chdir(Path(__file__).parent.resolve())
 
