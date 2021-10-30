@@ -19,7 +19,7 @@ src_dir = Path.cwd() / 'src'
 if src_dir.exists():
     shutil.rmtree(Path.cwd() / 'src')
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/release.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/beta/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
  
@@ -34,7 +34,7 @@ with zipfile.ZipFile('release.zip', 'r') as zip_ref:
 
 os.remove('release.zip')
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/beta/settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 
@@ -46,7 +46,7 @@ settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/main/dist/basic_settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/MultiResetTinder/beta/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = Path('my_settings.json')
@@ -69,9 +69,9 @@ run_cmd('py -m pip install wheel')
 
 wheel_urls = []
 
-wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/websocket_client-1.2.1-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/beta/res/six-1.16.0-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/beta/res/websocket_client-1.2.1-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/beta/res/obs_websocket_py-0.5.3-py3-none-any.whl')
 # wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/psutil-5.8.0-cp39-cp39-win_amd64.whl')
 
 for url in wheel_urls:
