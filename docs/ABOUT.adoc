@@ -5,4 +5,4 @@
 
 AIM uses a state transition model to guarantee only a certain number of instances are running at any given time.
 
-More details coming soon, for now please read link:SETTINGS.adoc[our settings guide].
+More details coming soon, for now please read link:INSTALLING.adoc[our installation guide] on information of how to start using AIM, and out link:SETTINGS.adoc[our settings guide] for other information about it.
