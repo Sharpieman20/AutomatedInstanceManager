@@ -17,7 +17,10 @@ resource = urllib.request.urlopen(get_release_url)
 
 release_url = resource.read().decode(resource.headers.get_content_charset())
 
-r = requests.get(release_url, allow_redirects=True)
-open('setup.py', 'w').write(r.text)
+setup_fil_resource = urllib.request.urlopen(get_release_url)
+
+setup_content = setup_fil_resource.read().decode(setup_fil_resource.headers.get_content_charset())
+
+open('setup.py', 'w').write(setup_content)
 
 import setup
