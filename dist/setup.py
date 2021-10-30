@@ -53,6 +53,7 @@ defaults_dir = Path.cwd() / 'defaults'
 if defaults_dir.exists():
     shutil.rmtree(Path.cwd() / 'defaults')
 
+
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
 =======
 
@@ -67,7 +68,6 @@ if settings_json.exists():
 settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
-
 
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
