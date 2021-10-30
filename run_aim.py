@@ -17,7 +17,7 @@ resource = urllib.request.urlopen(get_release_url)
 
 release_url = resource.read().decode(resource.headers.get_content_charset())
 
-setup_fil_resource = urllib.request.urlopen(get_release_url)
+setup_fil_resource = urllib.request.urlopen(release_url)
 
 setup_content = setup_fil_resource.read().decode(setup_fil_resource.headers.get_content_charset())
 
