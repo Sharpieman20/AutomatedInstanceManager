@@ -10,6 +10,11 @@ The concept AIM is built around is the idea of capping the number of instances t
 
 For more details on AIM, please read link:docs/ABOUT.adoc[the about page].
 
+## Installation
+
+Please read the installation guide link:docs/INSTALLING.adoc[available here].
+If you have any questions, reach out to one of our testers over Discord.
+
 ## Credit
 
 ##### Development
@@ -21,8 +26,3 @@ For more details on AIM, please read link:docs/ABOUT.adoc[the about page].
 - Pncakespoon
 - SpeedNintendo
 - Silverr
-
-## Installation
-
-Please read the installation guide link:docs/INSTALLING.adoc[available here].
-If you have any questions, reach out to one of our testers over Discord.
