@@ -90,6 +90,7 @@ def get_indicator_item():
 def set_new_primary(inst):
     # print(inst)
     if inst is not None:
+        inst.mark_primary(len(queues.get_dead_instances()) > 0)
         global primary_instance
         primary_pid = -1
         if primary_instance is not None:
@@ -104,7 +105,6 @@ def set_new_primary(inst):
         set_primary_instance(inst)
         if primary_instance.is_ready():
             primary_instance.mark_active()
-        primary_instance.mark_primary(len(queues.get_dead_instances()) > 0)
         primary_instance.resume()
         # TODO @Specnr: Update ls user config (is this still needed?)
         # TODO @Specnr: Change sound source on stream maybe?
