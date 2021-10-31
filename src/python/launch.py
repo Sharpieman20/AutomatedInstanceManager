@@ -3,6 +3,7 @@ from copy import copy
 import subprocess as sp
 import shlex
 import os
+import helpers as hlp
 if not settings.is_test_mode():
     import wmi
 
@@ -40,3 +41,5 @@ def launch_all_programs():
     for program in all_programs:
         if not are_launched[program]:
             launch_funcs[program]()
+    if settings.use_switching_daemon():
+        hlp.run_ahk('windowSwitchingDaemon', switchDelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), autoUnpause=settings.should_auto_unpause(), playDelay=settings.get_unpause_delay(), pipeFileLocation=hlp.get_pipe_file_location(), loopDelay=settings.get_daemon_loop_delay())

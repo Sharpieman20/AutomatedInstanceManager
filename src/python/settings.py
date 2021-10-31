@@ -57,6 +57,9 @@ def should_use_tts():
 def get_loop_delay():
     return float(settings['loop-delay']) / 1000.0
 
+def get_daemon_loop_delay():
+    return int(settings['loop-delay'])
+
 def get_lines_from_bottom():
     return int(settings['lines-from-bottom'])
 
@@ -147,7 +150,6 @@ def get_manual_launch_batch_size():
 def should_maximize():
     return settings['should-maximize']
 
-
 def get_max_time_before_auto_reset():
     return settings['max-time-before-auto-reset']
 
@@ -162,3 +164,6 @@ def use_switching_daemon():
 
 def should_use_beta():
     return settings['use-beta']
+
+def get_unpause_delay():
+    return settings['auto-unpause-delay']

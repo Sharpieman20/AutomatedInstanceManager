@@ -73,3 +73,16 @@ def add_attempt():
             curr_attempts = int(f.read().strip())
     with open("attempts.txt", "w") as f:
         f.write(str(curr_attempts + 1))
+
+def get_pipe_file_location():
+    global didInitializePipe
+
+    if 'didInitializePipe' not in globals():
+        didInitializePipe = True
+        if pipe_file.exists():
+            pipe_file.unlink()
+
+    pipe_file = Path.cwd() / ".aim.daemonpipe"
+
+    return pipe_file
+

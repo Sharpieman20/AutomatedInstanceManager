@@ -1,13 +1,12 @@
 #Persistent
 
-oswitchDelay := A_Args[1]
+switchDelay := A_Args[1]
 borderless := A_Args[2]
 maximize := A_Args[3]
-keepOnTop := A_Args[4]
-autoUnpause := A_Args[5]
-playDelay := A_Args[6]
-pipeFileLocation := A_Args[7]
-loopDelay := A_Args[8]
+autoUnpause := A_Args[4]
+playDelay := A_Args[5]
+pipeFileLocation := A_Args[6]
+loopDelay := A_Args[7]
 
 oldInstance := -1
 newInstance := -1
@@ -15,6 +14,8 @@ newInstance := -1
 Loop
 {
     Sleep %loopDelay%
+    oldInstance := -1
+    newInstance := -1
     index := 0
     Loop, read, %pipeFileLocation%
 	{
@@ -22,8 +23,12 @@ Loop
             oldInstance := A_LoopReadLine
         else
             newInstance := A_LoopReadLine
+        index+=1
     }
     if (oldInstance != -1) {
+        file := FileOpen(%pipeFileLocation%, "w") 
+        file.write()
+        file.close()
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
             WinMaximize, ahk_pid %newInstance%

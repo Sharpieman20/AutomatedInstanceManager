@@ -142,7 +142,8 @@ class DisplayStateful(Stateful):
             obs.hide_focused(self)
         elif self.displayState == DisplayState.PRIMARY:
             obs.hide_primary(self)
-            hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize())
+            if not settings.use_switching_daemon():
+                hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize())
             self.is_always_on_top = False
         self.displayState = DisplayState.HIDDEN
     
@@ -154,7 +155,8 @@ class DisplayStateful(Stateful):
         obs.show_primary(self)
         shouldAutoUnpause = settings.should_auto_unpause() and self.is_active()
 
-        hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause)
+        if not settings.use_switching_daemon():
+            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause)
         # if settings.is_fullscreen_enabled():
         #     hlp.run_ahk("toggleFullscreen", pid=self.pid)
         self.displayState = DisplayState.PRIMARY

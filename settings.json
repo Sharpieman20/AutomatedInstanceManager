@@ -51,6 +51,7 @@
     "parallelize-ahk": false,
     "use-switching-daemon": false,
     "borderless": false,
-    "use-beta": false
+    "use-beta": false,
+    "auto-unpause-delay": 100.0
 }
 
