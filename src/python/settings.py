@@ -167,3 +167,9 @@ def should_use_beta():
 
 def get_unpause_delay():
     return settings['auto-unpause-delay']
+
+def get_old_worlds_directory():
+    return Path(settings['old-worlds'])
+
+def should_move_old_worlds():
+    return settings['move-old-worlds']

@@ -4,7 +4,6 @@ import helpers as hlp
 from helpers import get_time
 import os
 import shutil
-import uuid
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
@@ -19,6 +18,8 @@ def assign_to_state(instance, state):
     num_per_state[state] = num_per_state[state] + 1
     instance.state = state
     instance.priority = num_per_state[state]
+
+
 
 global_pid = 81461
 
@@ -271,12 +272,20 @@ class Instance(ConditionalTransitionable):
         if settings.is_test_mode():
             print("Moving worlds for instance {}".format(self.name))
             return
-        for dir_name in os.listdir(self.mcdir + "/saves"):
+        if not settings.should_move_old_worlds():
+            return
+        for world_dir in (self.mcdir / "saves").iterdir()i:
             # TODO - i think this should be like "Attempt #X" or something cuz of duncan mod
-            if dir_name.startswith("Attempt"):
+            if world_dir.name.startswith("Attempt"):
+                if world_dir.name == self.current_world.name:
+                    continue
+                global worldid
+                if 'worldid' not in globals():
+                    worldid = 1
+                while (old_worlds / "Attempt {}".format(worldid)).exists():
+                    worldid += 1
                 try:
-                    shutil.move(self.mcdir + "/saves/" + dir_name,
-                                old_worlds + f"/{uuid.uuid1()}")
+                    shutil.move(world_dir, (old_worlds / "Attempt {}".format(worldid)))
                 except:
                     continue
 
@@ -310,6 +319,8 @@ class Instance(ConditionalTransitionable):
 
         if cur_world is None:
             return False
+        
+        self.move_worlds()
 
         return (cur_world / "advancements").exists()
 

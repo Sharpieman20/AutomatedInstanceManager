@@ -52,6 +52,7 @@
     "use-switching-daemon": false,
     "borderless": false,
     "use-beta": false,
+    "move-old-worlds": false,
     "auto-unpause-delay": 100.0
 }
 
