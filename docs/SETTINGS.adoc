@@ -27,3 +27,9 @@ If you notice lag during runs, turn down max-concurrent. If you keep dropping ma
 Currently, AIM only supports up to 5 instances in auto launch mode. To disable auto launch mode, change "auto-launch" to false.
 
 In manual launch mode, you will be prompted to open certain instances in the terminal. Follow the prompt, then once all instances have been opened and you completed the last prompt, your session will automatically begin.
+
+=== Advanced settings
+
+There's a list of more advanced settings in settings.json. If you'd like to try changing them, copy the one you want to change into my_settings.json.
+
+Then, change the value to what you want, and make sure every line except the last settings line has a comma after it.
