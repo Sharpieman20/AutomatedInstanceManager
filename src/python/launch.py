@@ -13,14 +13,15 @@ def try_launch_instance(inst):
     # launch the instance that we have selected
     if len(queues.get_dead_instances()) == len(queues.get_all_instances()):
         hlp.run_ahk('selectFirstMultiMCInstance', blocking=True)
+        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=True)
     hlp.run_ahk('launchSelectedInstance', keydelay=settings.get_key_delay(),blocking=True)
     # select another instance for next time
     if not inst.has_directory():
         # ahk.createInstanceFromTemplate(blocking=True)
-        run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True,)
+        hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True,)
     else:
-        run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
-        run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=False)
+        hlp.run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
+        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=False)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
