@@ -173,3 +173,7 @@ def get_old_worlds_directory():
 
 def should_move_old_worlds():
     return settings['move-old-worlds']
+
+def check_for_crashes_delay():
+    return settings['check-for-crashes-delay']
+

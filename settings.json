@@ -27,6 +27,8 @@
     "boot-delay": 15.0,
     "key-delay": 20,
     "switch-delay": 100,
+    "auto-unpause-delay": 100.0,
+    "check-for-crashes-delay": 1.0,
     "chunk-load-time": 5.0,
     "max-unpaused-time": 2.0,
     "min-time-for-settings-reset": 999999.0,
@@ -52,7 +54,6 @@
     "use-switching-daemon": false,
     "borderless": false,
     "use-beta": false,
-    "move-old-worlds": false,
-    "auto-unpause-delay": 100.0
+    "move-old-worlds": false
 }
 
