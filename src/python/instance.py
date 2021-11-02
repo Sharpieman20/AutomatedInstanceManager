@@ -268,12 +268,13 @@ class Instance(ConditionalTransitionable):
         hlp.run_ahk("pauseGame", pid=self.pid, keydelay=settings.get_key_delay())
 
     # TODO - call this method somewhere
-    def move_worlds(self, old_worlds):
+    def move_worlds(self):
         if settings.is_test_mode():
             print("Moving worlds for instance {}".format(self.name))
             return
         if not settings.should_move_old_worlds():
             return
+        old_worlds = settings.get_old_worlds_directory()
         for world_dir in (self.mcdir / "saves").iterdir():
             # TODO - i think this should be like "Attempt #X" or something cuz of duncan mod
             if world_dir.name.startswith("Attempt"):
