@@ -274,7 +274,7 @@ class Instance(ConditionalTransitionable):
             return
         if not settings.should_move_old_worlds():
             return
-        for world_dir in (self.mcdir / "saves").iterdir()i:
+        for world_dir in (self.mcdir / "saves").iterdir():
             # TODO - i think this should be like "Attempt #X" or something cuz of duncan mod
             if world_dir.name.startswith("Attempt"):
                 if world_dir.name == self.current_world.name:

@@ -98,7 +98,7 @@ def set_new_primary(inst):
             primary_pid = primary_instance.pid
         if settings.use_switching_daemon():
             with open(hlp.get_pipe_file(), 'w') as fil:
-                fil.write('{}\n{}'.format(primary_pid, inst.pid)
+                fil.write('{}\n{}'.format(primary_pid, inst.pid))
         if inst.is_focused():
             global focused_instance
             focused_instance = None
