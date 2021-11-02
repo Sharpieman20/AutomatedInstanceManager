@@ -8,6 +8,8 @@ It's first and foremost a reset macro, but it has other tools built into it as w
 
 The concept AIM is built around is the idea of capping the number of instances that are allowed to be running at any given time, allowing runners to play with far more instances than they're capable of having running simulatenously.
 
+AIM is currently under active development, but it is already a feature-complete reset macro. More features are being added on a regular basis as well. If you'd like to get early access to these new features, try changing "use-beta" to true in your settings.
+
 For more details on AIM, please read link:docs/ABOUT.adoc[the about page].
 
 ## Installation
