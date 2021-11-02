@@ -30,14 +30,6 @@ def get_pids():
     print('-------')
     return all_pids
 
-def identify_crashed_instances():
-    all_pids = []
-    for process in wmi.WMI().Win32_Process():
-        all_pids.append(process.ProcessId)
-    for inst in queues.get_all_instances():
-        if inst.pid not in all_pids:
-            inst.mark_dead()
-
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return  

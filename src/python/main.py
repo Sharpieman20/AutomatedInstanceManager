@@ -65,10 +65,6 @@ def assure_globals():
         did_init_globals = True
         global manual_launch_index
         manual_launch_index = 0
-        global last_log_time
-        last_log_time = time.time()
-        global last_crash_check_time
-        last_crash_check_time = time.time()
 
 def schedule_next(sc):
     if not did_error:
@@ -77,11 +73,6 @@ def schedule_next(sc):
 def main_loop(sc):
     global need_to_reset_timer
     global last_log_time
-    global last_crash_check_time
-
-    if time.time() - last_crash_check_time > settings.check_for_crashes_delay():
-        last_crash_check_time = time.time()
-        hlp.identify_crashed_instances()
 
     queues.update_all()
 
@@ -283,6 +274,7 @@ def main_loop(sc):
             inst.mark_active()
             continue
         inst.suspend()
+
 
     schedule_next(sc)
 

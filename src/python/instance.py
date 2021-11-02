@@ -135,15 +135,6 @@ class Stateful(Suspendable):
     def mark_inactive(self):
         # add to pregen w/o setting timestamp
         assign_to_state(self, State.PREGEN)
-    
-    def mark_dead(self):
-        assign_to_state(self, State.DEAD)
-        self.pid = -1
-        self.suspended = False
-        self.first_reset = True
-        self.displayState = DisplayState.HIDDEN
-        self.was_active = False
-        self.timestamp = 0
 
 class DisplayStateful(Stateful):
 
