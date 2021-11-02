@@ -144,7 +144,7 @@ def main_loop(sc):
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_launching_instances()) + len(queues.get_pregen_instances())
     num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
 
-    num_to_launch = min(1, 1-len(queues.get_launching_instances()))
+    num_to_launch = min(1, max(0,1-len(queues.get_launching_instances())))
     
     if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
         num_working_instances += 1
@@ -165,6 +165,8 @@ def main_loop(sc):
     if not settings.should_auto_launch():
         num_to_boot = len(queues.get_dead_instances())
         num_to_launch = len(queues.get_dead_instances())
+    
+    num_to_launch = min(num_to_launch, len(queues.get_dead_instances()))
 
     if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():
         last_log_time = time.time()

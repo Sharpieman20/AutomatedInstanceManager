@@ -35,6 +35,8 @@ def get_pids():
 
 def identify_crashed_instances():
     all_pids = []
+    if settings.is_test_mode():
+        return
     for process in wmi.WMI().Win32_Process():
         all_pids.append(process.ProcessId)
     for inst in queues.get_all_instances():
