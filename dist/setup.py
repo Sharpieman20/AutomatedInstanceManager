@@ -1,6 +1,5 @@
 
 from pathlib import Path
-import requests
 import subprocess as sp
 import shlex
 import os
@@ -25,6 +24,8 @@ for url in wheel_urls:
     run_cmd('py -m pip install {}'.format(url))
 # run_cmd('py -m pip install res/')
 run_cmd('py -m pip install --only-binary :all: -r src/requirements.txt'.format(os.path.dirname(sys.executable)))
+
+import requests
 
 defaults_dir = Path.cwd() / 'defaults'
 
