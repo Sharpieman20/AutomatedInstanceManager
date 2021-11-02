@@ -79,7 +79,28 @@ def try_set_focused(new_focused_instance):
         if focused_instance is None or (not focused_instance.is_ready() and new_focused_instance.num != focused_instance.num and new_focused_instance.num != primary_instance.num):
             obs.set_new_focused(new_focused_instance)
 
-
+def assure_globals():
+    if 'did_init_globals' not in globals():
+        global did_error
+        did_error = False
+        global listening
+        listening = True
+        global is_first_check_manual_launch
+        is_first_check_manual_launch = True
+        global first_check_after_all_processes_started
+        first_check_after_all_processes_started = False
+        global done_with_manual_launch_batch
+        done_with_manual_launch_batch = False
+        global done_with_all_manual_launch_batches
+        done_with_all_manual_launch_batches = False
+        global did_init_globals
+        did_init_globals = True
+        global manual_launch_index
+        manual_launch_index = 0
+        global last_log_time
+        last_log_time = time.time()
+        global last_crash_check_time
+        last_crash_check_time = time.time()
 
 def schedule_next(sc):
     if not did_error:
@@ -88,6 +109,11 @@ def schedule_next(sc):
 def main_loop(sc):
     global need_to_reset_timer
     global last_log_time
+    global last_crash_check_time
+
+    if time.time() - last_crash_check_time > settings.check_for_crashes_delay():
+        last_crash_check_time = time.time()
+        hlp.identify_crashed_instances()
 
     hotkeys.process_hotkey_events()
 
@@ -347,15 +373,12 @@ def main_loop_wrapper(sc):
         traceback.print_exc(file=sys.stdout)
         time.sleep(5000)
 
-<<<<<<< HEAD
-=======
 # Callbacks
 def reset_primary():
     # TODO - add safeguard after X time in run
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None:
         primary_instance.reset_active()
->>>>>>> Improved auto boot pseudocode
 
 
 def handle_manual_launch_inner(sc):

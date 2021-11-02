@@ -28,6 +28,7 @@
     "boot-delay": 15.0,
     "key-delay": 20,
     "switch-delay": 300,
+    "check-for-crashes-delay": 10.0,
     "chunk-load-time": 5.0,
     "max-unpaused-time": 2.0,
     "min-time-for-settings-reset": 999999.0,

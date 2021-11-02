@@ -196,3 +196,5 @@ def get_window_title_template():
 
 def use_custom_background_ahk_process():
     return settings['run-custom-background-ahk-script']
+def check_for_crashes_delay():
+    return settings['check-for-crashes-delay']
