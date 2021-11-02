@@ -47,23 +47,10 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 max_concurrent = settings.get_max_concurrent()
 max_concurrent_boot = settings.get_max_concurrent_boot()
 
-
-
 unfreeze_delay = settings.get_unfreeze_delay()
 
 last_log_time = time.time()
 
-
-def try_launch_instance():
-    # let's make sure to not try and set primary until after this is over
-    # launch the instance that we have selected
-    ahk.launchSelectedInstance(blocking=True)
-    # select another instance for next time
-    if not next_launch_instancae.exists():
-        ahk.createInstanceFromTemplate(blocking=True)
-    else:
-        ahk.selectFirstMultiMCInstance(blocking=True)
-        ahk.selectMultiMCInstance(instance, blocking=False)
 
 # TODO @Sharpieman20 - fix this to be more like how queue states are handled
 def try_set_primary(new_primary_instance):

@@ -1,4 +1,5 @@
-#SingleInstance, Force
+keydelay := A_Args[1]
+
 SendMode Input
 CoordMode, Mouse, Screen
 SetKeyDelay, %keydelay%

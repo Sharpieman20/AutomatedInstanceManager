@@ -66,13 +66,16 @@ def run_ahk(script_name, **kwargs):
         print('running {} pid {} with ahk path {}'.format(script_name, kwargs['pid'], ahk_path))
     else:
         print('running {} with ahk path {}'.format(script_name, ahk_path))
+    should_block = False
+    if 'blocking' in kwargs:
+        should_block = kwargs['blocking']
     args = [ahk_path, "/force", "/ErrorStdOut", script_path.resolve().as_posix()]
     for key in kwargs:
         if isinstance(kwargs[key], bool):
             args.append('{}'.format(kwargs[key]).lower())
         else:
             args.append(str(kwargs[key]))
-    if settings.should_parallelize_ahk() or ('blocking' in kwargs and not kwargs['blocking']):
+    if settings.should_parallelize_ahk() and not should_block:
         sp.Popen(args)
     else:
         sp.call(args)

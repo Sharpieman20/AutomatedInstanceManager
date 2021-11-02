@@ -4,18 +4,35 @@ import subprocess as sp
 import shlex
 import os
 import helpers as hlp
+import queues
 if not settings.is_test_mode():
     import wmi
 
+def try_launch_instance(inst):
+    # let's make sure to not try and set primary until after this is over
+    # launch the instance that we have selected
+    if len(queues.get_dead_instances()) == len(queues.get_all_instances()):
+        hlp.run_ahk('selectFirstMultiMCInstance', blocking=True)
+    hlp.run_ahk('launchSelectedInstance', keydelay=settings.get_key_delay(),blocking=True)
+    # select another instance for next time
+    if not inst.has_directory():
+        # ahk.createInstanceFromTemplate(blocking=True)
+        run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True,)
+    else:
+        run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
+        run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=False)
+
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
+        return
+    if settings.get_num_instances() > 5:
+        try_launch_instance(inst)
         return
     # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
     instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
     return instance_process.pid
-    # return None
 
 def launch_obs():
     # TODO @Sharpieman20 - replace with something better
