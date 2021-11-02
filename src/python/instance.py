@@ -89,6 +89,9 @@ class Suspendable(Process):
 
 class Stateful(Suspendable):
 
+    def mark_launching(self):
+        assign_to_state(self, State.LAUNCHING)
+
     def mark_preboot(self):
         assign_to_state(self, State.PREBOOT)
         self.timestamp = get_time()
