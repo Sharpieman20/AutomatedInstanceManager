@@ -13,6 +13,7 @@ sleep, 50
 Send, {Click 580, 580} ; Click copy instance
 sleep, 50
 WinSet, AlwaysOnTop, Off, MultiMC
+sleep, 50
 WinSet, AlwaysOnTop, On, Copy Instance
 sleep, 50
 Send, %instname% ; Type instance name
