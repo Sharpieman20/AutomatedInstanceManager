@@ -27,12 +27,12 @@ def try_launch_instance(inst):
     inst_index = get_index_of_inst(inst)
     if len(queues.get_dead_instances()) == len(queues.get_all_instances()):
         hlp.run_ahk('selectFirstMultiMCInstance', blocking=True)
-        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst_index%4),downarrows=int(inst_index/4),blocking=True)
+        hlp.run_ahk('selectMultiMCInstance',downarrows=int(inst_index/4),rightarrows=(inst_index%4),blocking=True)
     hlp.run_ahk('launchSelectedInstance', keydelay=settings.get_key_delay(),blocking=True)
     # select another instance for next time
     if not inst.has_directory():
         # ahk.createInstanceFromTemplate(blocking=True)
-        hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True,)
+        hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
     else:
         hlp.run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
         hlp.run_ahk('selectMultiMCInstance',downarrows=int(inst_index/4),rightarrows=(inst_index%4),blocking=False)
