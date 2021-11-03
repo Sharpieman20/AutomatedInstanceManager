@@ -8,12 +8,26 @@ import queues
 if not settings.is_test_mode():
     import wmi
 
+def get_index_of_inst(inst):
+    all_inst_nums = []
+
+    for i in range(inst.num+1):
+        all_inst_nums.append(str(i))
+    
+    all_inst_nums.sort()
+
+    for i in range(len(all_inst_nums)):
+        if str(inst.num) == all_inst_nums[i]:
+            return i
+    return -1
+
 def try_launch_instance(inst):
     # let's make sure to not try and set primary until after this is over
     # launch the instance that we have selected
+    inst_index = get_index_of_inst(inst)
     if len(queues.get_dead_instances()) == len(queues.get_all_instances()):
         hlp.run_ahk('selectFirstMultiMCInstance', blocking=True)
-        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=True)
+        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst_index%4),downarrows=int(inst_index/4),blocking=True)
     hlp.run_ahk('launchSelectedInstance', keydelay=settings.get_key_delay(),blocking=True)
     # select another instance for next time
     if not inst.has_directory():
@@ -21,7 +35,7 @@ def try_launch_instance(inst):
         hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True,)
     else:
         hlp.run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
-        hlp.run_ahk('selectMultiMCInstance',rightarrows=(inst.num%4),downarrows=int(inst.num/4),blocking=False)
+        hlp.run_ahk('selectMultiMCInstance',downarrows=int(inst_index/4),rightarrows=(inst_index%4),blocking=False)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
