@@ -198,3 +198,6 @@ def use_custom_background_ahk_process():
     return settings['run-custom-background-ahk-script']
 def check_for_crashes_delay():
     return settings['check-for-crashes-delay']
+
+def should_auto_launch_multimc():
+    return False
