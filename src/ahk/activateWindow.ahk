@@ -4,9 +4,6 @@ borderless := A_Args[3]
 maximize := A_Args[4]
 keepOnTop := A_Args[5]
 autoUnpause := A_Args[6]
-if (%maximize%) {
-    WinMaximize, ahk_pid %pid%
-}
 WinSet, AlwaysOnTop, On, ahk_pid %pid%
 Sleep, %switchDelay%
 send {LButton}
@@ -20,4 +17,7 @@ if (%keepOnTop%) {
 }
 if (%borderless%) {
     WinSet, Style, -0xCF0000, ahk_pid %pid%
+}
+if (%maximize%) {
+    WinMaximize, ahk_pid %pid%
 }
