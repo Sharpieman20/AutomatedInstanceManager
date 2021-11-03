@@ -6,9 +6,9 @@ SetKeyDelay, %keydelay%
 
 Loop, %downarrows% {
   ControlSend,, {Down}, MultiMC
-  sleep, 50
+  sleep, 200
 }
 Loop, %rightarrows% {
   ControlSend,, {Right}, MultiMC
-  sleep, 50
+  sleep, 200
 }
