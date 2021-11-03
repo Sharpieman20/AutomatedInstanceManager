@@ -12,7 +12,8 @@ def get_index_of_inst(inst):
     all_inst_nums = []
 
     for i in range(inst.num+1):
-        all_inst_nums.append(str(i))
+        if i > 0:
+            all_inst_nums.append(str(i))
     
     all_inst_nums.sort()
 
