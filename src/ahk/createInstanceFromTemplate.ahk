@@ -10,9 +10,9 @@ WinSet, AlwaysOnTop, On, MultiMC
 sleep, 50
 WinMove, MultiMC,,0,0,640,640
 sleep, 50
-MouseMove, 580, 580, 0
+MouseMove, 620, 480, 0
 sleep, 2000
-Send, {Click 580, 580} ; Click copy instance
+Send, {Click 620, 480} ; Click copy instance
 sleep, 2000
 WinSet, AlwaysOnTop, Off, MultiMC
 sleep, 50
