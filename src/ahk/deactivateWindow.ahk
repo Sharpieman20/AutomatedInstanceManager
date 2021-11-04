@@ -5,7 +5,7 @@ if (%isMaximized%) {
     WinRestore, ahk_pid %pid%
 }
 if (%fullscreen%) {
-    send {F11}
+    ControlSend, ahk_parent, {Blind}{F11}, ahk_pid %pid%
     sleep, 400
 }
 WinSet, AlwaysOnTop, Off, ahk_pid %pid%
