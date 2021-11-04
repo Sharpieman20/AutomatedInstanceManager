@@ -108,8 +108,8 @@ def set_new_primary(inst):
         primary_instance.resume()
         # TODO @Specnr: Update ls user config (is this still needed?)
         # TODO @Specnr: Change sound source on stream maybe?
-        if settings.is_fullscreen_enabled():
-            hlp.run_ahk("toggleFullscreen", pid=primary_instance.pid)
+        # if settings.is_fullscreen_enabled():
+        #     hlp.run_ahk("toggleFullscreen", pid=primary_instance.pid)
 
 def set_new_focused(inst):
     global focused_instance

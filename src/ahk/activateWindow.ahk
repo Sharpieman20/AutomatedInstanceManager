@@ -4,6 +4,7 @@ borderless := A_Args[3]
 maximize := A_Args[4]
 keepOnTop := A_Args[5]
 autoUnpause := A_Args[6]
+fullscreen := A_Args[7]
 WinSet, AlwaysOnTop, On, ahk_pid %pid%
 Sleep, %switchDelay%
 send {LButton}
@@ -20,4 +21,8 @@ if (%borderless%) {
 }
 if (%maximize%) {
     WinMaximize, ahk_pid %pid%
+}
+if (%fullscreen%) {
+    ControlSend, ahk_parent, {Blind}{F11}, ahk_pid %pid%
+    sleep, 400
 }
