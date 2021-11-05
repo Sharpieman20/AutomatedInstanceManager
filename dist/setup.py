@@ -80,5 +80,6 @@ if custom_directory.exists():
 else:
     custom_directory.mkdir()
 
-run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
+cmd_to_run = 'py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable))
 
+sp.call(shlex.split(cmd), shell=True)
