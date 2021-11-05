@@ -35,12 +35,11 @@ with zipfile.ZipFile('release.zip', 'r') as zip_ref:
 
 os.remove('release.zip')
 
-<<<<<<< HEAD
 wheel_urls = []
 
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/websocket_client-1.2.1-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/six-1.16.0-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/websocket_client-1.2.1-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/obs_websocket_py-0.5.3-py3-none-any.whl')
 # wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/psutil-5.8.0-cp39-cp39-win_amd64.whl')
 
 for url in wheel_urls:
@@ -53,12 +52,7 @@ defaults_dir = Path.cwd() / 'defaults'
 if defaults_dir.exists():
     shutil.rmtree(Path.cwd() / 'defaults')
 
-
 settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
-=======
-
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
->>>>>>> Update dist file branch targets
 r = requests.get(settings_url, allow_redirects=True)
 
 defaults_dir.mkdir()
@@ -87,4 +81,3 @@ else:
     custom_directory.mkdir()
 
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
-
