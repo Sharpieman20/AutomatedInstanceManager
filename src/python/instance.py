@@ -8,6 +8,7 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from launch import launch_instance
+import random
 
 num_per_state = {}
 
@@ -64,7 +65,8 @@ class Process:
 class Suspendable(Process):
     def suspend(self):
         if self.is_suspended() or self.forceResumed:
-            return
+            if random.randint(0, 9) != 0:
+                return
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
