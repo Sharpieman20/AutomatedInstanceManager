@@ -44,7 +44,7 @@ def try_launch_instance(inst):
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return
-    if settings.get_num_instances() > 5:
+    if settings.get_num_instances() > 5 and settings.use_click_macro():
         try_launch_instance(inst)
         return
     # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')

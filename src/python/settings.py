@@ -201,3 +201,7 @@ def check_for_crashes_delay():
 
 def should_auto_launch_multimc():
     return False
+
+def use_click_macro():
+    return settings['use-click-macro']
+
