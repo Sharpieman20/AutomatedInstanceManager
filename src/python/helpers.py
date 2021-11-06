@@ -97,7 +97,7 @@ def increment_reset_counter():
 
     if not attempts_fil.exists():
         attempts_fil.touch()
-        attempts_fil.write_text('1')
+        attempts_fil.write_text('0')
 
     num_attempts = -1
     
@@ -108,6 +108,6 @@ def increment_reset_counter():
     attempts_fil.touch()
 
     with attempts_fil.open('w') as attempts_fil_opened:
-        attempts_fil_opened.write(str(num_attempts))
+        attempts_fil_opened.write(str(num_attempts+1))
 
 
