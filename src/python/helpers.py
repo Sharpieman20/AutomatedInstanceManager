@@ -79,12 +79,13 @@ def add_attempt():
 def get_pipe_file_location():
     global didInitializePipe
 
+    pipe_file = Path.cwd() / ".aim.daemonpipe"
+
     if 'didInitializePipe' not in globals():
         didInitializePipe = True
         if pipe_file.exists():
             pipe_file.unlink()
-
-    pipe_file = Path.cwd() / ".aim.daemonpipe"
+            pipe_file.touch()
 
     return pipe_file
 
