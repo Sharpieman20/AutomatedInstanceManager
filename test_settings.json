@@ -28,7 +28,7 @@
     "chunk-load-time": 5.0,
     "max-unpaused-time": 3.0,
     "min-time-for-settings-reset": 10.0,
-    "num-instances": 4,
+    "num-instances": 6,
     "max-concurrent": 3,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 1,

@@ -290,6 +290,7 @@ def main_loop_wrapper(sc):
 # Callbacks
 def reset_primary():
     primary_instance = obs.get_primary_instance()
+    print("ohohohohoho")
     if primary_instance is not None:
         primary_instance.reset_active()
 
@@ -320,7 +321,7 @@ def mark_manual_launch_batch_done():
     done_with_manual_launch_batch = True
 
 def unfreeze_all():
-    if not settings.is_beta():
+    if not settings.should_use_beta():
         return
     for inst in queues.get_all_instances():
         inst.resume(True)
