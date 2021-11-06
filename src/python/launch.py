@@ -22,6 +22,8 @@ def launch_obs():
     os.system(f'start /d "{settings.get_obs_path()}" "" obs64.exe')
 
 def launch_livesplit():
+    if not settings.get_livesplit_path().exists():
+        return
     os.startfile(settings.get_livesplit_path())
 
 def launch_multimc():
