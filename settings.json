@@ -18,7 +18,7 @@
         "background-debug": "Q",
         "background-pause": "T",
         "manual-launch-complete": "P",
-        "unfreeze-all": "O"
+        "unfreeze-all": "|"
     },
     "freeze-delay": 500,
     "unfreeze-delay": 500,
@@ -54,6 +54,7 @@
     "use-beta": false,
     "move-old-worlds": false,
     "use-reset-counter": true,
+    "randomly-retry-freezes": false,
     "auto-unpause-delay": 100.0
 }
 

@@ -6,7 +6,7 @@
         "toggle-hotkeys": "R",
         "background-debug": "Q",
         "background-pause": "T",
-        "unfreeze-all": "O"
+        "unfreeze-all": "|"
     },
     "multi-mc-path":  "C:/Users/TestUser/Applications/MultiMC/MultiMC.exe",
     "num-instances": 3,

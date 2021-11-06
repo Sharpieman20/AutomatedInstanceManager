@@ -176,3 +176,6 @@ def should_move_old_worlds():
 
 def use_reset_counter():
     return settings['use-reset-counter']
+
+def retry_freezes():
+    return settings['randomly-retry-freezes']

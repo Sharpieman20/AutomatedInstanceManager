@@ -320,6 +320,8 @@ def mark_manual_launch_batch_done():
     done_with_manual_launch_batch = True
 
 def unfreeze_all():
+    if not settings.is_beta():
+        return
     for inst in queues.get_all_instances():
         inst.resume(True)
         inst.mark_ready()
