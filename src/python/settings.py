@@ -173,3 +173,6 @@ def get_old_worlds_directory():
 
 def should_move_old_worlds():
     return settings['move-old-worlds']
+
+def use_reset_counter():
+    return settings['use-reset-counter']

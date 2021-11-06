@@ -53,6 +53,7 @@
     "borderless": false,
     "use-beta": false,
     "move-old-worlds": false,
+    "use-reset-counter": true,
     "auto-unpause-delay": 100.0
 }
 

@@ -255,6 +255,7 @@ class Instance(ConditionalTransitionable):
             self.mark_inactive()
 
     def reset(self):
+        hlp.increment_reset_counter()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
         elif self.first_reset and not settings.should_auto_launch():

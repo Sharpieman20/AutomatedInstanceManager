@@ -86,3 +86,28 @@ def get_pipe_file_location():
 
     return pipe_file
 
+def increment_reset_counter():
+
+    if not settings.use_reset_counter():
+        return
+    if settings.is_test_mode():
+        return
+
+    attempts_fil = Path.cwd() / "attempts.txt"
+
+    if not attempts_fil.exists():
+        attempts_fil.touch()
+        attempts_fil.write_text('1')
+
+    num_attempts = -1
+    
+    with attempts_fil.open('r') as attempts_fil_opened:
+        num_attempts = int(str(attempts_fil_opened.read()).rstrip())
+
+    attempts_fil.unlink()
+    attempts_fil.touch()
+
+    with attempts_fil.open('w') as attempts_fil_opened:
+        attempts_fil_opened.write(str(num_attempts))
+
+
