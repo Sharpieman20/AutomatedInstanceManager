@@ -65,7 +65,7 @@ class Process:
 class Suspendable(Process):
     def suspend(self):
         if self.is_suspended() or self.forceResumed:
-            if not settings.retry_freezes() or random.randint(0, 9) != 0:
+            if not settings.retry_freezes() or random.randint(0, 50) != 0:
                 return
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
