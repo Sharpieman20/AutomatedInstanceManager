@@ -13,6 +13,7 @@ import random
 num_per_state = {}
 
 def assign_to_state(instance, state):
+    print('assign instance {} to state {}'.format(instance.num, state))
     global num_per_state
     if state not in num_per_state:
         num_per_state[state] = 0
@@ -89,6 +90,12 @@ class Suspendable(Process):
 
 class Stateful(Suspendable):
 
+    def mark_dead(self):
+        assign_to_state(self, State.DEAD)
+        self.pid = -1
+        self.first_reset = True
+        self.current_world = None
+
     def mark_launching(self):
         assign_to_state(self, State.LAUNCHING)
 
@@ -99,7 +106,7 @@ class Stateful(Suspendable):
     def mark_booting(self):
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
-    
+
     def mark_pregen(self):
         assign_to_state(self, State.PREGEN)
         self.timestamp = get_time()
@@ -214,11 +221,6 @@ class ConditionalTransitionable(DisplayStateful):
         return is_done_unfreezing()
     
     def is_done_booting(self):
-        # TODO @Sharpieman20 - dynamically check if booted
-        if not hlp.has_passed(self.timestamp, settings.get_unfreeze_delay()):
-            return False
-        if not hlp.has_passed(self.timestamp, settings.get_boot_delay()):
-            return False
         log_file = self.mcdir / 'latest.log'
         if not log_file.exists():
             return False
@@ -281,7 +283,7 @@ class Instance(ConditionalTransitionable):
     def create_obs_instance(self):
         obs.create_scene_item_for_instance(self)
 
-    def initialize_after_boot(self):
+    def reset_from_title(self):
         # assign our pid somehow
         # start generating world w/ duncan mod
         if settings.should_set_window_titles():
@@ -300,6 +302,7 @@ class Instance(ConditionalTransitionable):
     
     def settings_reset(self):
         hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
+        self.first_reset = False
 
     def reset(self):
         if settings.should_set_window_titles():
@@ -310,7 +313,10 @@ class Instance(ConditionalTransitionable):
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
-            self.initialize_after_boot()
+            self.reset_from_title()
+            self.first_reset = False
+        elif self.first_reset and settings.settings_reset_first_world():
+            self.settings_reset()
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
         self.was_active = False

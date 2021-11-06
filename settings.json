@@ -25,7 +25,7 @@
     "unfreeze-delay": 1000,
     "fullscreen-delay": 50,
     "loop-delay": 100,
-    "boot-delay": 2.0,
+    "boot-delay": 10.0,
     "key-delay": 20,
     "switch-delay": 300,
     "check-for-crashes-delay": 10.0,
@@ -61,6 +61,7 @@
     "set-window-titles": true,
     "run-custom-background-ahk-script": false,
     "use-click-macro": false,
+    "settings-reset-first-world": false,
     "auto-unpause-delay": 100.0
 }
 

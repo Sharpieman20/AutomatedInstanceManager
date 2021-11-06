@@ -142,7 +142,7 @@ def main_loop(sc):
     unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
     num_working_instances = len(queues.get_gen_instances()) + len(queues.get_launching_instances()) + len(queues.get_pregen_instances())
-    num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances()) + unfrozen_queue_size
+    num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
 
     num_to_launch = min(1, max(0,1-len(queues.get_launching_instances())))
     
@@ -164,7 +164,9 @@ def main_loop(sc):
 
     if not settings.should_auto_launch():
         num_to_boot = len(queues.get_dead_instances())
-        num_to_launch = len(queues.get_dead_instances())
+
+    if settings.use_click_macro():
+        num_to_launch = 0
     
     num_to_launch = min(num_to_launch, len(queues.get_dead_instances()))
 
@@ -186,7 +188,6 @@ def main_loop(sc):
     # Handle dead instances
     # num_to_launch should always be 0 if we're in a run
     # also we should never launch an instance when we already have one launching
-    # TODO @Sharpieman20 - redo this code for auto launch
     for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
@@ -255,7 +256,7 @@ def main_loop(sc):
         # exact same as pregen
         # except we call different reset function
         inst.mark_generating()
-        inst.settings_reset()
+        inst.reset_from_title()
 
     # Handle pregen instances (recently unfrozen worlds that need to be generated)
     for inst in queues.get_pregen_instances():

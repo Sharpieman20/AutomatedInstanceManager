@@ -42,6 +42,7 @@ def identify_crashed_instances():
         all_pids.append(process.ProcessId)
     for inst in queues.get_all_instances():
         if inst.pid != -1 and inst.pid not in all_pids:
+            print('instance {} pid {} has crashed'.format(inst.num, inst.pid))
             inst.mark_dead()
 
 def is_livesplit_open():
