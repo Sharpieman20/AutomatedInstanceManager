@@ -1,3 +1,22 @@
+def assure_globals():
+    if 'did_init_globals' not in globals():
+        global did_error
+        did_error = False
+        global is_first_check_manual_launch
+        is_first_check_manual_launch = True
+        global first_check_after_all_processes_started
+        first_check_after_all_processes_started = False
+        global done_with_manual_launch_batch
+        done_with_manual_launch_batch = False
+        global done_with_all_manual_launch_batches
+        done_with_all_manual_launch_batches = False
+        global did_init_globals
+        did_init_globals = True
+        global manual_launch_index
+        manual_launch_index = 0
+
+assure_globals()
+
 import settings
 import queues
 import helpers as hlp
@@ -16,6 +35,7 @@ import traceback
 import requests
 import subprocess as sp
 import shlex
+import hotkeys
 
 IS_BETA = False
 
@@ -47,24 +67,7 @@ def try_set_focused(new_focused_instance):
         if focused_instance is None or (not focused_instance.is_ready() and new_focused_instance.num != focused_instance.num and new_focused_instance.num != primary_instance.num):
             obs.set_new_focused(new_focused_instance)
 
-def assure_globals():
-    if 'did_init_globals' not in globals():
-        global did_error
-        did_error = False
-        global listening
-        listening = True
-        global is_first_check_manual_launch
-        is_first_check_manual_launch = True
-        global first_check_after_all_processes_started
-        first_check_after_all_processes_started = False
-        global done_with_manual_launch_batch
-        done_with_manual_launch_batch = False
-        global done_with_all_manual_launch_batches
-        done_with_all_manual_launch_batches = False
-        global did_init_globals
-        did_init_globals = True
-        global manual_launch_index
-        manual_launch_index = 0
+
 
 def schedule_next(sc):
     if not did_error:
@@ -73,6 +76,8 @@ def schedule_next(sc):
 def main_loop(sc):
     global need_to_reset_timer
     global last_log_time
+
+    hotkeys.process_hotkey_events()
 
     queues.update_all()
 
@@ -287,61 +292,7 @@ def main_loop_wrapper(sc):
         traceback.print_exc(file=sys.stdout)
         time.sleep(5000)
 
-# Callbacks
-def reset_primary():
-    primary_instance = obs.get_primary_instance()
-    print("ohohohohoho")
-    if primary_instance is not None:
-        primary_instance.reset_active()
 
-def reset_focused():
-    focused_instance = obs.get_focused_instance()
-    if focused_instance is not None:
-        if focused_instance.state == State.PAUSED or focused_instance.state == State.READY:
-            focused_instance.release()
-
-def approve_focused():
-    focused_instance = obs.get_focused_instance()
-    if focused_instance is not None:
-        focused_instance.mark_approved()
-
-def debug_background():
-    if len(queues.get_unpaused_instances()) > 0:
-        inst = queues.get_unpaused_instances()[0]
-        hlp.run_ahk('debugGame',pid=inst.pid)
-
-def pause_background():
-    if len(queues.get_unpaused_instances()) > 0:
-        inst = queues.get_unpaused_instances()[0]
-        inst.mark_paused()
-        inst.pause()
-
-def mark_manual_launch_batch_done():
-    global done_with_manual_launch_batch
-    done_with_manual_launch_batch = True
-
-def unfreeze_all():
-    if not settings.should_use_beta():
-        return
-    for inst in queues.get_all_instances():
-        inst.resume(True)
-        inst.mark_ready()
-
-def toggle_hotkeys():
-    global listening
-    listening = not listening
-    if listening:
-        print('Hotkeys enabled')
-    else:
-        print('Hotkeys disabled')
-
-def wrap(func, override=False):
-    def inner(event):
-        global listening
-        if not override and not listening:
-            return
-        func()
-    return inner
 
 def handle_manual_launch_inner(sc):
     global done_with_manual_launch_batch
@@ -386,8 +337,6 @@ def try_download_beta():
         return
     download_branch('beta')
 
-assure_globals()
-
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
     # TODO @Sharpieman20 - add error messages explaining
@@ -404,16 +353,9 @@ if __name__ == "__main__":
         obs.connect_to_stream_obs()
         obs.hide_all()
         print(settings.get_hotkeys())
-        kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
-        kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
-        kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
-        kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys, override=True))
-        kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
-        kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
-        kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
+        hotkeys.setup_hotkeys()
         if not settings.should_auto_launch():
             kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(mark_manual_launch_batch_done))
-            
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
