@@ -63,7 +63,7 @@ def run_ahk(script_name, **kwargs):
             args.append('{}'.format(kwargs[key]).lower())
         else:
             args.append(str(kwargs[key]))
-    if settings.should_parallelize_ahk():
+    if settings.should_parallelize_ahk() or ('blocking' in kwargs and not kwargs['blocking']):
         sp.Popen(args)
     else:
         sp.call(args)
