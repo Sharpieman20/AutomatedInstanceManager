@@ -255,7 +255,7 @@ class Instance(ConditionalTransitionable):
         # start generating world w/ duncan mod
         if settings.should_set_window_titles():
             title_str = settings.get_window_title_template()
-            title_str = title_str.replace('#',str(inst.num))
+            title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
