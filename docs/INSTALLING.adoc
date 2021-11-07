@@ -17,7 +17,7 @@ Then duplicate it until you have as many instances as you want to play with, wit
 
 Here's an example using 6 instances:
 
-image::https://cdn.discordapp.com/attachments/778494107864662037/906721226083401729/unknown.png[Example,500,500]
+image::https://cdn.discordapp.com/attachments/778494107864662037/906721226083401729/unknown.png[Example,500,200]
 
 == OBS Setup
 
