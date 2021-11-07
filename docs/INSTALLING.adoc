@@ -15,6 +15,10 @@ Configure it with all of the mods/resource packs/maps that you want.
 
 Then duplicate it until you have as many instances as you want to play with, with the name scheme "1.16INST1", "1.16INST2", "1.16INST3", etc.
 
+Here's an example using 6 instances:
+
+image::https://cdn.discordapp.com/attachments/778494107864662037/906721226083401729/unknown.png[Example,500,500]
+
 == OBS Setup
 
 OBS Websocket is required for having the macro manage your OBS environment. You can install it link:https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/[here].
