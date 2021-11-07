@@ -22,9 +22,10 @@ If you have any questions, reach out to one of our testers over Discord.
 ##### Development
 - Sharpieman20
 - Specnr
-
+- FinestPigeon (Pre 1.9)
 
 ##### Testing
 - Pncakespoon
 - SpeedNintendo
 - Silverr
+- Mauvu
