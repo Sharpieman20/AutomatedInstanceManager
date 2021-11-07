@@ -23,9 +23,7 @@ image::https://cdn.discordapp.com/attachments/778494107864662037/906721226083401
 
 OBS Websocket is required for having the macro manage your OBS environment. You can install it link:https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/[here].
 
-You want to set the port to 4444, and the password to "password".
-
-Once this is done, you want to create an OBS Source for each instance. They should have the following name scheme:
+Once this is done, you want to create an OBS Source (window capture or game capture) for each instance. They should have the following name scheme:
 
 - active1
 - active2
