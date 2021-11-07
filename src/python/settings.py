@@ -185,3 +185,9 @@ def stay_always_on_top_when_still_launching():
 
 def get_version():
     return settings['version']
+
+def should_set_window_titles():
+    return settings['set-window-titles']
+
+def get_window_title_template():
+    return settings['window-title-template']

@@ -11,6 +11,7 @@
     },
     "template-instance": "1.16INST",
     "version": "1.16",
+    "window-title-template": "Minecraft - Instance #",
     "hotkeys": {
         "reset-active": "U",
         "reset-focused": "H",
@@ -57,6 +58,7 @@
     "use-reset-counter": true,
     "randomly-retry-freezes": false,
     "stay-on-top-while-launching": true,
+    "set-window-titles": true,
     "auto-unpause-delay": 100.0
 }
 
