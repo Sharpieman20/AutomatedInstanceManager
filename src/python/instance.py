@@ -103,6 +103,9 @@ class Stateful(Suspendable):
         assign_to_state(self, State.PREBOOT)
         self.timestamp = get_time()
 
+    def mark_mainmenu(self):
+        assign_to_state(self, State.MAINMENU)
+
     def mark_booting(self):
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
