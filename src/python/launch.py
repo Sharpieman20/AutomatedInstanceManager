@@ -30,6 +30,8 @@ def launch_multimc():
     pass
 
 def launch_all_programs():
+    if settings.use_custom_background_ahk_process():
+        hlp.run_ahk('customBackground')
     if settings.is_test_mode() or not settings.should_auto_launch():
         return
     # TODO: add stat tracker?
@@ -45,3 +47,4 @@ def launch_all_programs():
             launch_funcs[program]()
     if settings.use_switching_daemon():
         hlp.run_ahk('windowSwitchingDaemon', switchDelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), autoUnpause=settings.should_auto_unpause(), playDelay=settings.get_unpause_delay(), pipeFileLocation=hlp.get_pipe_file_location(), loopDelay=settings.get_daemon_loop_delay(), blocking=False)
+

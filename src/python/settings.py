@@ -191,3 +191,6 @@ def should_set_window_titles():
 
 def get_window_title_template():
     return settings['window-title-template']
+
+def use_custom_background_ahk_process():
+    return settings['run-custom-background-ahk-script']

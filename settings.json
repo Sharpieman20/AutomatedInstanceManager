@@ -59,6 +59,7 @@
     "randomly-retry-freezes": false,
     "stay-on-top-while-launching": true,
     "set-window-titles": true,
+    "run-custom-background-ahk-script": false,
     "auto-unpause-delay": 100.0
 }
 
