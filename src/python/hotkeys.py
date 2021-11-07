@@ -2,6 +2,7 @@ import keyboard as kb
 import threading
 import settings
 import obs
+import queues
 
 hotkey_lock = threading.Lock()
 

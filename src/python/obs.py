@@ -90,15 +90,18 @@ def get_indicator_item():
 def set_new_primary(inst):
     # print(inst)
     if inst is not None:
-        inst.mark_primary(len(queues.get_dead_instances()) > 0)
         global primary_instance
         primary_pid = -1
         if primary_instance is not None:
-            primary_instance.mark_hidden()
+            primary_instance.mark_back()
             primary_pid = primary_instance.pid
+        inst.mark_front(len(queues.get_dead_instances()) > 0)
         if settings.use_switching_daemon():
             with open(hlp.get_pipe_file_location(), 'w') as fil:
                 fil.write('{}\n{}'.format(primary_pid, inst.pid))
+        inst.mark_primary()
+        if primary_instance is not None:
+            primary_instance.mark_hidden()
         if inst.is_focused():
             global focused_instance
             focused_instance = None
@@ -106,10 +109,6 @@ def set_new_primary(inst):
         if primary_instance.is_ready():
             primary_instance.mark_active()
         primary_instance.resume()
-        # TODO @Specnr: Update ls user config (is this still needed?)
-        # TODO @Specnr: Change sound source on stream maybe?
-        # if settings.is_fullscreen_enabled():
-        #     hlp.run_ahk("toggleFullscreen", pid=primary_instance.pid)
 
 def set_new_focused(inst):
     global focused_instance

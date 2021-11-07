@@ -179,3 +179,6 @@ def use_reset_counter():
 
 def retry_freezes():
     return settings['randomly-retry-freezes']
+
+def stay_always_on_top_when_still_launching():
+    return settings['stay-on-top-while-launching']

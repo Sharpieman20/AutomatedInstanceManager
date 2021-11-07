@@ -55,6 +55,7 @@
     "move-old-worlds": false,
     "use-reset-counter": true,
     "randomly-retry-freezes": false,
+    "stay-on-top-while-launching": true,
     "auto-unpause-delay": 100.0
 }
 

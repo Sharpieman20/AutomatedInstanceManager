@@ -138,15 +138,28 @@ class Stateful(Suspendable):
         # add to pregen w/o setting timestamp
         assign_to_state(self, State.PREGEN)
 
-class DisplayStateful(Stateful):
+class InstanceStateful(Stateful):
+
+    def mark_front(self, stayOnTop=False):
+        shouldAutoUnpause = settings.should_auto_unpause() and self.is_active()
+        if stayOnTop and not settings.stay_always_on_top_when_still_launching():
+            stayOnTop = False
+        if not settings.use_switching_daemon():
+            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled())
+        self.is_always_on_top = stayOnTop
+    
+    def mark_back(self):
+        if not settings.use_switching_daemon():
+            hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize(), fullscreen=settings.is_fullscreen_enabled())
+
+
+class DisplayStateful(InstanceStateful):
 
     def mark_hidden(self):
         if self.displayState == DisplayState.FOCUSED:
             obs.hide_focused(self)
         elif self.displayState == DisplayState.PRIMARY:
             obs.hide_primary(self)
-            if not settings.use_switching_daemon():
-                hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize(), fullscreen=settings.is_fullscreen_enabled())
             self.is_always_on_top = False
         self.displayState = DisplayState.HIDDEN
     
@@ -154,16 +167,10 @@ class DisplayStateful(Stateful):
         obs.show_focused(self)
         self.displayState = DisplayState.FOCUSED
 
-    def mark_primary(self, stayOnTop=False):
+    def mark_primary(self):
         obs.show_primary(self)
-        shouldAutoUnpause = settings.should_auto_unpause() and self.is_active()
-
-        if not settings.use_switching_daemon():
-            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled())
-        # if settings.is_fullscreen_enabled():
-        #     hlp.run_ahk("toggleFullscreen", pid=self.pid)
         self.displayState = DisplayState.PRIMARY
-        self.is_always_on_top = stayOnTop
+        
 
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
