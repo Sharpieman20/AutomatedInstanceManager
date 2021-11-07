@@ -312,9 +312,14 @@ class Instance(ConditionalTransitionable):
         for world in (self.mcdir / "saves").iterdir():
             world_time = world.stat().st_mtime
             if world_time > max_time:
-                if world.is_dir() and not (world / 'advancements').exists():
-                    max_time = world_time
-                    self.current_world = world
+                if settings.get_version() == '1.8':
+                    if world.is_dir() and not (world / 'stats').exists():
+                        max_time = world_time
+                        self.current_world = world
+                else:
+                    if world.is_dir() and not (world / 'advancements').exists():
+                        max_time = world_time
+                        self.current_world = world
         return self.current_world
 
     def is_in_world(self):

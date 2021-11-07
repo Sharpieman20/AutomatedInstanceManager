@@ -182,3 +182,6 @@ def retry_freezes():
 
 def stay_always_on_top_when_still_launching():
     return settings['stay-on-top-while-launching']
+
+def get_version():
+    return settings['version']

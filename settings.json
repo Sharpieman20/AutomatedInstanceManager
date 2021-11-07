@@ -10,6 +10,7 @@
         "password": "password"
     },
     "template-instance": "1.16INST",
+    "version": "1.16",
     "hotkeys": {
         "reset-active": "U",
         "reset-focused": "H",
