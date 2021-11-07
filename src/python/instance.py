@@ -221,7 +221,7 @@ class ConditionalTransitionable(DisplayStateful):
         return is_done_unfreezing()
     
     def is_done_booting(self):
-        log_file = self.mcdir / 'latest.log'
+        log_file = self.mcdir / 'logs' / 'latest.log'
         if not log_file.exists():
             return False
         mod_time = log_file.stat().st_mtime
