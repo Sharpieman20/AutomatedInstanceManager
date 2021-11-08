@@ -346,7 +346,7 @@ if __name__ == "__main__":
         else:
             try_download_regular()
         assert settings.get_unfrozen_queue_size() < max_concurrent
-        if not settings.get_multimc_path().exists():
+        if not settings.is_test_mode() and not settings.get_multimc_path().exists():
             print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')
             exit()
         launch.launch_all_programs()

@@ -3,13 +3,14 @@ import threading
 import settings
 import obs
 import queues
+from instance import State
 
 hotkey_lock = threading.Lock()
 
 # Callbacks
 def reset_primary():
     primary_instance = obs.get_primary_instance()
-    print("ohohohohoho")
+    print("reset primary")
     if primary_instance is not None:
         primary_instance.reset_active()
 

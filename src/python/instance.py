@@ -170,7 +170,6 @@ class DisplayStateful(InstanceStateful):
     def mark_primary(self):
         obs.show_primary(self)
         self.displayState = DisplayState.PRIMARY
-        
 
     def is_primary(self):
         return self.displayState == DisplayState.PRIMARY
