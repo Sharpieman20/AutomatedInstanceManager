@@ -27,6 +27,8 @@ for key in default_settings.keys():
             if sub_key not in settings[key]:
                 settings[key][sub_key] = default_settings[key][sub_key]
 
+print('using settings {}'.format(settings))
+
 def is_test_mode():
     return settings['test-mode']
 
