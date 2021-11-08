@@ -27,7 +27,7 @@ def launch_livesplit():
     os.startfile(settings.get_livesplit_path())
 
 def launch_multimc():
-    pass
+    os.startfile(settings.get_multimc_path())
 
 def launch_all_programs():
     if settings.use_custom_background_ahk_process():
