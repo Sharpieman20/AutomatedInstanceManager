@@ -21,7 +21,7 @@ image::https://cdn.discordapp.com/attachments/778494107864662037/906721226083401
 
 == OBS Setup
 
-OBS Websocket is required for having the macro manage your OBS environment. You can install it link:https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/[here].
+OBS Websocket is required for having the macro manage your OBS environment. You can install it link:https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/[here]. Make sure you download version 4.9.1.
 
 Once this is done, you want to create an OBS Source (window capture or game capture) for each instance. They should have the following name scheme:
 
@@ -35,10 +35,14 @@ Once this is done, you want to create an OBS Source (window capture or game capt
 
 When you're ready to use the macro, link:https://github.com/Sharpieman20/AutomatedInstanceManager/releases/download/v1.0.0/run_aim.py[click here] to download run_aim.py, or get it from the link:https://github.com/Sharpieman20/AutomatedInstanceManager/releases[releases tab].
 
-After this, you'll need to set your settings in my_settings.json.
+Right click on run_aim.py, select "Open With Python", and the macro will start up. If you don't have an "Open With -> Python" option, then try double clicking on it instead. If that still doesn't work, your Python is likely installed incorrectly.
+
+This will download other files into the folder with run_aim.py, and then give an error.
+
+After this, you'll need to set your settings in my_settings.json, which should've been downloaded.
 
 Change "multi-mc-path" to be the location of your MultiMC executable, and you should be good to go.
 
-Simply right click on run_aim.py, select "Open With Python", and the macro will start up.
+Each time you want to start the macro from then on, simply right click on run_aim.py and "Open With Python".
 
 For more advanced configuration, see link:SETTINGS.adoc[our settings guide].
