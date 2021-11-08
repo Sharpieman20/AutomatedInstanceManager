@@ -29,6 +29,7 @@ def get_pids():
                 continue
             if 'jdk' in process.Commandline:
                 all_pids.append(process.ProcessId)
+    print(pid)
     print('-------')
     return all_pids
 
