@@ -259,7 +259,7 @@ class Instance(ConditionalTransitionable):
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
         self.mark_generating()
-        self.first_reset = False
+        self.first_reset = True
 
     def reset_active(self):
         if self.is_active():
@@ -267,6 +267,10 @@ class Instance(ConditionalTransitionable):
             self.mark_inactive()
 
     def reset(self):
+        if settings.should_set_window_titles():
+            title_str = settings.get_window_title_template()
+            title_str = title_str.replace('#',str(self.num))
+            hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
         hlp.increment_reset_counter()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())

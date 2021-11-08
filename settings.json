@@ -3,7 +3,6 @@
     "livesplit-path": "C:/Program Files/LiveSplit_1.8.16/LiveSplit.exe",
     "obs-path": "C:/Program Files/obs-studio/bin/64bit",
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
-    "livesplit-user-config": "",
     "obs-settings" : {
         "web-host": "localhost",
         "port": 4444,
@@ -11,7 +10,7 @@
     },
     "template-instance": "1.16INST",
     "version": "1.16",
-    "window-title-template": "Minecraft - Instance #",
+    "window-title-template": "Minecraft* - Instance #",
     "hotkeys": {
         "reset-active": "U",
         "reset-focused": "H",
