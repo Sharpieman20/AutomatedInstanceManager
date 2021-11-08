@@ -25,7 +25,7 @@ def get_pids():
     for process in wmi.WMI().Win32_Process():
         # print('name {} pid {} caption {} commandline {}'.format(process.Name, process.ProcessId, process.Caption, process.Commandline))
         if 'java' in process.Name.lower():
-            print('{} {}'.format(process.ProcessId,process.Commandline)
+            print('{} {}'.format(process.ProcessId,process.Commandline))
             if process.Commandline is None:
                 continue
             if 'jdk' in process.Commandline:
