@@ -318,7 +318,7 @@ class Instance(ConditionalTransitionable):
         elif self.first_reset and not settings.should_auto_launch():
             self.reset_from_title()
             self.first_reset = False
-        elif self.first_reset and settings.settings_reset_first_world():
+        elif self.first_reset and settings.should_settings_reset_first_world():
             self.settings_reset()
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())

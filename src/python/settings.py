@@ -205,5 +205,5 @@ def should_auto_launch_multimc():
 def use_click_macro():
     return settings['use-click-macro']
 
-def settings_reset_first_world():
+def should_settings_reset_first_world():
     return settings['settings-reset-first-world']
