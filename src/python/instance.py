@@ -215,13 +215,13 @@ class ConditionalTransitionable(DisplayStateful):
         return hlp.has_passed(self.timestamp, duration)
 
     def is_ready_for_unfreeze(self):
-        return is_done_freezing()
+        return self.is_done_freezing()
     
     def is_ready_for_freeze(self):
         if self.state == State.PAUSED:
             duration = settings.get_load_chunk_time()
             return hlp.has_passed(self.timestamp, duration)
-        return is_done_unfreezing()
+        return self.is_done_unfreezing()
     
     def is_done_booting(self):
         log_file = self.mcdir / 'logs' / 'latest.log'
