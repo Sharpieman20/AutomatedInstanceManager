@@ -28,7 +28,7 @@ def try_launch_instance(inst):
     inst_index = get_index_of_inst(inst)
     instance_columns = 5
     print('try launching instance {} {}'.format(inst.num, inst_index))
-    if len(queues.get_dead_instances()) == len(queues.get_all_instances()):
+    if not settings.try_fast_launch() or len(queues.get_dead_instances()) == len(queues.get_all_instances()):
         hlp.run_ahk('selectFirstMultiMCInstance', blocking=True)
         if not inst.has_directory():
             hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
@@ -36,12 +36,14 @@ def try_launch_instance(inst):
             hlp.run_ahk('selectMultiMCInstance',keydelay=settings.get_key_delay(), downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
     hlp.run_ahk('launchSelectedInstance', keydelay=settings.get_key_delay(),blocking=True)
     # select another instance for next time
-    if not inst.has_directory():
-        # ahk.createInstanceFromTemplate(blocking=True)
-        hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
-    else:
-        hlp.run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
-        hlp.run_ahk('selectMultiMCInstance',keydelay=settings.get_key_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+
+    if settings.try_fast_launch():
+        if not inst.has_directory():
+            # ahk.createInstanceFromTemplate(blocking=True)
+            hlp.run_ahk('createInstanceFromTemplate', keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
+        else:
+            hlp.run_ahk('selectFirstMultiMCInstance',keydelay=settings.get_key_delay(), blocking=True)
+            hlp.run_ahk('selectMultiMCInstance',keydelay=settings.get_key_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():

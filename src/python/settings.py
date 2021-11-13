@@ -207,3 +207,9 @@ def use_click_macro():
 
 def should_settings_reset_first_world():
     return settings['settings-reset-first-world']
+
+def try_fast_launch():
+    return False
+
+def wait_for_all_to_launch_before_booting():
+    return settings['frontload-launching']

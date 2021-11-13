@@ -21,8 +21,8 @@
         "manual-launch-complete": "P",
         "unfreeze-all": "|"
     },
-    "freeze-delay": 1000,
-    "unfreeze-delay": 1000,
+    "freeze-delay": 500,
+    "unfreeze-delay": 2000,
     "fullscreen-delay": 50,
     "loop-delay": 100,
     "boot-delay": 10.0,
@@ -62,6 +62,7 @@
     "run-custom-background-ahk-script": false,
     "use-click-macro": false,
     "settings-reset-first-world": false,
-    "auto-unpause-delay": 100.0
+    "auto-unpause-delay": 100.0,
+    "frontload-launching": true
 }
 

@@ -20,6 +20,8 @@ def assure_globals():
         last_log_time = time.time()
         global last_crash_check_time
         last_crash_check_time = time.time()
+        global last_launch_time
+        last_launch_time = time.time()
 
 assure_globals()
 
@@ -79,6 +81,7 @@ def main_loop(sc):
     global need_to_reset_timer
     global last_log_time
     global last_crash_check_time
+    global last_launch_time
 
     if time.time() - last_crash_check_time > settings.check_for_crashes_delay():
         last_crash_check_time = time.time()
@@ -173,6 +176,8 @@ def main_loop(sc):
     for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
+            if not hlp.has_passed(last_launch_time, settings.get_freeze_delay()):
+                continue
             inst.mark_launching()
             inst.launch()
             num_booting_instances += 1
@@ -200,6 +205,8 @@ def main_loop(sc):
         # check if it's not frozen
             # if so, throw error
         if not inst.is_ready_for_unfreeze():
+            continue
+        if settings.wait_for_all_to_launch_before_booting() and len(queues.get_preboot_instances()) < len(queues.get_all_instances()):
             continue
         if num_booting_instances < num_to_boot:
             inst.mark_booting()
