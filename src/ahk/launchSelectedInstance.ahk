@@ -1,2 +1,2 @@
 ControlSend,, {Enter}, MultiMC
-sleep 3000
+sleep 100

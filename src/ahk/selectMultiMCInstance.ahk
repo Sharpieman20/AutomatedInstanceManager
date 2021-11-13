@@ -2,7 +2,7 @@ keydelay := A_Args[1]
 downarrows := A_Args[2]
 rightarrows := A_Args[3]
 
-SetKeyDelay, %keydelay%
+SetKeyDelay, 100
 
 Loop, %downarrows% {
   ControlSend,, {Down}, MultiMC

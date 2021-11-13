@@ -67,9 +67,9 @@ def run_ahk(script_name, **kwargs):
     ahk_path = _resolve_executable_path()
     script_path = Path.cwd() / "src" / "ahk" / "{}.ahk".format(script_name)
     if 'pid' in kwargs:
-        print('running {} pid {} with ahk path {}'.format(script_name, kwargs['pid'], ahk_path))
+        print('{} running {} pid {} with ahk path {}'.format(time.time(), script_name, kwargs['pid'], ahk_path))
     else:
-        print('running {} with ahk path {}'.format(script_name, ahk_path))
+        print('{} running {} with ahk path {}'.format(time.time(), script_name, ahk_path))
     should_block = False
     if 'blocking' in kwargs:
         should_block = kwargs['blocking']
