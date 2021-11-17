@@ -1,5 +1,5 @@
 
-multimcpid = A_Args[1]
+multimcpid := A_Args[1]
 keydelay := A_Args[2]
 instname := A_Args[3]
 

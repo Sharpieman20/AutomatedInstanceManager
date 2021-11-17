@@ -1,4 +1,4 @@
-multimcpid = A_Args[1]
+multimcpid := A_Args[1]
 
 sleep, 500
 WinSet, AlwaysOnTop, On, ahk_pid %multimcpid%
