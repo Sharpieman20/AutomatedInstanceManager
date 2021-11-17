@@ -43,10 +43,9 @@ def get_multimc_pid():
         multimcpid = -1
         print('get multimc pid')
         for process in wmi.WMI().Win32_Process():
-            if 'MultiMC' in process.Name.lower():
+            if 'multimc' in process.Name.lower():
                 print('{} {}'.format(process.ProcessId,process.Commandline))
-                mmc_pid = process.ProcessId
-        multimcpid = mmc_pid
+                multimcpid = process.ProcessId
     global multimcpid
     return multimcpid
 
