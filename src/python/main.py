@@ -23,6 +23,7 @@ def assure_globals():
         global last_launch_time
         last_launch_time = time.time()
 
+
 assure_globals()
 
 import settings
@@ -418,6 +419,7 @@ if __name__ == "__main__":
             time.sleep(5000000)
         launch.launch_all_programs()
         input("Press any key to continue...")
+        hlp.get_multimc_pid()
         print("Macro started")
         print("Connecting to OBS")
         obs.connect_to_stream_obs()

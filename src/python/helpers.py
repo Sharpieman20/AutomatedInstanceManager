@@ -34,6 +34,22 @@ def get_pids():
     print('-------')
     return all_pids
 
+
+
+
+def get_multimc_pid():
+    if 'multimcpid' not in globals():
+        global multimcpid
+        multimcpid = -1
+        print('get multimc pid')
+        for process in wmi.WMI().Win32_Process():
+            if 'MultiMC' in process.Name.lower():
+                print('{} {}'.format(process.ProcessId,process.Commandline))
+                mmc_pid = process.ProcessId
+        multimcpid = mmc_pid
+    global multimcpid
+    return multimcpid
+
 def identify_crashed_instances():
     all_pids = []
     if settings.is_test_mode():
