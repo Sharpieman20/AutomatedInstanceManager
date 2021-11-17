@@ -27,6 +27,7 @@
     "loop-delay": 100,
     "boot-delay": 10.0,
     "key-delay": 20,
+    "multi-mc-delay": 500,
     "switch-delay": 300,
     "check-for-crashes-delay": 10.0,
     "chunk-load-time": 5.0,

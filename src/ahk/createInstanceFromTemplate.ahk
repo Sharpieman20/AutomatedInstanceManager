@@ -1,24 +1,28 @@
 
 multimcpid := A_Args[1]
-keydelay := A_Args[2]
+multimcdelay := A_Args[2]
 instname := A_Args[3]
 
 SendMode Input
 CoordMode, Mouse, Screen
-SetKeyDelay, %keydelay%
 
-WinSet, AlwaysOnTop, On, ahk_pid %multimcpid%
-sleep, 50
 WinMove, ahk_pid %multimcpid%,,0,0,640,640
-sleep, 50
+sleep, %multimcdelay%
+WinSet, AlwaysOnTop, On, ahk_pid %multimcpid%
+sleep, %multimcdelay%
+MouseMove, 770, 480, 0
+sleep, %multimcdelay%
+Send, {Click 770, 480} ; Click to activate the window
+sleep, %multimcdelay%
 MouseMove, 770, 440, 0
-sleep, 2000
+sleep, %multimcdelay%
 Send, {Click 770, 440} ; Click copy instance
-sleep, 2000
+sleep, %multimcdelay%
 WinSet, AlwaysOnTop, Off, ahk_pid %multimcpid%
-sleep, 50
+sleep, %multimcdelay%
 WinSet, AlwaysOnTop, On, Copy Instance
-sleep, 50
+sleep, %multimcdelay%
 Send, %instname% ; Type instance name
-sleep, 100
+sleep, %multimcdelay%
 Send, {Enter} ; Create instance
+sleep, %multimcdelay%

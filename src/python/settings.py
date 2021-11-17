@@ -213,3 +213,6 @@ def try_fast_launch():
 
 def wait_for_all_to_launch_before_booting():
     return settings['frontload-launching']
+
+def get_multimc_delay():
+    return settings['multi-mc-delay']

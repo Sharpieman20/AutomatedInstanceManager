@@ -26,24 +26,24 @@ def try_launch_instance(inst):
     # let's make sure to not try and set primary until after this is over
     # launch the instance that we have selected
     inst_index = get_index_of_inst(inst)
-    instance_columns = 5
+    instance_columns = 6
     print('try launching instance {} {}'.format(inst.num, inst_index))
     if not settings.try_fast_launch() or len(queues.get_dead_instances()) == len(queues.get_all_instances()):
-        hlp.run_ahk('selectFirstMultiMCInstance', multimcpid=hlp.get_multimc_pid(), blocking=True)
+        hlp.run_ahk('selectFirstMultiMCInstance', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
         if not inst.has_directory():
-            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
+            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), instname=inst.name, blocking=True)
         else:
-            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),keydelay=settings.get_key_delay(), downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
-    hlp.run_ahk('launchSelectedInstance',multimcpid=hlp.get_multimc_pid(),keydelay=settings.get_key_delay(),blocking=True)
+            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(), downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+    hlp.run_ahk('launchSelectedInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),blocking=True)
     # select another instance for next time
 
     if settings.try_fast_launch():
         if not inst.has_directory():
             # ahk.createInstanceFromTemplate(blocking=True)
-            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), keydelay=settings.get_key_delay(), instname=inst.name, blocking=True)
+            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), instname=inst.name, blocking=True)
         else:
-            hlp.run_ahk('selectFirstMultiMCInstance',multimcpid=hlp.get_multimc_pid(), blocking=True)
-            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),keydelay=settings.get_key_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+            hlp.run_ahk('selectFirstMultiMCInstance',multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
+            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
 
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():

@@ -198,6 +198,7 @@ def main_loop(sc):
             if old_pid == -1:
                 inst.assign_pid(queues.get_all_instances())
             if old_pid != inst.pid:
+                last_launch_time = time.time()
                 inst.mark_preboot()
                 inst.suspend()
 
