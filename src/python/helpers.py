@@ -6,6 +6,7 @@ import subprocess as sp
 from datetime import datetime
 import settings
 from pathlib import Path
+import queues
 
 if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk.script import _resolve_executable_path
@@ -33,6 +34,31 @@ def get_pids():
     print('-------')
     return all_pids
 
+
+
+
+def get_multimc_pid():
+    global multimcpid
+    if 'multimcpid' not in globals():
+        multimcpid = -1
+        print('get multimc pid')
+        for process in wmi.WMI().Win32_Process():
+            if 'multimc' in process.Name.lower():
+                print('{} {}'.format(process.ProcessId,process.Commandline))
+                multimcpid = process.ProcessId
+    return multimcpid
+
+def identify_crashed_instances():
+    all_pids = []
+    if settings.is_test_mode():
+        return
+    for process in wmi.WMI().Win32_Process():
+        all_pids.append(process.ProcessId)
+    for inst in queues.get_all_instances():
+        if inst.pid != -1 and inst.pid not in all_pids:
+            print('instance {} pid {} has crashed'.format(inst.num, inst.pid))
+            inst.mark_dead()
+
 def is_livesplit_open():
     if settings.is_test_mode() or not settings.is_ahk_enabled():
         return  
@@ -55,16 +81,19 @@ def run_ahk(script_name, **kwargs):
     ahk_path = _resolve_executable_path()
     script_path = Path.cwd() / "src" / "ahk" / "{}.ahk".format(script_name)
     if 'pid' in kwargs:
-        print('running {} pid {} with ahk path {}'.format(script_name, kwargs['pid'], ahk_path))
+        print('{} running {} pid {} with ahk path {}'.format(time.time(), script_name, kwargs['pid'], ahk_path))
     else:
-        print('running {} with ahk path {}'.format(script_name, ahk_path))
+        print('{} running {} with ahk path {}'.format(time.time(), script_name, ahk_path))
+    should_block = False
+    if 'blocking' in kwargs:
+        should_block = kwargs['blocking']
     args = [ahk_path, "/force", "/ErrorStdOut", script_path.resolve().as_posix()]
     for key in kwargs:
         if isinstance(kwargs[key], bool):
             args.append('{}'.format(kwargs[key]).lower())
         else:
             args.append(str(kwargs[key]))
-    if settings.should_parallelize_ahk() or ('blocking' in kwargs and not kwargs['blocking']):
+    if settings.should_parallelize_ahk() and not should_block:
         sp.Popen(args)
     else:
         sp.call(args)

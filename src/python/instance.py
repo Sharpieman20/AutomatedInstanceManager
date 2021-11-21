@@ -13,6 +13,7 @@ import random
 num_per_state = {}
 
 def assign_to_state(instance, state):
+    print('assign instance {} to state {}'.format(instance.num, state))
     global num_per_state
     if state not in num_per_state:
         num_per_state[state] = 0
@@ -31,15 +32,18 @@ def get_global_test_pid():
 
 class State(Enum):
     DEAD = 0
-    BOOTING = 1
-    FREE = 2
-    PREGEN = 3
-    GEN = 4
-    UNPAUSED = 5
-    PAUSED = 6
-    READY = 7
-    APPROVED = 8
-    ACTIVE = 9
+    LAUNCHING = 1
+    PREBOOT = 2
+    BOOTING = 3
+    MAINMENU = 4
+    FREE = 5
+    PREGEN = 6
+    GEN = 7
+    UNPAUSED = 8
+    PAUSED = 9
+    READY = 10
+    APPROVED = 11
+    ACTIVE = 12
 
 class DisplayState(Enum):
     HIDDEN = 0
@@ -86,10 +90,26 @@ class Suspendable(Process):
 
 class Stateful(Suspendable):
 
+    def mark_dead(self):
+        assign_to_state(self, State.DEAD)
+        self.pid = -1
+        self.first_reset = True
+        self.current_world = None
+
+    def mark_launching(self):
+        assign_to_state(self, State.LAUNCHING)
+
+    def mark_preboot(self):
+        assign_to_state(self, State.PREBOOT)
+        self.timestamp = get_time()
+
+    def mark_mainmenu(self):
+        assign_to_state(self, State.MAINMENU)
+
     def mark_booting(self):
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
-    
+
     def mark_pregen(self):
         assign_to_state(self, State.PREGEN)
         self.timestamp = get_time()
@@ -99,8 +119,14 @@ class Stateful(Suspendable):
         self.timestamp = get_time()
     
     def mark_worldgen_finished(self):
-        if settings.should_auto_pause():
+        if self.first_reset and settings.should_settings_reset_first_world():
+            self.first_reset = False
+            self.settings_reset()
+            self.mark_generating()
+            self.timestamp += settings.get_settings_reset_delay()
+        elif settings.should_auto_pause():
             assign_to_state(self, State.PAUSED)
+            self.pause()
         else:
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
@@ -180,22 +206,35 @@ class DisplayStateful(InstanceStateful):
 # TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(DisplayStateful):
 
-    def is_ready_for_freeze(self):
-        duration = settings.get_load_chunk_time()
-        return hlp.has_passed(self.timestamp, duration)
-
     def is_done_unfreezing(self):
         duration = settings.get_freeze_delay()
         return hlp.has_passed(self.timestamp, duration)
 
-    def is_ready_for_unfreeze(self):
-        duration = settings.get_unfreeze_delay()
+    def is_done_freezing(self):
+        duration = settings.get_freeze_delay()
         return hlp.has_passed(self.timestamp, duration)
+
+    def is_ready_for_unfreeze(self):
+        return self.is_done_freezing()
+    
+    def is_ready_for_freeze(self):
+        if self.state == State.PAUSED:
+            duration = settings.get_load_chunk_time()
+            return hlp.has_passed(self.timestamp, duration)
+        return self.is_done_unfreezing()
     
     def is_done_booting(self):
-        # TODO @Sharpieman20 - dynamically check if booted
-        duration = settings.get_boot_delay()
-        return hlp.has_passed(self.timestamp, duration)
+        if hlp.has_passed(self.timestamp, 15.0):
+            return True
+        log_file = self.mcdir / 'logs' / 'latest.log'
+        if not log_file.exists():
+            return False
+        mod_time = log_file.stat().st_mtime
+        if mod_time < self.timestamp:
+            return False
+        if not hlp.has_passed(mod_time, settings.get_boot_delay()):
+            return False
+        return True
 
     def check_should_auto_reset(self):
         if self.state == State.UNPAUSED:
@@ -236,7 +275,7 @@ class Instance(ConditionalTransitionable):
         self.is_always_on_top = False
         self.forceResumed = False
     
-    def boot(self):
+    def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
         launch_instance(self)
         
@@ -249,7 +288,7 @@ class Instance(ConditionalTransitionable):
     def create_obs_instance(self):
         obs.create_scene_item_for_instance(self)
 
-    def initialize_after_boot(self):
+    def reset_from_title(self):
         # assign our pid somehow
         # start generating world w/ duncan mod
         if settings.should_set_window_titles():
@@ -265,19 +304,26 @@ class Instance(ConditionalTransitionable):
         if self.is_active():
             self.pause()
             self.mark_inactive()
+    
+    def settings_reset(self):
+        hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
+        self.first_reset = False
 
     def reset(self):
-        if settings.should_set_window_titles():
+        if False and settings.should_set_window_titles():
             title_str = settings.get_window_title_template()
             title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
-        hlp.increment_reset_counter()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
-            hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
+            self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
-            self.initialize_after_boot()
+            self.reset_from_title()
+            self.first_reset = False
+        elif self.first_reset and settings.should_settings_reset_first_world():
+            self.settings_reset()
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
+        hlp.increment_reset_counter()
         self.was_active = False
         self.current_world = None
 
@@ -311,6 +357,9 @@ class Instance(ConditionalTransitionable):
     def copy_logs(self):
         # we should copy all relevant logs out of the instance probably since we want to dynamically create instances
         pass
+    
+    def has_directory(self):
+        return self.mcdir.exists()
 
     def get_current_world(self):
         if self.current_world is not None:

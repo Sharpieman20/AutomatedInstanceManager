@@ -25,8 +25,17 @@ def get_all_instances():
 def get_dead_instances():
     return all_queues[State.DEAD]
 
+def get_launching_instances():
+    return all_queues[State.LAUNCHING]
+
+def get_preboot_instances():
+    return all_queues[State.PREBOOT]
+
 def get_booting_instances():
     return all_queues[State.BOOTING]
+
+def get_mainmenu_instances():
+    return all_queues[State.MAINMENU]
 
 def get_pregen_instances():
     return all_queues[State.PREGEN]

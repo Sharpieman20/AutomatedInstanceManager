@@ -22,12 +22,14 @@
         "unfreeze-all": "|"
     },
     "freeze-delay": 500,
-    "unfreeze-delay": 500,
+    "unfreeze-delay": 2000,
     "fullscreen-delay": 50,
     "loop-delay": 100,
-    "boot-delay": 15.0,
+    "boot-delay": 10.0,
     "key-delay": 20,
-    "switch-delay": 100,
+    "multi-mc-delay": 500,
+    "switch-delay": 300,
+    "check-for-crashes-delay": 10.0,
     "chunk-load-time": 5.0,
     "max-unpaused-time": 2.0,
     "min-time-for-settings-reset": 999999.0,
@@ -59,6 +61,9 @@
     "stay-on-top-while-launching": true,
     "set-window-titles": true,
     "run-custom-background-ahk-script": false,
-    "auto-unpause-delay": 100.0
+    "use-click-macro": false,
+    "settings-reset-first-world": false,
+    "auto-unpause-delay": 100.0,
+    "frontload-launching": true
 }
 

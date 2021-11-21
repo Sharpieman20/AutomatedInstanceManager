@@ -11,7 +11,7 @@ setup_py_file = Path.cwd() / 'setup.py'
 if setup_py_file.exists():
     setup_py_file.unlink()
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/dist/setup.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/setup.txt'
 
 resource = urllib.request.urlopen(get_release_url)
 

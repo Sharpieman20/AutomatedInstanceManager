@@ -4,18 +4,58 @@ import subprocess as sp
 import shlex
 import os
 import helpers as hlp
+import queues
 if not settings.is_test_mode():
     import wmi
 
+def get_index_of_inst(inst):
+    all_inst_nums = []
+
+    for i in range(inst.num+1):
+        if i > 0:
+            all_inst_nums.append(str(i))
+    
+    all_inst_nums.sort()
+
+    for i in range(len(all_inst_nums)):
+        if str(inst.num) == all_inst_nums[i]:
+            return i+1
+    return -1
+
+def try_launch_instance(inst):
+    # let's make sure to not try and set primary until after this is over
+    # launch the instance that we have selected
+    inst_index = get_index_of_inst(inst)
+    instance_columns = 6
+    print('try launching instance {} {}'.format(inst.num, inst_index))
+    if not settings.try_fast_launch() or len(queues.get_dead_instances()) == len(queues.get_all_instances()):
+        hlp.run_ahk('selectFirstMultiMCInstance', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
+        if not inst.has_directory():
+            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), instname=inst.name, blocking=True)
+        else:
+            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(), downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+    hlp.run_ahk('launchSelectedInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),blocking=True)
+    # select another instance for next time
+
+    if settings.try_fast_launch():
+        if not inst.has_directory():
+            # ahk.createInstanceFromTemplate(blocking=True)
+            hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), instname=inst.name, blocking=True)
+        else:
+            hlp.run_ahk('selectFirstMultiMCInstance',multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
+            hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
+
 def launch_instance(inst):
     if settings.is_test_mode() or not settings.is_ahk_enabled():
+        return
+    if settings.get_num_instances() > 5 and settings.use_click_macro():
+        try_launch_instance(inst)
         return
     # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
     instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
     return instance_process.pid
-    # return None
 
 def launch_obs():
     # TODO @Sharpieman20 - replace with something better
