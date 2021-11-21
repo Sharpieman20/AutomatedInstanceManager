@@ -8,11 +8,7 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from launch import launch_instance
-<<<<<<< HEAD
 import random
-=======
-from process import PrioritizeableProcess
->>>>>>> Add process prioritization basics
 
 num_per_state = {}
 

@@ -52,7 +52,7 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 # did_error = False
 
-max_concurrent_global = settings.get_max_concurrent()
+max_concurrent = settings.get_max_concurrent()
 max_concurrent_in_run = settings.get_max_concurrent_in_run()
 max_concurrent_boot = settings.get_max_concurrent_boot()
 
