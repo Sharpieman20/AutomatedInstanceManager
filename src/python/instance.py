@@ -314,7 +314,6 @@ class Instance(ConditionalTransitionable):
             title_str = settings.get_window_title_template()
             title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
-        hlp.increment_reset_counter()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
@@ -324,6 +323,7 @@ class Instance(ConditionalTransitionable):
             self.settings_reset()
         else:
             hlp.run_ahk("reset", pid=self.pid, keydelay=settings.get_key_delay())
+        hlp.increment_reset_counter()
         self.was_active = False
         self.current_world = None
 
