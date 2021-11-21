@@ -150,7 +150,10 @@ def main_loop(sc):
 
     # if not settings.should_auto_launch():
     #     num_to_boot = len(queues.get_dead_instances())
-    num_to_boot = 1
+    if len(num_booting_instances) > 0:
+        num_to_boot = 0
+    else:
+        num_to_boot = 1
 
     # if settings.use_click_macro():
     #     num_to_launch = 0
