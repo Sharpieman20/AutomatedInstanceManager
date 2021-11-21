@@ -141,22 +141,15 @@ def main_loop(sc):
     
     num_booting_instances = len(queues.get_booting_instances())
 
-    # num_to_boot = max_concurrent - num_working_instances
-    # if not settings.prioritize_booting_over_worldgen():
-    #     num_to_boot -= len(queues.get_free_instances())
+    num_to_boot = max_concurrent - num_working_instances
+    if not settings.prioritize_booting_over_worldgen():
+        num_to_boot -= len(queues.get_free_instances())
 
-    # num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
-    # num_to_boot = min(num_to_boot, len(queues.get_dead_instances()))
+    num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
+    num_to_boot = min(num_to_boot, len(queues.get_preboot_instances()))
 
-    # if not settings.should_auto_launch():
-    #     num_to_boot = len(queues.get_dead_instances())
-    if len(num_booting_instances) > 0:
-        num_to_boot = 0
-    else:
-        num_to_boot = 1
-
-    # if settings.use_click_macro():
-    #     num_to_launch = 0
+    if not settings.should_auto_launch():
+        num_to_boot = len(queues.get_dead_instances())
     
     num_to_launch = min(num_to_launch, len(queues.get_dead_instances()))
 

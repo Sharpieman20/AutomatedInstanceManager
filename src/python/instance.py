@@ -224,6 +224,8 @@ class ConditionalTransitionable(DisplayStateful):
         return self.is_done_unfreezing()
     
     def is_done_booting(self):
+        if hlp.has_passed(self.timestamp, 15.0):
+            return True
         log_file = self.mcdir / 'logs' / 'latest.log'
         if not log_file.exists():
             return False
@@ -308,7 +310,7 @@ class Instance(ConditionalTransitionable):
         self.first_reset = False
 
     def reset(self):
-        if settings.should_set_window_titles():
+        if False and settings.should_set_window_titles():
             title_str = settings.get_window_title_template()
             title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
