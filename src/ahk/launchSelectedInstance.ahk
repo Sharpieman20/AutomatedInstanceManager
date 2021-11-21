@@ -17,5 +17,7 @@ MouseMove, 780, 215, 0
 sleep, %multimcdelay%
 Send, {Click 780, 215} ; Click to activate the window
 sleep, %multimcdelay%
+Send, {Enter}
+sleep, %multimcdelay%
 WinSet, AlwaysOnTop, Off, ahk_pid %multimcpid%
 sleep, %multimcdelay%
