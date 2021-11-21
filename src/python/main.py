@@ -145,7 +145,6 @@ def main_loop(sc):
     if not settings.prioritize_booting_over_worldgen():
         num_to_boot -= len(queues.get_free_instances())
 
-    num_to_boot = min(num_to_boot, max_concurrent_boot-len(queues.get_booting_instances()))
     num_to_boot = min(num_to_boot, len(queues.get_preboot_instances()))
 
     if not settings.should_auto_launch():
