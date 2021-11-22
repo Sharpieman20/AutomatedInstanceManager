@@ -251,6 +251,7 @@ def main_loop(sc):
             continue
         # state = FREE
         if num_working_instances > max_concurrent:
+            print('yo im in it')
             # strictly greater than because it means we've surpassed the cap
             # ideally we shouldn't enter this if. this is a safeguard.
             # it can maybe happen due to us using this fact about pregen being optimistic
@@ -270,6 +271,7 @@ def main_loop(sc):
             inst.suspend()
             continue
         # state = PREGEN
+        print('yogo')
         inst.mark_pregen()
         inst.resume()
         num_working_instances += 1

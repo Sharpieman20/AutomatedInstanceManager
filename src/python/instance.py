@@ -78,14 +78,12 @@ class Suspendable(Process):
         if not force and not self.is_suspended():
             return
         self.suspended = False
-        if not self.forceResumed:
+        if force and not self.forceResumed:
             self.forceResumed = True
-        
         hlp.run_ahk("resumeInstance", pid=self.pid)
 
     def is_suspended(self):
         return self.suspended
-
 
 
 class Stateful(Suspendable):
