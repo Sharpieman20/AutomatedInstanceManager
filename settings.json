@@ -13,13 +13,7 @@
     "window-title-template": "Minecraft* - Instance #",
     "hotkeys": {
         "reset-active": "U",
-        "reset-focused": "H",
-        "approve-focused": "J",
-        "toggle-hotkeys": "[",
-        "background-debug": "Q",
-        "background-pause": "T",
-        "manual-launch-complete": "P",
-        "unfreeze-all": "|"
+        "toggle-hotkeys": "["
     },
     "freeze-delay": 500,
     "unfreeze-delay": 2000,

@@ -38,6 +38,8 @@ def get_pids():
 
 
 def get_multimc_pid():
+    if settings.is_test_mode():
+        return 0
     global multimcpid
     if 'multimcpid' not in globals():
         multimcpid = -1
