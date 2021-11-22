@@ -84,7 +84,7 @@ def main_loop(sc):
     global last_crash_check_time
     global last_launch_time
 
-    if time.time() - last_crash_check_time > settings.check_for_crashes_delay():
+    if settings.attempt_to_relaunched_crashed_instances() and time.time() - last_crash_check_time > settings.check_for_crashes_delay():
         last_crash_check_time = time.time()
         hlp.identify_crashed_instances()
 
