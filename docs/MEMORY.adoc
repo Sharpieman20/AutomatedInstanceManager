@@ -33,6 +33,12 @@ It's important that you ensure your pagefile is sufficiently large to accommodat
 
 It's also important that your pagefile is on the SSD that you want to be using. An SSD with faster read/write speed will let you set unfreeze-delay lower, increase max-concurrent, and generate more worlds more quickly.
 
+You should have enough in pagefile to fit all inactive instances.
+
+Don't worry about making your pagefile too big. The only real downside is the amount of space it takes up.
+
+See this link for how to change Windows pagefile size/location: https://mcci.com/support/guides/how-to-change-the-windows-pagefile-size/
+
 == In-depth - How AIM uses memory
 
 When a java process begins, it allocates Xms memory to the heap.

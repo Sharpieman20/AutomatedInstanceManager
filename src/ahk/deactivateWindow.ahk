@@ -9,3 +9,4 @@ if (%fullscreen%) {
     ControlSend, ahk_parent, {Blind}{F11}, ahk_pid %pid%
     sleep, 400
 }
+ExitApp
