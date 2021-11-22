@@ -44,6 +44,7 @@ import requests
 import subprocess as sp
 import shlex
 import hotkeys
+import shutil
 
 IS_BETA = True
 
@@ -53,7 +54,6 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 # did_error = False
 
 max_concurrent = settings.get_max_concurrent()
-max_concurrent_boot = settings.get_max_concurrent_boot()
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
@@ -410,6 +410,14 @@ if __name__ == "__main__":
                 try_download_beta()
             else:
                 try_download_regular()
+        if settings.use_custom_ahk_scripts():
+            src_ahk = Path.cwd() / "src" / "ahk"
+            custom_directory = Path.cwd() / "custom"
+            if custom_directory.exists():
+                for custom_ahk in custom_directory.iterdir():
+                    shutil.copyfile(custom_ahk, src_ahk / custom_ahk.name)
+            else:
+                custom_directory.mkdir()
         assert settings.get_unfrozen_queue_size() < max_concurrent
         if not settings.is_test_mode() and not settings.get_multimc_path().exists():
             print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')

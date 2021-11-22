@@ -30,6 +30,10 @@ In manual launch mode, you will be prompted to open certain instances in the ter
 
 === Advanced settings
 
-There's a list of more advanced settings in settings.json. If you'd like to try changing them, copy the one you want to change into my_settings.json.
+There's a list of more advanced settings in settings.json. 
+
+If you'd like to try changing them, copy the one you want to change into my_settings.json. 
 
 Then, change the value to what you want, and make sure every line except the last settings line has a comma after it.
+
+Details on all settings are available in link:SETTINGSDOCS.adoc[our full settings documentation].

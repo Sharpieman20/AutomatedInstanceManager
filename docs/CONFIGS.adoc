@@ -1,0 +1,6 @@
+:nofooter:
+:hardbreaks:
+
+There are a few default configs available for different performance levels.
+
+Here they are: <LINK>

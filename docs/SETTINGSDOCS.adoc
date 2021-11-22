@@ -1,0 +1,275 @@
+=== OPTIONS
+
+== HOTKEYS
+
+= reset-active
+
+The reset key
+
+= toggle-hotkeys
+
+Toggles if hotkeys are on or not
+
+= reset-focused
+
+= approve-focused
+
+= background-debug
+
+= background pause
+
+= manual-launch-complete
+
+= unfreeze-all
+
+== MAIN OPTIONS
+
+These are the main options you will likely want to be changing.
+
+= multi-mc-path
+
+The absolute path of your MultiMC.exe file.
+
+Please use forward slashes in the file name.
+
+= num-instances
+
+Default: 5
+
+Num instances should have ZERO performance impact.
+This means you can set this as high as you want and the macro should work.
+The default is 5 due to a bug with MultiMC.
+
+= max-concurrent
+
+Default: 3
+High performance: 7
+Low performance: 2
+
+This is the maximum number of instances that you can have open at a single time.
+
+2 is the bare minimum requirement, any less is not supported. There is no recommended cap, just make sure you have enough RAM to keep all the instances in RAM at once or you will have extreme performance issues.
+
+This is probably the single most important setting in terms of performance. If you're experiencing low FPS or stuttering during runs, this is the first setting you should try changing.
+
+= chunk-load-time
+
+Default: 5.0
+
+This is how long you'd like the macro to let an instance generate chunks before freezing it.
+
+If you find you're loading into worlds without as many chunks loaded as you like, try increasing this. Decreasing this can somewhat significantly improve your effective world generation speed, so try and reduce it as low as you can.
+
+No high/low performance values are given because the optimal value is highly dependent on user render distance and preference.
+
+= auto-unpause
+
+Default: true
+
+Whether the macro should unpause you when switching to an instance that has a world ready.
+
+If you'd prefer to manually unpause each world, set this to false.
+
+= move-old-worlds
+
+= fullscreen
+
+= should-maximize
+
+= borderless
+
+= use-beta
+
+Default value: false
+Experimental value: true
+
+Self-explanatory.
+
+== MAIN DELAYS
+
+= key-delay
+
+Default value: 20
+High performance: 1
+Low performance: 50
+
+Same as keydelay in other macros. The amount of time AHK uses for its SetKeyDelay command, in milliseconds.
+
+= switch-delay
+
+= fullscreen-delay
+
+= freeze-delay
+
+Default value: 500
+
+Time in milliseconds until an instance is considered fully suspended. 
+
+You probably shouldn't need to change this value.
+
+= unfreeze-delay
+
+Default value: 2000
+High performance: 1000
+Low performance: 5000
+
+Time in milliseconds until an instance is considered fully suspended. 
+
+This value seems high because it is supposed to account for the time it takes your SSD to load an instance into AND out of RAM.
+Simple formula for this is min(SSD write speed MB/s, SSD read speed MB/s)*2.
+
+= loop-delay
+
+Default value: 100
+High performance: 50
+Low performance: 500
+
+If your PC lags while using the macro, even with low max-concurrent, and python is taking up significant system resources, try increasing this value.
+
+This should be the maximum latency of the macro in milliseconds.
+
+== OTHER OPTIONS
+
+= auto-pause
+
+Default: true
+
+Whether a world should be paused directly after it is created.
+
+= only-focus-ready
+
+Default value: true
+
+Whether worlds that are generating or not done loading chunks should be shown on OBS.
+
+This only applies to instances being shown as part of BG resetting or wall. Changing this setting will not change how the macro decides which instance is active.
+
+= use-reset-counter
+
+Default value: true
+
+= settings-reset-first-world
+
+Default value: false
+
+Whether or not we should instantly settings reset the first world for an instance.
+
+Depending on what your settings reset script does, this may be desirable (i.e. if it resets your pie).
+
+= use-custom-ahk-scripts
+
+= run-custom-background-ahk-script
+
+Default: false
+
+Whether we should try and run a background ahk script on launch. The script will only be ran when the macro is started a single time.
+
+This is useful if you have an AHK script that you start when doing runs (such as one remapping keybinds) that you want to run the whole time you're playing. The script should go in the "custom" directory and be named "customBackground".
+
+= disable-tts
+
+Default: true
+
+In case you want a voice to speak when a world is created for some reason, you can set this to false.
+
+= set-window-titles
+
+Default: true
+
+= randomly-retry-freezes
+
+Default: false
+
+Whether we should randomly try re-freezing an instance.
+
+If you're thinking about enabling this, your problem is probably something else.
+
+== MISC DELAYS
+
+= fullscreen-delay
+
+= boot-delay
+
+Default value: 4.0
+
+The minimum number of seconds until an instance can be considered booted.
+
+You shouldn't need to change this.
+
+= max-unpaused-time
+
+Default value: 2.0
+
+If you choose to play without "auto-pause" to true, then instances will be automatically reset if you don't manually pause them within this number of seconds.
+
+Has no effect if "auto-pause" is true.
+
+= min-time-from-reset-to-world-entry
+
+Default value: 1.5
+
+The minimum time that your computer takes to reset, generate, and enter a world.
+
+Changing this will have zero impact on performance. You shouldn't need to change this. Decreasing or increasing this value can cause buggy behavior.
+
+=== EXPERIMENTAL SETTINGS
+
+If you want any guarantees of stability, it is highly recommended that you leave these settings on their default values.
+
+These features are open for testing, but they may completely fail to work, and may start/stop working at any time.
+
+== CLICK MACRO
+
+= use-click-macro
+
+Default value: false
+
+The click macro is experimental, and not guaranteed to work.
+
+It is supposed to launch all of your instances in launch offline mode by clicking on the buttons.
+
+It also will create instances for you if they do not exist.
+
+= multi-mc-delay
+
+Default value: 300
+High performance: 50
+Low performance: 1000
+
+The amount of time the click macro will wait between actions when interfacing with multi mc
+
+== MACRO OPTIMIZATIONS
+
+= parallelize-ahk
+
+Default value: false
+Experimental value: true
+
+Whether AIM should run AHK commands concurrently or not.
+
+This setting significantly improves the macro's responsiveness, and will likely be defaulted to true in the near future. However, more testing is needed to confirm its stability.
+
+= use-switching-daemon
+
+Default value: false
+Experimental value: true
+
+This setting can also improve responsiveness, but it is currently in early beta and unlikely to work.
+
+== CONCURRENT LAUNCHING
+
+= frontload launching
+
+Default value: true
+Experimental value: false
+
+= prio-booting-over-worldgen
+
+Default: true
+
+= stay-on-top-while-launching
+
+== RELAUNCHING CRASHED INSTANCES
+
+= relaunch-crashed-instances
+

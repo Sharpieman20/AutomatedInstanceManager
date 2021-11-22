@@ -81,9 +81,14 @@ def setup_hotkeys():
     global listening
     listening = True
     kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
-    kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
-    kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
     kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys, override=True))
-    kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
-    kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
-    kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
+    if 'reset-focused' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
+    if 'approve-focused' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
+    if 'background-debug' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
+    if 'background-pause' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
+    if 'unfreeze-all' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))

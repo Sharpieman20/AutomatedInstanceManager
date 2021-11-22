@@ -8,6 +8,7 @@ print('Using custom settings file {}'.format(custom_settings_file))
 
 settings = {}
 
+
 if custom_settings_file.exists():
     with open(custom_settings_file, "r") as custom_settings_readable:
         settings = json.load(custom_settings_readable)
@@ -37,9 +38,6 @@ def get_num_instances():
 
 def get_max_concurrent():
     return int(settings['max-concurrent'])
-
-def get_max_concurrent_boot():
-    return int(settings['max-concurrent-boot'])
 
 def get_unfreeze_delay():
     return float(settings['unfreeze-delay']) / 1000.0
@@ -196,6 +194,10 @@ def get_window_title_template():
 
 def use_custom_background_ahk_process():
     return settings['run-custom-background-ahk-script']
+
+def attempt_to_relaunched_crashed_instances():
+    return settings['relaunch-crashed-instances']
+
 def check_for_crashes_delay():
     return settings['check-for-crashes-delay']
 
@@ -216,3 +218,6 @@ def wait_for_all_to_launch_before_booting():
 
 def get_multimc_delay():
     return settings['multi-mc-delay']
+
+def use_custom_ahk_scripts():
+    return settings['use-custom-ahk-scripts']

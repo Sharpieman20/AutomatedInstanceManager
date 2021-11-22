@@ -3,9 +3,13 @@
 
 === What AIM does
 
-AIM uses a state transition model to guarantee only a certain number of instances are running at any given time.
+AIM uses a link:STATES.adoc[state transition model] to guarantee only a certain number of instances are running at any given time.
+
+This allows runners to use an infinite number of instances in theory, even if their computer can only support 2 or 3 at any given time.
 
 A short demonstration of using 18 instances is available link:https://www.youtube.com/watch?v=cZWgRNDrRcc[here].
+
+**WARNING - AIM can have the effect of shortening your SSD's lifespan. Please read link:MEMORY.adoc[our memory briefer] for more details.**
 
 Please note this demo is of an early version of the macro, and we expect to improve performance and utility in the future.
 

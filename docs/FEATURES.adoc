@@ -1,0 +1,22 @@
+:nofooter:
+:hardbreaks:
+
+=== FEATURES
+
+Infinite instance scaling
+Automatic launching of OBS, LiveSplit, MultiMC, and all instances
+Self-updating so you always have the latest features
+Showing and hiding correct active instance on OBS
+Optional unpausing on world entry
+Background resetting with only two hotkeys
+Cross-instance attempt counter
+Borderless, fullscreen, windowed and non-maximized windowed support
+Custom AHK script overriding/interfacing
+
+== BETA FEATURES
+
+Concurrent instance launching while doing runs
+Low latency resetting
+Sparse wall world selection
+OBS automatic source creation for stream and recording
+Support for versions besides 1.16

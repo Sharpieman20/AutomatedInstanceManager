@@ -1,0 +1,64 @@
+:nofooter:
+:hardbreaks:
+
+== How AIM can decrease your SSD lifecycle
+
+Simple overview.
+
+AIM "freezes" each instance after generating a world.
+
+This has the effect of the instance being "written" to your SSD.
+
+The next time we want to interact with this instance again, it must be read from your SSD.
+
+This means that, for every single world you generate with AIM, you will be writing AND reading approximately 2 GB to your SSD.
+
+Please consult your SSD's memory rating for an estimate of number of worlds generated this allows for.
+
+**If you use AIM with max_concurrent = num_instances, then AIM will have no effect on your SSD's lifetime**
+
+== Technical - How AIM uses memory
+
+Any instance that is "active" will be running off of your RAM.
+
+The rest of the instances will be running off of your pagefile.
+
+The amount of memory it's using will be approximately equal to the Xmx argument that you use for your java options.
+
+When an instance is unfrozen, it will switch from running off of your pagefile back to running off of RAM.
+
+This means that when you unfreeze an instance.
+
+It's important that you ensure your pagefile is sufficiently large to accommodate as many instances as you'd like to run.
+
+It's also important that your pagefile is on the SSD that you want to be using. An SSD with faster read/write speed will let you set unfreeze-delay lower, increase max-concurrent, and generate more worlds more quickly.
+
+== In-depth - How AIM uses memory
+
+When a java process begins, it allocates Xms memory to the heap.
+
+This heap memory is given to it in the form of virtual memory pages.
+
+Heap memory isn't immediately allocated in physical memory though, only virtual memory.
+
+Using the "AlwaysPreTouch" argument will allocate this memory in physical memory as well as virtual.
+
+These virtual memory pages will be sourced from RAM if possible.
+
+These pages will enter what's known as the "working set" of the process.
+
+AIM uses "SetProcessWorkingSize". This will move the virtual memory pages into the modified set from the working set.
+
+However, SetProcessWorkingSize has **no immediate effect** on physical memory.
+
+This causes the processes memory to enter Windows' modified set.
+
+When RAM is full, and there are no free, zero'd, or standby pages available, the modified page writer will begin to write modified pages for different processes to the pagefile.
+
+When we unsuspend an instance, we don't do anything to the working set.
+
+Instead, the process running will mean it starts trying to access its memory again.
+
+These virtual memory accesses will cause hard page faults, which will make the OS swap the pages we have stored in the pagefile back into RAM.
+
+More coming later.
