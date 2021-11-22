@@ -1,15 +1,10 @@
 {
     "hotkeys": {
         "reset-active": "U",
-        "reset-focused": "H",
-        "approve-focused": "J",
-        "toggle-hotkeys": "R",
-        "background-debug": "Q",
-        "background-pause": "T",
-        "unfreeze-all": "|"
+        "toggle-hotkeys": "R"
     },
     "multi-mc-path":  "C:/Users/TestUser/Applications/MultiMC/MultiMC.exe",
-    "num-instances": 3,
+    "num-instances": 5,
     "max-concurrent": 2,
     "fullscreen": false,
     "borderless": false,
