@@ -20,7 +20,7 @@ src_dir = Path.cwd() / 'src'
 if src_dir.exists():
     shutil.rmtree(Path.cwd() / 'src')
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/release.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
  
@@ -37,9 +37,9 @@ os.remove('release.zip')
 
 wheel_urls = []
 
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/six-1.16.0-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/websocket_client-1.2.1-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/beta/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/six-1.16.0-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/websocket_client-1.2.1-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/main/res/obs_websocket_py-0.5.3-py3-none-any.whl')
 # wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/psutil-5.8.0-cp39-cp39-win_amd64.whl')
 
 for url in wheel_urls:
@@ -52,7 +52,7 @@ defaults_dir = Path.cwd() / 'defaults'
 if defaults_dir.exists():
     shutil.rmtree(Path.cwd() / 'defaults')
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 defaults_dir.mkdir()
@@ -63,7 +63,7 @@ settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/beta/dist/basic_settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/main/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = Path('my_settings.json')
@@ -72,12 +72,6 @@ if not my_settings_json.exists():
     my_settings_json.touch()
     open(my_settings_json.name, 'w').write(r.text)
 
-src_ahk = Path.cwd() / "src" / "ahk"
-custom_directory = Path.cwd() / "custom"
-if custom_directory.exists():
-    for custom_ahk in custom_directory.iterdir():
-        shutil.copyfile(custom_ahk, src_ahk / custom_ahk.name)
-else:
-    custom_directory.mkdir()
+
 
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
