@@ -154,7 +154,7 @@ def set_new_focused(inst):
             focused_instance.mark_hidden()
         set_focused_instance(inst)
         if settings.should_show_focused_as_active():
-            obs.show_primary(inst)
+            show_primary(inst)
         focused_instance.mark_focused()
 
 def create_scene_item_for_instance(inst):
