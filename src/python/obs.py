@@ -87,6 +87,43 @@ def get_base_primary_item():
 def get_indicator_item():
     return get_item_with_name('indicator')
 
+def update_scene_item_order():
+    if not settings.should_reorder_scene_items():
+        return
+    scene_items = get_scene_items()
+    scene_item_names = []
+    for scene_item in scene_items:
+        scene_item_names.append(scene_item['sourceName'])
+    new_order = []
+    tried_set_primary = False
+    indices_of_actives = []
+    index = 0
+    for name in scene_item_names:
+        if 'active' in name:
+            indices_of_actives.append(index)
+        new_order.append(name)
+        index += 1
+    index = 0
+    used_instances = []
+    if get_primary_instances() is not None:
+        inst = get_primary_instances()
+        new_order[indices_of_actives[index]] = 'active{}'.format(inst.num)
+        used_instances.append(inst.num)
+        index += 1
+    if get_focused_instance() is not None:
+        inst = get_focused_instance()
+        new_order[indices_of_actives[index]] = 'active{}'.format(inst.num)
+        used_instances.append(inst.num)
+        index += 1
+    for i in range(settings.get_num_instances()+1):
+        if i == 0:
+            continue
+        if i not in used_instances:
+            new_order[indices_of_actives[index]] = 'active{}'.format(i)
+            index += 1
+
+    call_stream_websocket(obsrequests.ReorderSceneItems(new_order))
+
 def set_new_primary(inst):
     # print(inst)
     if inst is not None:
@@ -116,6 +153,8 @@ def set_new_focused(inst):
         if focused_instance is not None:
             focused_instance.mark_hidden()
         set_focused_instance(inst)
+        if settings.should_show_focused_as_active():
+            obs.show_primary(inst)
         focused_instance.mark_focused()
 
 def create_scene_item_for_instance(inst):

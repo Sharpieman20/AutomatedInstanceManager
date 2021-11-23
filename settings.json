@@ -60,5 +60,7 @@
     "use-custom-ahk-scripts": false,
     "relaunch-crashed-instances": false,
     "frontload-launching": true,
-    "quit-instances-on-exit": false
+    "quit-instances-on-exit": false,
+    "show-focused-as-active": false,
+    "dynamically-reorder-scene-items": false
 }

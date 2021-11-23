@@ -224,3 +224,9 @@ def use_custom_ahk_scripts():
 
 def should_kill_all_on_exit():
     return settings['quit-instances-on-exit']
+
+def should_reorder_scene_items():
+    return settings['dynamically-reorder-scene-items']
+
+def should_show_focused_as_active():
+    return settings['show-focused-as-active']
