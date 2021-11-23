@@ -74,6 +74,7 @@ class Suspendable(Process):
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
+    # TODO @Sharpieman20 use SetProcessInformation to increase memory priority for active instances
     def resume(self, force=False):
         if not force and not self.is_suspended():
             return
