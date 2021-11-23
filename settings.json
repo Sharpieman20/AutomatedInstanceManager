@@ -59,5 +59,6 @@
     "settings-reset-first-world": false,
     "use-custom-ahk-scripts": false,
     "relaunch-crashed-instances": false,
-    "frontload-launching": true
+    "frontload-launching": true,
+    "quit-instances-on-exit": false
 }

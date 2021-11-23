@@ -221,3 +221,6 @@ def get_multimc_delay():
 
 def use_custom_ahk_scripts():
     return settings['use-custom-ahk-scripts']
+
+def should_kill_all_on_exit():
+    return settings['quit-instances-on-exit']

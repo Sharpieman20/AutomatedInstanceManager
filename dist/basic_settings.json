@@ -5,10 +5,10 @@
     },
     "multi-mc-path":  "C:/Users/TestUser/Applications/MultiMC/MultiMC.exe",
     "num-instances": 5,
-    "max-concurrent": 2,
+    "max-concurrent": 3,
+    "unfrozen-queue-size": 1,
     "fullscreen": false,
     "borderless": false,
     "auto-launch": true,
     "use-beta": false
 }
-

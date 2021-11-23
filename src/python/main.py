@@ -45,6 +45,7 @@ import subprocess as sp
 import shlex
 import hotkeys
 import shutil
+import atexit
 
 IS_BETA = False
 
@@ -381,6 +382,9 @@ def handle_manual_launch(sc):
     done_with_manual_launch_batch = True
     handle_manual_launch_inner(sc)
 
+def run_cmd(cmd):
+    sp.call(shlex.split(cmd))
+
 def download_branch(branch):
     installer_file = Path.cwd() / "run_aim.py"
     if installer_file.exists():
@@ -389,7 +393,7 @@ def download_branch(branch):
     r = requests.get(installer_file_url, allow_redirects=True)
     installer_file.touch()
     open(installer_file.name, 'w').write(r.text)
-    sp.call(shlex.split('py run_aim.py'))
+    run_cmd'py run_aim.py')
 
 def try_download_regular():
     global IS_BETA
@@ -403,9 +407,16 @@ def try_download_beta():
         return
     download_branch('beta')
 
+def kill_on_exit():
+    if settings.should_kill_all_on_exit():
+        for instance in queues.get_all_instances():
+            cmd = 'Taskkill /PID {} /F'.format(instance.pid)
+            run_cmd(cmd)
+
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions
     # TODO @Sharpieman20 - add error messages explaining
+    atexit.register(kill_on_exit)
     try:
         if not settings.is_test_mode():
             if settings.should_use_beta():
