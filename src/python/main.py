@@ -393,7 +393,7 @@ def download_branch(branch):
     r = requests.get(installer_file_url, allow_redirects=True)
     installer_file.touch()
     open(installer_file.name, 'w').write(r.text)
-    run_cmd'py run_aim.py')
+    run_cmd('py run_aim.py')
 
 def try_download_regular():
     global IS_BETA
