@@ -309,7 +309,7 @@ class Instance(ConditionalTransitionable):
         self.first_reset = False
 
     def reset(self):
-        if False and settings.should_set_window_titles():
+        if settings.should_set_window_titles():
             title_str = settings.get_window_title_template()
             title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
