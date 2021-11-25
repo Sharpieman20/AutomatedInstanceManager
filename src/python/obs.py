@@ -283,7 +283,7 @@ def prompt_for_correct_dimensions():
     print('Detecting recording OBS is not configured.')
     recording_wall = Wall(settings.get_num_instances(), settings.get_recording_instance_width(), settings.get_recording_instance_height())
     x, y = recording_wall.get_pixel_dimensions()
-    input('Please set your recording OBS to output resolution {}x{}, then press any key to continue.'.format(x,y))
+    input('Please set your recording OBS to Canvas size {}x{}, then press any key to continue.'.format(x,y))
 
 
 def delete_scene_item(scene_item, stream=False):

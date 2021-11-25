@@ -39,6 +39,7 @@
     "auto-unpause-delay": 500.0,
     "num-instances": 5,
     "max-concurrent": 3,
+    "max-concurrent-in-run": -1,
     "unfrozen-queue-size": 1,
     "manual-launch-batch-size": -1,
     "obs-enabled": true,

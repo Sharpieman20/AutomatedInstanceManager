@@ -56,7 +56,6 @@ SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 max_concurrent = settings.get_max_concurrent()
 max_concurrent_in_run = settings.get_max_concurrent_in_run()
-max_concurrent_boot = settings.get_max_concurrent_boot()
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
@@ -469,8 +468,8 @@ if __name__ == "__main__":
         obs.connect_to_recording_obs()
         time.sleep(1)
         print("Configuring OBS")
-        obs.setup_stream_obs()
         obs.setup_recording_obs()
+        obs.setup_stream_obs()
         obs.hide_all()
         print(settings.get_hotkeys())
         hotkeys.setup_hotkeys()

@@ -252,7 +252,10 @@ def should_show_focused_as_active():
 def should_auto_launch_apps():
     return settings['auto-launch-apps']
 def get_max_concurrent_in_run():
-    return int(settings['max-concurrent-in-run']) 
+    max_concurrent_in_run = int(settings['max-concurrent-in-run'])
+    if max_concurrent_in_run == -1:
+        return get_max_concurrent()
+    return max_concurrent_in_run
 
 def get_recording_instance_height():
     return settings['recording-instance-height']
