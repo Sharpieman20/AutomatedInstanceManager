@@ -268,3 +268,16 @@ def use_prioritization():
 
 def launch_java_test_processes():
     return True
+
+def get_stream_canvas_width():
+    return settings['stream-canvas-width']
+
+def get_stream_canvas_height():
+    return settings['stream-canvas-height']
+
+def auto_configure_obs():
+    return settings['auto-configure-obs']
+
+def is_wall_enabled():
+    return settings['use-wall']
+

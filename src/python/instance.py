@@ -136,9 +136,8 @@ class Stateful(Suspendable):
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
         self.mark_shown_on_wall()
-    
-    def mark_paused(self):
 
+    def mark_paused(self):
         assign_to_state(self, State.PAUSED)
         self.timestamp = get_time()
     
@@ -163,7 +162,6 @@ class Stateful(Suspendable):
         return self.state == State.READY
 
     def mark_approved(self):
-        self.mark_hidden_on_wall()
         assign_to_state(self, State.APPROVED)
     
     def is_approved(self):

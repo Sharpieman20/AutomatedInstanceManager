@@ -5,6 +5,7 @@
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
     "livesplit-user-config": "",
     "template-instance": "1.16INST",
+    "window-title-template": "Minecraft* - Instance #",
     "hotkeys": {
         "reset-active": "U",
         "toggle-hotkeys": "R"
@@ -21,6 +22,8 @@
     },
     "recording-instance-width": 160,
     "recording-instance-height": 90,
+    "stream-canvas-width": 900,
+    "stream-canvas-height": 600,
     "freeze-delay": 5000,
     "unfreeze-delay": 2000,
     "fullscreen-delay": 50,
@@ -44,5 +47,6 @@
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true,
     "parallelize-ahk": true,
+    "auto-configure-obs": true,
     "use-game-capture": false
 }

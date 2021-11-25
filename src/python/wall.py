@@ -52,11 +52,11 @@ class Wall:
         self.press_instance(instance_to_press)
 
     def press_instance(self, inst):
-        pass
-        # inst.mark_approved()
-        # inst.mark_hidden()
+        inst.mark_approved()
 
     def update_shown(self):
+        if not self.is_active():
+            return
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
                 inst.update_obs_wall_visibility()
@@ -84,24 +84,6 @@ class SquareWall(Wall):
         self.instance_pixel_height = self.instance_pixel_width
 
         self.tile_width, self.tile_height = tile_fill(self.num_instances, self.instance_pixel_width, self.pixel_width, self.pixel_height)
-
-def register_mouse_listener(cur_wall):
-
-    def on_click(x, y, button, pressed):
-        if pressed:
-            if pressed and button == mouse.Button.left:
-                cur_wall.press_instance_at_coords(x, y)
-                return False
-
-    global mouse_listener
-    with mouse.Listener(on_click=on_click) as mouse_listener:
-        # listener.start()
-        mouse_listener.join()
-
-
-def stop_mouse_listener():
-    global mouse_listener
-    mouse.Listener.stop(mouse_listener)
 
 
 def setup_wall_scenes():
@@ -140,7 +122,3 @@ def calculate_square_side(count, width, height):
 
 def tile_fill(count, square_side, width, height):
     return (int(width/square_side), int(height/square_side))
-
-
-
-

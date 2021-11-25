@@ -54,7 +54,7 @@
     "only-focus-ready": true,
     "should-maximize": true,
     "auto-unpause": true,
-    "parallelize-ahk": false,
+    "parallelize-ahk": true,
     "use-switching-daemon": false,
     "borderless": false,
     "use-beta": false,
@@ -71,5 +71,7 @@
     "frontload-launching": true,
     "quit-instances-on-exit": true,
     "show-focused-as-active": false,
-    "dynamically-reorder-scene-items": false
+    "dynamically-reorder-scene-items": false,
+    "auto-configure-obs": false,
+    "is_wall_enabled": true
 }
