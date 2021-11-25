@@ -12,6 +12,12 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk.script import _resolve_executable_path
     import wmi
 
+def run_cmd(cmd, blocking=False):
+    if blocking:
+        sp.call(shlex.split(cmd))
+    else:
+        sp.Popen(shlex.split(cmd))
+
 def get_time():
     return time.time()
 
@@ -33,9 +39,6 @@ def get_pids():
                 all_pids.append(process.ProcessId)
     print('-------')
     return all_pids
-
-
-
 
 def get_multimc_pid():
     if settings.is_test_mode():

@@ -39,7 +39,6 @@ def try_launch_instance(inst):
 
     if settings.try_fast_launch():
         if not inst.has_directory():
-            # ahk.createInstanceFromTemplate(blocking=True)
             hlp.run_ahk('createInstanceFromTemplate', multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), instname=inst.name, blocking=True)
         else:
             hlp.run_ahk('selectFirstMultiMCInstance',multimcpid=hlp.get_multimc_pid(), multimcdelay=settings.get_multimc_delay(), blocking=True)
@@ -51,28 +50,28 @@ def launch_instance(inst):
     if settings.get_num_instances() > 5 and settings.use_click_macro():
         try_launch_instance(inst)
         return
-    # os.popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
-    instance_process = sp.Popen(f'{settings.get_multimc_path()} -l "{inst.name}"')
+
+    instance_process = hlp.run_cmd(f'{settings.get_multimc_path()} -l "{inst.name}"')
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
     return instance_process.pid
 
 def launch_obs():
-    # TODO @Sharpieman20 - replace with something better
-    os.system(f'start /d "{settings.get_obs_path()}" "" obs64.exe')
+    hlp.run_cmd('start /d "{}" "" obs64.exe'.format(settings.get_obs_path()))
+    time.sleep(3)
 
 def launch_livesplit():
-    if not settings.get_livesplit_path().exists():
-        return
-    os.startfile(settings.get_livesplit_path())
+    hlp.run_cmd('start {}'.format(settings.get_livesplit_path()))
+    time.sleep(3)
 
 def launch_multimc():
-    os.startfile(settings.get_multimc_path())
+    hlp.run_cmd('start {}'.format(settings.get_livesplit_path()))
+    time.sleep(3)
 
 def launch_all_programs():
     if settings.use_custom_background_ahk_process():
         hlp.run_ahk('customBackground')
-    if settings.is_test_mode() or not settings.should_auto_launch():
+    if settings.is_test_mode() or not settings.should_auto_launch_apps():
         return
     # TODO: add stat tracker?
     all_programs = ["OBS", "LiveSplit", "MultiMC"]

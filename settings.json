@@ -40,6 +40,7 @@
     "fullscreen": false,
     "test-mode": false,
     "auto-launch": true,
+    "auto-launch-apps": false,
     "auto-pause": true,
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true,
@@ -60,7 +61,7 @@
     "use-custom-ahk-scripts": false,
     "relaunch-crashed-instances": false,
     "frontload-launching": true,
-    "quit-instances-on-exit": false,
+    "quit-instances-on-exit": true,
     "show-focused-as-active": false,
     "dynamically-reorder-scene-items": false
 }

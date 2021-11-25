@@ -382,9 +382,6 @@ def handle_manual_launch(sc):
     done_with_manual_launch_batch = True
     handle_manual_launch_inner(sc)
 
-def run_cmd(cmd):
-    sp.call(shlex.split(cmd))
-
 def download_branch(branch):
     installer_file = Path.cwd() / "run_aim.py"
     if installer_file.exists():
@@ -393,7 +390,7 @@ def download_branch(branch):
     r = requests.get(installer_file_url, allow_redirects=True)
     installer_file.touch()
     open(installer_file.name, 'w').write(r.text)
-    run_cmd('py run_aim.py')
+    hlp.run_cmd('py run_aim.py', blocking=True)
 
 def try_download_regular():
     global IS_BETA
@@ -411,7 +408,7 @@ def kill_on_exit():
     if settings.should_kill_all_on_exit():
         for instance in queues.get_all_instances():
             cmd = 'Taskkill /PID {} /F'.format(instance.pid)
-            run_cmd(cmd)
+            hlp.run_cmd(cmd, blocking=True)
 
 if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertions

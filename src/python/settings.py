@@ -230,3 +230,6 @@ def should_reorder_scene_items():
 
 def should_show_focused_as_active():
     return settings['show-focused-as-active']
+
+def should_auto_launch_apps():
+    return settings['auto-launch-apps']
