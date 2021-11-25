@@ -1,38 +1,38 @@
-=== OPTIONS
+= OPTIONS
 
 == HOTKEYS
 
-= reset-active
+=== reset-active
 
 The reset key
 
-= toggle-hotkeys
+=== toggle-hotkeys
 
 Toggles if hotkeys are on or not
 
-= reset-focused
+=== reset-focused
 
-= approve-focused
+=== approve-focused
 
-= background-debug
+=== background-debug
 
-= background pause
+=== background pause
 
-= manual-launch-complete
+=== manual-launch-complete
 
-= unfreeze-all
+=== unfreeze-all
 
 == MAIN OPTIONS
 
 These are the main options you will likely want to be changing.
 
-= multi-mc-path
+=== multi-mc-path
 
 The absolute path of your MultiMC.exe file.
 
 Please use forward slashes in the file name.
 
-= num-instances
+=== num-instances
 
 Default: 5
 
@@ -40,7 +40,7 @@ Num instances should have ZERO performance impact.
 This means you can set this as high as you want and the macro should work.
 The default is 5 due to a bug with MultiMC.
 
-= max-concurrent
+=== max-concurrent
 
 Default: 3
 High performance: 7
@@ -52,7 +52,7 @@ This is the maximum number of instances that you can have open at a single time.
 
 This is probably the single most important setting in terms of performance. If you're experiencing low FPS or stuttering during runs, this is the first setting you should try changing.
 
-= chunk-load-time
+=== chunk-load-time
 
 Default: 5.0
 
@@ -62,7 +62,7 @@ If you find you're loading into worlds without as many chunks loaded as you like
 
 No high/low performance values are given because the optimal value is highly dependent on user render distance and preference.
 
-= auto-unpause
+=== auto-unpause
 
 Default: true
 
@@ -70,15 +70,13 @@ Whether the macro should unpause you when switching to an instance that has a wo
 
 If you'd prefer to manually unpause each world, set this to false.
 
-= move-old-worlds
+=== fullscreen
 
-= fullscreen
+=== should-maximize
 
-= should-maximize
+=== borderless
 
-= borderless
-
-= use-beta
+=== use-beta
 
 Default value: false
 Experimental value: true
@@ -87,7 +85,7 @@ Self-explanatory.
 
 == MAIN DELAYS
 
-= key-delay
+=== key-delay
 
 Default value: 20
 High performance: 1
@@ -95,11 +93,17 @@ Low performance: 50
 
 Same as keydelay in other macros. The amount of time AHK uses for its SetKeyDelay command, in milliseconds.
 
-= switch-delay
+=== switch-delay
 
-= fullscreen-delay
+Default value: 200
+High performance: 100
+Low performance: 1000
 
-= freeze-delay
+Number of milliseconds the macro should sleep before starting to activate the instance it is switching to.
+
+=== fullscreen-delay
+
+=== freeze-delay
 
 Default value: 500
 
@@ -107,7 +111,7 @@ Time in milliseconds until an instance is considered fully suspended.
 
 You probably shouldn't need to change this value.
 
-= unfreeze-delay
+=== unfreeze-delay
 
 Default value: 2000
 High performance: 1000
@@ -118,7 +122,7 @@ Time in milliseconds until an instance is considered fully suspended.
 This value seems high because it is supposed to account for the time it takes your SSD to load an instance into AND out of RAM.
 Simple formula for this is min(SSD write speed MB/s, SSD read speed MB/s)*2.
 
-= loop-delay
+=== loop-delay
 
 Default value: 100
 High performance: 50
@@ -128,15 +132,85 @@ If your PC lags while using the macro, even with low max-concurrent, and python 
 
 This should be the maximum latency of the macro in milliseconds.
 
+=== auto-unpause-delay
+
+Default: 500
+
+How many milliseconds the macro should wait before automatically unpausing you.
+
+Only takes effect if "auto-unpause" is true.
+
 == OTHER OPTIONS
 
-= auto-pause
+=== move-old-worlds
+
+Default: true
+
+Whether the macro should move old worlds after you exit them.
+
+Worlds will be moved to the folder specified by the "old-worlds-folder" option.
+
+=== old-worlds-folder
+
+Default: Unset
+
+The folder where you would like old worlds to be copied to.
+
+Only takes effect if "move-old-worlds" is true. Make sure the folder exists before starting AIM. Please use forward slashes in the file path.
+
+=== auto-launch-apps
+
+Default value: true
+
+Whether the macro should attempt to launch your defined apps when started.
+
+=== livesplit-path
+
+The absolute path of your LiveSplit.exe file.
+
+This is used if you have auto-launch-apps true to launch LiveSplit when you start AIM. Please use forward slashes in the file name.
+
+=== obs-path
+
+The absolute path of your OBS 64bit directory.
+
+This is used if you have auto-launch-apps true to launch OBS when you start AIM. Please use forward slashes in the file name.
+
+=== obs-settings
+
+Configuration for OBS websocket. The default values are the same as are defaulted by OBS websocket when it is installed, so you shouldn't need to change these.
+
+=== template-instance
+
+Default: 1.16INST
+
+The name of your template instance.
+
+Other instances will be created with a number appended to this name.
+
+=== version
+
+Default: 1.16
+
+Currently, only 1.16 is supported.
+
+This option is for when support for other versions is added in the future.
+
+=== window-title-template
+
+Default: Minecraft* - Instance #
+
+The title that your instance will be set to.
+
+The "#" sign will be replaced with the instance number.
+
+=== auto-pause
 
 Default: true
 
 Whether a world should be paused directly after it is created.
 
-= only-focus-ready
+=== only-focus-ready
 
 Default value: true
 
@@ -144,11 +218,11 @@ Whether worlds that are generating or not done loading chunks should be shown on
 
 This only applies to instances being shown as part of BG resetting or wall. Changing this setting will not change how the macro decides which instance is active.
 
-= use-reset-counter
+=== use-reset-counter
 
 Default value: true
 
-= settings-reset-first-world
+=== settings-reset-first-world
 
 Default value: false
 
@@ -156,9 +230,15 @@ Whether or not we should instantly settings reset the first world for an instanc
 
 Depending on what your settings reset script does, this may be desirable (i.e. if it resets your pie).
 
-= use-custom-ahk-scripts
+=== min-time-for-settings-reset
 
-= run-custom-background-ahk-script
+Default value: 10
+
+How many seconds into a run we need to be in order to decide to do a settings reset.
+
+=== use-custom-ahk-scripts
+
+=== run-custom-background-ahk-script
 
 Default: false
 
@@ -166,17 +246,17 @@ Whether we should try and run a background ahk script on launch. The script will
 
 This is useful if you have an AHK script that you start when doing runs (such as one remapping keybinds) that you want to run the whole time you're playing. The script should go in the "custom" directory and be named "customBackground".
 
-= disable-tts
+=== disable-tts
 
 Default: true
 
 In case you want a voice to speak when a world is created for some reason, you can set this to false.
 
-= set-window-titles
+=== set-window-titles
 
 Default: true
 
-= randomly-retry-freezes
+=== randomly-retry-freezes
 
 Default: false
 
@@ -186,9 +266,13 @@ If you're thinking about enabling this, your problem is probably something else.
 
 == MISC DELAYS
 
-= fullscreen-delay
+=== fullscreen-delay
 
-= boot-delay
+Default value: 400
+
+Number of milliseconds the macro should sleep after switching into or out of fullscreen.
+
+=== boot-delay
 
 Default value: 4.0
 
@@ -196,7 +280,7 @@ The minimum number of seconds until an instance can be considered booted.
 
 You shouldn't need to change this.
 
-= max-unpaused-time
+=== max-unpaused-time
 
 Default value: 2.0
 
@@ -204,7 +288,15 @@ If you choose to play without "auto-pause" to true, then instances will be autom
 
 Has no effect if "auto-pause" is true.
 
-= min-time-from-reset-to-world-entry
+=== max-time-before-auto-reset
+
+Default value: 1,000,000
+
+The number of seconds before an instance should be automatically reset.
+
+This setting was added to a rule about the maximum amount of time an instance could be paused before starting the run. This rule has been removed, so changing this setting should be unnecessary.
+
+=== min-time-from-reset-to-world-entry
 
 Default value: 1.5
 
@@ -212,15 +304,15 @@ The minimum time that your computer takes to reset, generate, and enter a world.
 
 Changing this will have zero impact on performance. You shouldn't need to change this. Decreasing or increasing this value can cause buggy behavior.
 
-=== EXPERIMENTAL SETTINGS
+== EXPERIMENTAL SETTINGS
 
 If you want any guarantees of stability, it is highly recommended that you leave these settings on their default values.
 
 These features are open for testing, but they may completely fail to work, and may start/stop working at any time.
 
-== CLICK MACRO
+=== CLICK MACRO
 
-= use-click-macro
+==== use-click-macro
 
 Default value: false
 
@@ -230,17 +322,17 @@ It is supposed to launch all of your instances in launch offline mode by clickin
 
 It also will create instances for you if they do not exist.
 
-= multi-mc-delay
+==== multi-mc-delay
 
 Default value: 300
 High performance: 50
 Low performance: 1000
 
-The amount of time the click macro will wait between actions when interfacing with multi mc
+The amount of time the click macro will wait between actions when interfacing with MultiMC
 
-== MACRO OPTIMIZATIONS
+=== MACRO OPTIMIZATIONS
 
-= parallelize-ahk
+==== parallelize-ahk
 
 Default value: false
 Experimental value: true
@@ -249,27 +341,38 @@ Whether AIM should run AHK commands concurrently or not.
 
 This setting significantly improves the macro's responsiveness, and will likely be defaulted to true in the near future. However, more testing is needed to confirm its stability.
 
-= use-switching-daemon
+==== use-switching-daemon
 
 Default value: false
 Experimental value: true
 
 This setting can also improve responsiveness, but it is currently in early beta and unlikely to work.
 
-== CONCURRENT LAUNCHING
+=== CONCURRENT LAUNCHING
 
-= frontload launching
+==== frontload launching
 
 Default value: true
 Experimental value: false
 
-= prio-booting-over-worldgen
+==== prio-booting-over-worldgen
 
 Default: true
 
-= stay-on-top-while-launching
+==== stay-on-top-while-launching
 
-== RELAUNCHING CRASHED INSTANCES
+=== RELAUNCHING CRASHED INSTANCES
 
-= relaunch-crashed-instances
+==== relaunch-crashed-instances
+
+Default value: false
+Experimental value: true
+
+==== check-for-crashes-delay
+
+Default value: 10
+
+How many seconds the macro should wait between checking for crashes.
+
+Raising this can have a negative performance impact.
 

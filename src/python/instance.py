@@ -170,12 +170,12 @@ class InstanceStateful(Stateful):
         if stayOnTop and not settings.stay_always_on_top_when_still_launching():
             stayOnTop = False
         if not settings.use_switching_daemon():
-            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled())
+            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled(), fullscreenDelay=settings.get_fullscreen_delay())
         self.is_always_on_top = stayOnTop
     
     def mark_back(self):
         if not settings.use_switching_daemon():
-            hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize(), fullscreen=settings.is_fullscreen_enabled())
+            hlp.run_ahk("deactivateWindow", pid=self.pid, isMaximized=settings.should_maximize(), fullscreen=settings.is_fullscreen_enabled(), fullscreenDelay=settings.get_fullscreen_delay())
 
 
 class DisplayStateful(InstanceStateful):

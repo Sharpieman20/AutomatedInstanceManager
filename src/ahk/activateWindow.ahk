@@ -5,6 +5,7 @@ maximize := A_Args[4]
 keepOnTop := A_Args[5]
 autoUnpause := A_Args[6]
 fullscreen := A_Args[7]
+fullscreenDelay := A_Args[8]
 WinSet, AlwaysOnTop, On, ahk_pid %pid%
 Sleep, %switchDelay%
 send {LButton}
@@ -24,7 +25,7 @@ if (%maximize%) {
 }
 if (%fullscreen%) {
     ControlSend, ahk_parent, {Blind}{F11}, ahk_pid %pid%
-    sleep, 400
+    sleep, %fullscreenDelay%
 }
 Sleep, 1000
 ExitApp

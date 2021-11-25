@@ -9,11 +9,15 @@ MultiMC is required, and OBS is strongly recommended. Internet connection is als
 
 == Instance setup
 
+It is recommended to use a fresh MultiMC for usage with AIM. This will help prevent common issues and prevent AIM from inadvertently affecting your MultiMC that you use for regular play.
+
 Create an instance in MultiMC called "1.16INST", and set it as your first instance in MultiMC.
 
 Configure it with all of the mods/resource packs/maps that you want.
 
 Then duplicate it until you have as many instances as you want to play with, with the name scheme "1.16INST1", "1.16INST2", "1.16INST3", etc.
+
+Please note, renaming existing instances **will not work**. You must create them with the appropriate names.
 
 Here's an example using 6 instances:
 

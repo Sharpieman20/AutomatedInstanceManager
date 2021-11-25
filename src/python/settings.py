@@ -81,6 +81,9 @@ def get_obs_delay():
 def is_fullscreen_enabled():
     return settings['fullscreen']
 
+def get_fullscreen_delay():
+    return int(settings['fullscreen-delay'])
+
 def get_debug_interval():
     return 2.0
 
@@ -169,7 +172,7 @@ def get_unpause_delay():
     return settings['auto-unpause-delay']
 
 def get_old_worlds_directory():
-    return Path(settings['old-worlds'])
+    return Path(settings['old-worlds-folder'])
 
 def should_move_old_worlds():
     return settings['move-old-worlds']
