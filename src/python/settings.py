@@ -213,7 +213,7 @@ def get_window_title_template():
 def use_custom_background_ahk_process():
     return settings['run-custom-background-ahk-script']
 
-def attempt_to_relaunched_crashed_instances():
+def attempt_to_relaunch_crashed_instances():
     return settings['relaunch-crashed-instances']
 
 def check_for_crashes_delay():
@@ -280,4 +280,10 @@ def auto_configure_obs():
 
 def is_wall_enabled():
     return settings['use-wall']
+
+# INTENTIONALLY HARDCODED SETTINGS
+
+def get_multimc_launch_delay():
+    return 4.0
+
 

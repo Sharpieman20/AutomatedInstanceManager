@@ -86,7 +86,7 @@ def main_loop(sc):
     global last_crash_check_time
     global last_launch_time
 
-    if settings.attempt_to_relaunched_crashed_instances() and time.time() - last_crash_check_time > settings.check_for_crashes_delay():
+    if settings.attempt_to_relaunch_crashed_instances() and time.time() - last_crash_check_time > settings.check_for_crashes_delay():
         last_crash_check_time = time.time()
         hlp.identify_crashed_instances()
 
@@ -199,7 +199,7 @@ def main_loop(sc):
     for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
-            if not hlp.has_passed(last_launch_time, settings.get_unfreeze_delay()):
+            if not hlp.has_passed(last_launch_time, settings.get_multimc_launch_delay()):
                 continue
             inst.mark_launching()
             inst.launch()

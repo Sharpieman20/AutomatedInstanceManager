@@ -16,6 +16,8 @@ class Wall:
         self.make_layout()
         self.initialize_instance_shown_states()
 
+        self.active = False
+
     def make_layout(self):
         self.tile_width, self.tile_height = tile(self.num_instances)
 
@@ -62,21 +64,32 @@ class Wall:
                 inst.update_obs_wall_visibility()
                 time.sleep(0.25)
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
+    
+    def is_active(self):
+        return self.active
+    
+    def show(self):
+        self.active = True
+    
+    def hide(self):
+        self.active = False
+        for inst in queues.get_all_instances():
+            if inst.isShownOnWall:
+                obs.set_scene_item_visible('tile{}'.format(inst.num), False)
+                time.sleep(0.25)
 
-    def enable():
-        register_mouse_listener(self)
+    def enable(self):
+        obs.register_mouse_listener(self)
         show()
 
     def disable(self):
-        stop_mouse_listener()
+        obs.stop_mouse_listener()
         hide()
         # go to active
 
 class SquareWall(Wall):
 
     def make_layout(self):
-
-        print('make the square layout')
         self.pixel_width = self.instance_pixel_width
         self.pixel_height = self.instance_pixel_height
 

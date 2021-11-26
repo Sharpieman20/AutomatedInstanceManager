@@ -22,6 +22,8 @@
     },
     "recording-instance-width": 160,
     "recording-instance-height": 90,
+    "stream-canvas-width": 900,
+    "stream-canvas-height": 600,
     "freeze-delay": 500,
     "unfreeze-delay": 2000,
     "fullscreen-delay": 400,
@@ -73,5 +75,6 @@
     "show-focused-as-active": false,
     "dynamically-reorder-scene-items": false,
     "auto-configure-obs": false,
-    "is_wall_enabled": true
+    "use-wall": true,
+    "use-recording-obs": false
 }
