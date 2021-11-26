@@ -7,6 +7,7 @@ from datetime import datetime
 import settings
 from pathlib import Path
 import queues
+import shlex
 
 if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk.script import _resolve_executable_path
