@@ -127,6 +127,7 @@ def update_scene_item_order():
 def set_new_primary(inst):
     # print(inst)
     if inst is not None:
+        update_scene_item_order()
         global primary_instance
         primary_pid = -1
         if primary_instance is not None:
@@ -150,6 +151,7 @@ def set_new_primary(inst):
 def set_new_focused(inst):
     global focused_instance
     if inst is not None:
+        update_scene_item_order()
         if focused_instance is not None:
             focused_instance.mark_hidden()
         set_focused_instance(inst)
