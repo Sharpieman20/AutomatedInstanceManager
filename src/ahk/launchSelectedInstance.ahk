@@ -9,9 +9,9 @@ WinMove, ahk_pid %multimcpid%,,0,0,640,640
 sleep, %multimcdelay%
 WinSet, AlwaysOnTop, On, ahk_pid %multimcpid%
 sleep, %multimcdelay%
-MouseMove, 770, 480, 0
+MouseMove, 770, 530, 0
 sleep, %multimcdelay%
-Send, {Click 770, 480} ; Click to activate the window
+Send, {Click 770, 530} ; Click to activate the window
 sleep, %multimcdelay%
 MouseMove, 770, 225, 0
 sleep, %multimcdelay%
