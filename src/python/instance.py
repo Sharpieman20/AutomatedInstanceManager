@@ -290,10 +290,7 @@ class Instance(ConditionalTransitionable):
     def reset_from_title(self):
         # assign our pid somehow
         # start generating world w/ duncan mod
-        if settings.should_set_window_titles():
-            title_str = settings.get_window_title_template()
-            title_str = title_str.replace('#',str(self.num))
-            hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
+        self.set_title()
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
         self.mark_generating()
@@ -307,12 +304,15 @@ class Instance(ConditionalTransitionable):
     def settings_reset(self):
         hlp.run_ahk("resetSettings", pid=self.pid, keydelay=settings.get_key_delay())
         self.first_reset = False
-
-    def reset(self):
+    
+    def set_title(self):
         if settings.should_set_window_titles():
             title_str = settings.get_window_title_template()
             title_str = title_str.replace('#',str(self.num))
             hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
+
+    def reset(self):
+        self.set_title()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
@@ -393,7 +393,12 @@ class Instance(ConditionalTransitionable):
         
         self.move_worlds()
 
-        return (cur_world / "advancements").exists()
+        if not (cur_world / "advancements").exists():
+            return
+
+        self.set_title()
+
+        return True
 
     def __str__(self):
         return "({},{})".format(self.name, self.pid)
