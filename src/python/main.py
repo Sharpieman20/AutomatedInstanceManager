@@ -174,7 +174,7 @@ def main_loop(sc):
     for i in range(num_to_launch):
         inst = queues.get_dead_instances()[i]
         if settings.should_auto_launch():
-            if not hlp.has_passed(last_launch_time, settings.get_freeze_delay()):
+            if not hlp.has_passed(last_launch_time, settings.get_unfreeze_delay()):
                 continue
             inst.mark_launching()
             inst.launch()
