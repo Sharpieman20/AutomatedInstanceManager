@@ -111,10 +111,14 @@ def update_scene_item_order():
         used_instances.append(inst.num)
         index += 1
     if get_focused_instance() is not None:
-        inst = get_focused_instance()
-        new_order[indices_of_actives[index]] = 'active{}'.format(inst.num)
-        used_instances.append(inst.num)
-        index += 1
+        if get_primary_instance() is not None:
+            if get_focused_instance().num == get_primary_instance().num:
+                pass
+            else:
+                inst = get_focused_instance()
+                new_order[indices_of_actives[index]] = 'active{}'.format(inst.num)
+                used_instances.append(inst.num)
+                index += 1
     for i in range(settings.get_num_instances()+1):
         if i == 0:
             continue
