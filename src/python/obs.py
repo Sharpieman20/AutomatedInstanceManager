@@ -105,8 +105,8 @@ def update_scene_item_order():
         index += 1
     index = 0
     used_instances = []
-    if get_primary_instances() is not None:
-        inst = get_primary_instances()
+    if get_primary_instance() is not None:
+        inst = get_primary_instance()
         new_order[indices_of_actives[index]] = 'active{}'.format(inst.num)
         used_instances.append(inst.num)
         index += 1
