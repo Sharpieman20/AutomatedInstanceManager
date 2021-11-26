@@ -13,9 +13,9 @@ MouseMove, 770, 480, 0
 sleep, %multimcdelay%
 Send, {Click 770, 480} ; Click to activate the window
 sleep, %multimcdelay%
-MouseMove, 780, 215, 0
+MouseMove, 770, 225, 0
 sleep, %multimcdelay%
-Send, {Click 780, 215} ; Click to activate the window
+Send, {Click 770, 225} ; Click to activate the window
 sleep, %multimcdelay%
 Send, {Enter}
 sleep, %multimcdelay%
