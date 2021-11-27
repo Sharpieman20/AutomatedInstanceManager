@@ -141,12 +141,11 @@ def set_new_primary(inst):
         if settings.use_switching_daemon():
             with open(hlp.get_pipe_file_location(), 'w') as fil:
                 fil.write('{}\n{}'.format(primary_pid, inst.pid))
+        if inst.is_focused():
+            set_focused_instance(None)
         inst.mark_primary()
         if primary_instance is not None:
             primary_instance.mark_hidden()
-        if inst.is_focused():
-            global focused_instance
-            focused_instance = None
         set_primary_instance(inst)
         if primary_instance.is_ready():
             primary_instance.mark_active()
