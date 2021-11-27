@@ -85,6 +85,8 @@ def call_stream_websocket(arg):
 def connect_to_recording_obs():
     if not settings.is_obs_enabled():
         return
+    if not settings.use_recording_obs():
+        return
     global recording_obs
     recording_obs = obsws(settings.get_recording_obs_web_host(),
                settings.get_recording_obs_port(),
@@ -94,6 +96,8 @@ def connect_to_recording_obs():
 def call_recording_websocket(arg):
     # print(args)
     if not settings.is_obs_enabled():
+        return
+    if not settings.use_recording_obs():
         return
     global recording_obs
     return recording_obs.call(arg)
@@ -510,6 +514,8 @@ def reorder_stream_scene_items():
 
 def setup_recording_obs():
     if not settings.auto_configure_obs():
+        return
+    if not settings.use_recording_obs():
         return
     if not is_recording_obs_configured():
         prompt_for_correct_dimensions()

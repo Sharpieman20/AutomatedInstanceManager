@@ -278,6 +278,9 @@ def get_stream_canvas_height():
 def auto_configure_obs():
     return settings['auto-configure-obs']
 
+def use_recording_obs():
+    return settings['use-recording-obs']
+
 def is_wall_enabled():
     return settings['use-wall']
 
