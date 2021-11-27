@@ -71,6 +71,8 @@ class Suspendable(Process):
         if self.is_suspended() or self.forceResumed:
             if not settings.retry_freezes() or random.randint(0, 50) != 0:
                 return
+        if self.is_active():
+            print('FATAL ERROR - SUSPENDING ACTIVE INSTANCE')
         self.suspended = True
         hlp.run_ahk("suspendInstance", pid=self.pid)
 
@@ -134,6 +136,9 @@ class Stateful(Suspendable):
         assign_to_state(self, State.PAUSED)
         self.timestamp = get_time()
     
+    def is_paused(self):
+        return self.state == State.PAUSED
+    
     def mark_free(self):
         assign_to_state(self, State.FREE)
     
@@ -147,12 +152,15 @@ class Stateful(Suspendable):
     def mark_ready(self):
         assign_to_state(self, State.READY)
         self.timestamp = get_time()
+    
+    def is_ready(self):
+        return self.state == State.READY
 
     def mark_approved(self):
         assign_to_state(self, State.APPROVED)
-
-    def is_ready(self):
-        return self.state == State.READY
+    
+    def is_approved(self):
+        return self.state == State.APPROVED
 
     def mark_active(self):
         assign_to_state(self, State.ACTIVE)
@@ -293,7 +301,6 @@ class Instance(ConditionalTransitionable):
         self.set_title()
         hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
         # set state to generating
-        self.mark_generating()
         self.first_reset = True
 
     def reset_active(self):

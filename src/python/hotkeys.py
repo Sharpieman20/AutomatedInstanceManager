@@ -9,9 +9,11 @@ hotkey_lock = threading.Lock()
 
 # Callbacks
 def reset_primary():
+    print('start reset primary')
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None:
         primary_instance.reset_active()
+    print('exit reset primary')
 
 def reset_focused():
     focused_instance = obs.get_focused_instance()

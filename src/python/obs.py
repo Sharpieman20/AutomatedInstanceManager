@@ -147,8 +147,6 @@ def set_new_primary(inst):
         if primary_instance is not None:
             primary_instance.mark_hidden()
         set_primary_instance(inst)
-        if primary_instance.is_ready():
-            primary_instance.mark_active()
         primary_instance.resume()
 
 def set_new_focused(inst):

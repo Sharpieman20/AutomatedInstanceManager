@@ -93,6 +93,8 @@ def main_loop(sc):
 
     queues.update_all()
 
+    # print('ready q len {}'.format(len(queues.get_ready_instances())))
+
     # Pick primary instance
     primary_instance = obs.get_primary_instance()
     focused_instance = obs.get_focused_instance()
@@ -102,17 +104,20 @@ def main_loop(sc):
             obs.set_new_primary(queues.get_gen_instances()[0])
             need_to_reset_timer = True
     elif not primary_instance.is_active():
-        new_primary_instance = None
-        if len(queues.get_approved_instances()) > 0:
-            new_primary_instance = queues.get_approved_instances()[0]
-        elif len(queues.get_ready_instances()) > 0:
-            new_primary_instance = queues.get_ready_instances()[0]
-        elif len(queues.get_paused_instances()) > 0:
-            new_primary_instance = queues.get_paused_instances()[0]
-        elif len(queues.get_gen_instances()) > 0:
-            new_primary_instance = queues.get_gen_instances()[0]
-        try_set_primary(new_primary_instance)
-        need_to_reset_timer = True
+        if focused_instance is not None:
+            try_set_primary(focused_instance)
+        else:
+            new_primary_instance = None
+            if len(queues.get_approved_instances()) > 0:
+                new_primary_instance = queues.get_approved_instances()[0]
+            elif len(queues.get_ready_instances()) > 0:
+                new_primary_instance = queues.get_ready_instances()[0]
+            elif len(queues.get_paused_instances()) > 0:
+                new_primary_instance = queues.get_paused_instances()[0]
+            elif len(queues.get_gen_instances()) > 0:
+                new_primary_instance = queues.get_gen_instances()[0]
+            try_set_primary(new_primary_instance)
+            need_to_reset_timer = True
 
     # Pick focused instance
     if focused_instance is None:
@@ -128,21 +133,32 @@ def main_loop(sc):
 
     unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
-    num_working_instances = len(queues.get_gen_instances()) + len(queues.get_launching_instances()) + len(queues.get_pregen_instances())
-    num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
-
     num_to_launch = min(1, max(0,1-len(queues.get_launching_instances())))
+
+    num_working_instances = len(queues.get_launching_instances()) + len(queues.get_mainmenu_instances())
+    num_working_instances += len(queues.get_pregen_instances()) + len(queues.get_gen_instances())
+    num_working_instances += len(queues.get_paused_instances()) + len(queues.get_unpaused_instances())
     
-    if obs.get_primary_instance() is not None and obs.get_primary_instance().is_active():
-        num_working_instances += 1
-        num_to_launch = 0
+    if obs.get_primary_instance() is not None:
+        if obs.get_primary_instance().is_ready() or obs.get_primary_instance().is_approved():
+            # if our primary instance is ready/approved, it is not counted towards num_working currently
+            # but it will be marked active later in this loop, so we need to count it towards active
+            # this is only true if it's not already being counted from unfrozen queue size though
+            if unfrozen_queue_size == 0:
+                num_working_instances += 1
+        elif obs.get_primary_instance().is_active():
+            # we don't want to launch with an active primary instance
+            num_working_instances += 1
+            num_to_launch = 0
     
     # instead of adding unfrozen queue size to num working, we should add min(unfrozen queue size, num_ready + num_approved)
     num_working_instances += min(unfrozen_queue_size, len(queues.get_ready_instances()) + len(queues.get_approved_instances()))
     
     num_booting_instances = len(queues.get_booting_instances())
-
     num_to_boot = max_concurrent - num_working_instances
+
+    num_working_instances += num_booting_instances
+    
     if not settings.prioritize_booting_over_worldgen():
         num_to_boot -= len(queues.get_free_instances())
 
@@ -178,7 +194,6 @@ def main_loop(sc):
                 continue
             inst.mark_launching()
             inst.launch()
-            num_booting_instances += 1
             num_working_instances += 1
             break
         else:
@@ -211,6 +226,7 @@ def main_loop(sc):
             inst.mark_booting()
             inst.resume()
             num_booting_instances += 1
+            num_working_instances += 1
 
     # Handle booting instances
     for inst in queues.get_booting_instances():
@@ -251,8 +267,8 @@ def main_loop(sc):
         if not inst.is_done_unfreezing():
             continue
         # state = FREE
+        print(num_working_instances)
         if num_working_instances > max_concurrent:
-            print('yo im in it')
             # strictly greater than because it means we've surpassed the cap
             # ideally we shouldn't enter this if. this is a safeguard.
             # it can maybe happen due to us using this fact about pregen being optimistic
@@ -283,10 +299,10 @@ def main_loop(sc):
             continue
         # state = PAUSED
         # TODO - why do we need to pause after creating a world? shouldnt it auto-pause?
-        if not inst.is_primary():
-            inst.mark_worldgen_finished()
-        else:
+        if inst.is_primary() and not inst.is_active():
             inst.mark_active()
+        else:
+            inst.mark_worldgen_finished()
 
     obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
 
@@ -300,7 +316,7 @@ def main_loop(sc):
     # TODO - when resetting a paused instance, we should prioritize it since we can reduce suspend/unsuspends
     for inst in queues.get_paused_instances():
         # let chunks load some amount
-        if inst.is_primary():
+        if inst.is_primary() and not inst.is_active():
             inst.mark_active()
             continue
         if not inst.is_ready_for_freeze():
@@ -320,9 +336,10 @@ def main_loop(sc):
             inst.resume()
             continue
         # state = ?
-        if inst.is_primary():
+        if inst.is_primary() and not inst.is_active():
             inst.mark_active()
             continue
+        # print('inst {} is ready'.format(inst.num))
         inst.suspend()
 
     # Handle approved instances
@@ -336,11 +353,10 @@ def main_loop(sc):
         if index <= total_to_unfreeze:
             inst.resume()
             continue
-        if inst.is_primary():
+        if inst.is_primary() and not inst.is_active():
             inst.mark_active()
             continue
         inst.suspend()
-
 
     schedule_next(sc)
 
