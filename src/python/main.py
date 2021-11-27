@@ -109,11 +109,8 @@ def main_loop(sc):
             new_primary_instance = None
             if len(queues.get_approved_instances()) > 0:
                 new_primary_instance = queues.get_approved_instances()[0]
-            if new_primary_instance is None:
-                obs.enter_wall()
-            else:
-                try_set_primary(new_primary_instance)
-                need_to_reset_timer = True
+            try_set_primary(new_primary_instance)
+            need_to_reset_timer = True
         else:
             if len(queues.get_approved_instances()) > 0:
                 new_primary_instance = queues.get_approved_instances()[0]

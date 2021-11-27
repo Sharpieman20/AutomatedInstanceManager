@@ -8,7 +8,8 @@
     "window-title-template": "Minecraft* - Instance #",
     "hotkeys": {
         "reset-active": "U",
-        "toggle-hotkeys": "R"
+        "toggle-hotkeys": "R",
+        "exit-wall": "P"
     },
     "stream-obs-settings" : {
         "web-host": "localhost",
@@ -48,5 +49,6 @@
     "only-focus-ready": true,
     "parallelize-ahk": true,
     "auto-configure-obs": true,
-    "use-game-capture": false
+    "use-game-capture": false,
+    "use-wall": true
 }

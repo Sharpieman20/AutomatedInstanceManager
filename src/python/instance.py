@@ -111,7 +111,6 @@ class Stateful(Suspendable):
         assign_to_state(self, State.MAINMENU)
 
     def mark_booting(self):
-        self.mark_hidden_on_wall()
         assign_to_state(self, State.BOOTING)
         self.timestamp = get_time()
 
@@ -163,7 +162,8 @@ class Stateful(Suspendable):
 
     def mark_approved(self):
         assign_to_state(self, State.APPROVED)
-    
+        self.mark_hidden_on_wall()
+
     def is_approved(self):
         return self.state == State.APPROVED
 

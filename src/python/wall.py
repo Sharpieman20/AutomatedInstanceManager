@@ -25,7 +25,7 @@ class Wall:
         self.pixel_height = self.instance_pixel_height * self.tile_height
     
     def initialize_instance_shown_states(self):
-        self.instance_shown_states = {i+1: True for i in range(self.num_instances)}
+        self.instance_shown_states = {i+1: False for i in range(self.num_instances)}
     
     def get_coords_for_instance(self, inst):
         idx = inst.num-1
@@ -48,12 +48,21 @@ class Wall:
     
     def press_instance_at_coords(self, x, y):
         # TODO - convert from screen coords to canvas coords
-        x_ind = int(x // self.instance_x_height)
-        y_ind = int(y // self.instance_y_height)
-        instance_to_press = self.instances[x_ind][y_ind]
+        x_ind = int(x // self.instance_pixel_width)
+        y_ind = int(y // self.instance_pixel_width)
+        inst_ind = y_ind * self.tile_width + x_ind + 1
+        instance_to_press = None
+        for inst in queues.get_all_instances():
+            if inst.num == inst_ind:
+                instance_to_press = inst
+                break
         self.press_instance(instance_to_press)
 
     def press_instance(self, inst):
+        # TODO @Sharpieman20 - replace this with hotkey event
+        if inst is None:
+            return
+        print('pressed on {}'.format(inst.num))
         inst.mark_approved()
 
     def update_shown(self):
@@ -62,7 +71,7 @@ class Wall:
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
                 inst.update_obs_wall_visibility()
-                time.sleep(0.25)
+                time.sleep(0.1)
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
     
     def is_active(self):
@@ -70,21 +79,21 @@ class Wall:
     
     def show(self):
         self.active = True
+        self.instance_shown_states = {i+1: False for i in range(self.num_instances)}
+        self.update_shown()
     
     def hide(self):
         self.active = False
         for inst in queues.get_all_instances():
-            if inst.isShownOnWall:
+            if self.instance_shown_states[inst.num]:
                 obs.set_scene_item_visible('tile{}'.format(inst.num), False)
-                time.sleep(0.25)
+                time.sleep(0.1)
 
     def enable(self):
-        obs.register_mouse_listener(self)
-        show()
+        self.show()
 
     def disable(self):
-        obs.stop_mouse_listener()
-        hide()
+        self.hide()
         # go to active
 
 class SquareWall(Wall):
@@ -97,6 +106,49 @@ class SquareWall(Wall):
         self.instance_pixel_height = self.instance_pixel_width
 
         self.tile_width, self.tile_height = tile_fill(self.num_instances, self.instance_pixel_width, self.pixel_width, self.pixel_height)
+
+class ScreenWall(SquareWall):
+
+    def __init__(self, square_wall, num_instances, x_offset, width, y_offset, height):
+        self.horizontal_bar = x_offset
+        self.vertical_bar = y_offset
+
+        self.num_instances = num_instances
+        self.is_interactive = False
+        self.pixel_width = width
+        self.pixel_height = height
+
+        self.make_layout(square_wall)
+        self.initialize_instance_shown_states()
+
+        self.active = False
+
+    def make_layout(self, obs_wall):
+
+        ratio_1 = self.pixel_width / obs_wall.pixel_width
+        ratio_2 = self.pixel_height / obs_wall.pixel_height
+
+        my_ratio = min(ratio_1, ratio_2)
+
+        self.horizontal_bar += (self.pixel_width - obs_wall.pixel_width * my_ratio) / 2
+        self.vertical_bar += (self.pixel_height - obs_wall.pixel_height * my_ratio) / 2
+
+        self.instance_pixel_width = obs_wall.instance_pixel_width * my_ratio
+        self.instance_pixel_height = obs_wall.instance_pixel_width * my_ratio
+
+        self.tile_width = obs_wall.tile_width
+        self.tile_height = obs_wall.tile_height
+
+    def press_instance_at_coords(self, x, y):
+        super().press_instance_at_coords(x - self.horizontal_bar, y - self.vertical_bar)
+    
+    def enable(self):
+        self.active = True
+        obs.register_mouse_listener(self)
+    
+    def disable(self):
+        self.active = False
+        obs.stop_mouse_listener()
 
 
 def setup_wall_scenes():

@@ -281,6 +281,18 @@ def auto_configure_obs():
 def is_wall_enabled():
     return settings['use-wall']
 
+def get_monitor_base_x():
+    return int(settings['monitor-base-x'])
+
+def get_monitor_base_y():
+    return int(settings['monitor-base-y'])
+
+def get_monitor_height():
+    return int(settings['monitor-height'])
+
+def get_monitor_width():
+    return int(settings['monitor-width'])
+
 # INTENTIONALLY HARDCODED SETTINGS
 
 def get_multimc_launch_delay():

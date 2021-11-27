@@ -13,10 +13,10 @@ def reset_primary():
     primary_instance = obs.get_primary_instance()
     if primary_instance is not None:
         primary_instance.reset_active()
-    print('exit reset primary')
+    if settings.is_wall_enabled():
+        obs.enter_wall()
 
 def exit_wall():
-    print("exit wall")
     obs.exit_wall()
 
 
@@ -98,3 +98,5 @@ def setup_hotkeys():
         kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
     if 'unfreeze-all' in settings.get_hotkeys():
         kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
+    if 'exit-wall' in settings.get_hotkeys():
+        kb.on_press_key(settings.get_hotkeys()['exit-wall'], wrap(exit_wall))

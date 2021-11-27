@@ -3,9 +3,10 @@ from obswebsocket import requests as obsrequests
 from obswebsocket import obsws
 import queues
 import helpers as hlp
-from wall import Wall, SquareWall
+from wall import Wall, SquareWall, ScreenWall
 import helpers as hlp
 import time
+from pynput import mouse
 
 '''
 Manage global state
@@ -121,7 +122,7 @@ def is_wall_active():
         return False
     if get_stream_wall() is None:
         return False
-    return get_stream_wall().is_active()
+    return get_screen_wall().is_active()
 
 def get_item_with_name(name):
     scene_items = get_scene_items()
@@ -196,30 +197,40 @@ def update_scene_item_order(force=False):
             if i == 0:
                 continue
             new_order.append('tile{}'.format(i))
+    
+    print('new order {}'.format(new_order))
 
-    call_stream_websocket(obsrequests.ReorderSceneItems(new_order))
+    new_order_fmt = []
+
+    for name in new_order:
+        new_order_fmt.append({'name':name})
+
+    call_stream_websocket(obsrequests.ReorderSceneItems(new_order_fmt))
 
 def _switch_to_primary(inst):
     global primary_instance
     primary_pid = -1
     if primary_instance is not None:
-        if primary_instance.num != inst.num:
+        if inst is None or primary_instance.num != inst.num:
             primary_instance.mark_back()
             primary_pid = primary_instance.pid
-    inst.mark_front(len(queues.get_dead_instances()) > 0)
-    if settings.use_switching_daemon():
-        with open(hlp.get_pipe_file_location(), 'w') as fil:
-            fil.write('{}\n{}'.format(primary_pid, inst.pid))
-    inst.mark_primary()
+    if inst is not None:
+        inst.mark_front(len(queues.get_dead_instances()) > 0)
+        if settings.use_switching_daemon():
+            with open(hlp.get_pipe_file_location(), 'w') as fil:
+                fil.write('{}\n{}'.format(primary_pid, inst.pid))
+        inst.mark_primary()
     if primary_instance is not None:
         primary_instance.mark_hidden()
-    if inst.is_focused():
-        global focused_instance
-        focused_instance = None
+    if inst is not None:
+        if inst.is_focused():
+            global focused_instance
+            focused_instance = None
     set_primary_instance(inst)
-    if primary_instance.is_ready():
-        primary_instance.mark_active()
-    primary_instance.resume()
+    if primary_instance is not None:
+        if primary_instance.is_ready() or primary_instance.is_approved():
+            primary_instance.mark_active()
+        primary_instance.resume()
 
 def set_new_primary(inst):
     global primary_instance
@@ -227,8 +238,7 @@ def set_new_primary(inst):
         set_primary_instance(inst)
         primary_instance.resume()
         return
-    if inst is not None:
-        _switch_to_primary(inst)
+    _switch_to_primary(inst)
 
 def _switch_focused(inst):
     global focused_instance
@@ -236,17 +246,17 @@ def _switch_focused(inst):
     if focused_instance is not None:
         focused_instance.mark_hidden()
     set_focused_instance(inst)
-    if settings.should_show_focused_as_active():
-        show_primary(inst)
-    focused_instance.mark_focused()
+    if focused_instance is not None:
+        if settings.should_show_focused_as_active():
+            show_primary(inst)
+        focused_instance.mark_focused()
 
 def set_new_focused(inst):
     global focused_instance
     if is_wall_active():
         set_focused_instance(inst)
         return
-    if inst is not None:
-        _switch_focused(inst)
+    _switch_focused(inst)
 
 def hide_all():
     scene_items = get_scene_items()
@@ -288,8 +298,8 @@ def is_recording_obs_configured():
     # return True
 
 def is_stream_obs_configured():
+    scene_items = get_scene_items(True)
     if settings.is_wall_enabled():
-        scene_items = get_scene_items(True)
         correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
         current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'tile' in scene_item['sourceName']]
         if len(correct_scene_items) != len(current_scene_items):
@@ -510,12 +520,18 @@ def get_stream_wall():
     global stream_wall
     return stream_wall
 
+def get_screen_wall():
+    global screen_wall
+    return screen_wall
+
 def setup_stream_obs():
     if not settings.auto_configure_obs():
         return
     if settings.is_wall_enabled():
         global stream_wall
         stream_wall = SquareWall(settings.get_num_instances(), settings.get_stream_canvas_width(), settings.get_stream_canvas_height())
+        global screen_wall
+        screen_wall = ScreenWall(stream_wall, settings.get_num_instances(), settings.get_monitor_base_x(), settings.get_monitor_width(), settings.get_monitor_base_y(), settings.get_monitor_height())
     if not is_stream_obs_configured():
         clear_stream_scene_items()
         create_stream_scene_items()
@@ -526,13 +542,12 @@ def register_mouse_listener(cur_wall):
     def on_click(x, y, button, pressed):
         if pressed:
             if pressed and button == mouse.Button.left:
+                print('press at coords {} {}'.format(x, y))
                 cur_wall.press_instance_at_coords(x, y)
-                return False
 
     global mouse_listener
-    with mouse.Listener(on_click=on_click) as mouse_listener:
-        # listener.start()
-        mouse_listener.join()
+    mouse_listener = mouse.Listener(on_click=on_click)
+    mouse_listener.start()
 
 
 def stop_mouse_listener():
@@ -543,23 +558,34 @@ def enter_wall():
     # hide active/focused/etc.
     # switch to the windowed projector
     # enable the wall
+    print('enter wall')
     set_new_focused(None)
     set_new_primary(None)
-    time.sleep(settings.get_switch_delay())
+    time.sleep(settings.get_switch_delay()/1000.0)
     hlp.run_ahk("activateWall")
     get_stream_wall().enable()
+    get_screen_wall().enable()
+    print('done entering')
 
 def exit_wall():
     # show active/focused/etc.
     # switch off the windowed projector
     # disable the wall
+    print('exit wall')
+    get_screen_wall().disable()
     hlp.run_ahk("deactivateWall")
-    time.sleep(settings.get_switch_delay())
+    time.sleep(settings.get_switch_delay()/1000.0)
     temp_primary = get_primary_instance()
     set_primary_instance(None)
+    print('set as primary {}'.format(temp_primary))
     set_new_primary(temp_primary)
     temp_focused = get_focused_instance()
     set_focused_instance(None)
     set_new_focused(temp_focused)
     stream_wall = get_stream_wall()
+    for inst in queues.get_all_instances():
+        if inst.isShownOnWall:
+            inst.release()
     stream_wall.disable()
+    print('done exiting')
+

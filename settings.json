@@ -24,6 +24,10 @@
     "recording-instance-height": 90,
     "stream-canvas-width": 900,
     "stream-canvas-height": 600,
+    "monitor-base-x": 0,
+    "monitor-base-y": 0,
+    "monitor-width": 1920,
+    "monitor-height": 1080,
     "freeze-delay": 500,
     "unfreeze-delay": 2000,
     "fullscreen-delay": 400,
@@ -75,6 +79,6 @@
     "show-focused-as-active": false,
     "dynamically-reorder-scene-items": false,
     "auto-configure-obs": false,
-    "use-wall": true,
+    "use-wall": false,
     "use-recording-obs": false
 }

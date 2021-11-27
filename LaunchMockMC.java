@@ -39,7 +39,7 @@ public class MockMinecraftInstance {
 
         JFrame frame = new MyJFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Instance " + instance);
+        frame.setTitle("Minecraft* - Instance " + instance);
         frame.setLayout(new BorderLayout());
 
         int spacing = 3;
