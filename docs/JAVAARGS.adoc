@@ -1,0 +1,4 @@
+https://kstefanj.github.io/2021/05/19/large-pages-and-java.html
+
+AlwaysPreTouch
+Xms=Xmx

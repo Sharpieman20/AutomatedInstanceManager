@@ -1,0 +1,6 @@
+:nofooter:
+:hardbreaks:
+
+=== Stats
+Name | Sustained Read MBps | Sustained Write MBps | Price
+Intel Optane SSD DC P5800X | $1,189
