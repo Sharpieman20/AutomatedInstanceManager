@@ -15,7 +15,8 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
 
 def run_cmd(cmd, blocking=False):
     print('run command {}'.format(cmd))
-    print('formatted {}'.format(shlex.split(cmd,posix=False)))
+    print('formatted1 {}'.format(shlex.split(cmd)))
+    print('formatted2 {}'.format(shlex.split(cmd,posix=False)))
     if blocking:
         sp.call(shlex.split(cmd,posix=False))
     else:
