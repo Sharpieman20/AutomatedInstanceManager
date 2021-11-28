@@ -14,6 +14,8 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
     import wmi
 
 def run_cmd(cmd, blocking=False):
+    print('run command {}'.format(cmd))
+    print('formatted {}'.format(shlex.split(cmd,posix=False)))
     if blocking:
         sp.call(shlex.split(cmd,posix=False))
     else:
