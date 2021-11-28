@@ -267,7 +267,6 @@ def main_loop(sc):
         if not inst.is_done_unfreezing():
             continue
         # state = FREE
-        print(num_working_instances)
         if num_working_instances > max_concurrent:
             # strictly greater than because it means we've surpassed the cap
             # ideally we shouldn't enter this if. this is a safeguard.
@@ -290,7 +289,6 @@ def main_loop(sc):
         if len(queues.get_pregen_instances()) > 0:
             continue
         # state = PREGEN
-        print('yogo')
         inst.mark_pregen()
         inst.resume()
         num_working_instances += 1
