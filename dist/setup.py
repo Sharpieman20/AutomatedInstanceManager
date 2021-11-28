@@ -23,7 +23,7 @@ if src_dir.exists():
 get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
- 
+
 r = requests.get(release_url, allow_redirects=True)
 open('release.zip', 'wb').write(r.content)
 
@@ -71,6 +71,21 @@ my_settings_json = Path('my_settings.json')
 if not my_settings_json.exists():
     my_settings_json.touch()
     open(my_settings_json.name, 'w').write(r.text)
+
+
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/LaunchMockMC.java'
+r = requests.get(settings_url, allow_redirects=True)
+
+test_dir = Path('test')
+
+if not test_dir.exists():
+    test_dir.mkdir()
+
+mock_mc_fil = test_dir / 'LaunchMockMC.java'
+
+if not mock_mc_fil.exists():
+    mock_mc_fil.touch()
+    open(mock_mc_fil.name, 'w').write(r.text)
 
 
 
