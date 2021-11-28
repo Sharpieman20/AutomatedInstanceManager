@@ -87,6 +87,6 @@ if mock_mc_fil.exists():
     mock_mc_fil.unlink()
 
 mock_mc_fil.touch()
-open(mock_mc_fil.name, 'w').write(r.text)
+mock_mc_fil.open('w').write(r.text)
 
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
