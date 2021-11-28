@@ -412,7 +412,7 @@ def handle_manual_launch(sc):
     handle_manual_launch_inner(sc)
 
 def kill_on_exit():
-    if settings.is_test_mode():
+    if settings.is_local_test_mode():
         return
     obs.stop_mouse_listener()
     if settings.should_kill_all_on_exit():

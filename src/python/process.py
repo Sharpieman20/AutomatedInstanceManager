@@ -59,7 +59,7 @@ class SuspendableProcess(Process):
         if self.is_suspended():
             return
         self.suspended = True
-        if settings.is_test_mode():
+        if settings.is_local_test_mode():
             def sleep_and_stop():
                 time.sleep(1)
                 hlp.run_cmd('kill -STOP {}'.format(self.pid))
@@ -73,7 +73,7 @@ class SuspendableProcess(Process):
         if not self.is_suspended():
             return
         self.suspended = False
-        if settings.is_test_mode():
+        if settings.is_local_test_mode():
             def show_mac_window_inner():
                 time.sleep(1)
                 hlp.show_mac_window(self)

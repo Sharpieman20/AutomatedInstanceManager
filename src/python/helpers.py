@@ -10,16 +10,16 @@ from pathlib import Path
 import queues
 import shlex
 
-if settings.is_ahk_enabled() and not settings.is_test_mode():
+if settings.is_ahk_enabled() and not settings.is_local_test_mode():
     from ahk.script import _resolve_executable_path
 
-if not settings.is_test_mode():
-    import wmi
-if settings.is_test_mode():
+if settings.is_local_test_mode():
     import shlex
     import time
     from AppKit import NSRunningApplication
     import psutil
+else:
+    import wmi
 
 def run_cmd(cmd, split=True, blocking=False):
     if split:
@@ -37,7 +37,7 @@ def has_passed(start_time, duration):
 
 def get_pids():
     all_pids = []
-    if settings.is_test_mode():
+    if settings.is_local_test_mode():
         for process in psutil.process_iter():
             if 'java' in process.name().lower():
                 all_pids.append(process.pid)
@@ -69,8 +69,6 @@ def get_multimc_pid():
 
 def identify_crashed_instances():
     all_pids = []
-    if settings.is_test_mode():
-        return
     for process in wmi.WMI().Win32_Process():
         all_pids.append(process.ProcessId)
     for inst in queues.get_all_instances():
@@ -93,7 +91,7 @@ def file_to_script(script_name, **kwargs):
     return script_str
 
 def run_ahk(script_name, **kwargs):
-    if settings.is_test_mode() or not settings.is_ahk_enabled():
+    if settings.is_local_test_mode() or not settings.is_ahk_enabled():
         print("Run AHK script {} {}".format(script_name, kwargs))
         return
     # return ahk.run_script(file_to_script(script_name, **kwargs), blocking=not settings.should_parallelize_ahk())

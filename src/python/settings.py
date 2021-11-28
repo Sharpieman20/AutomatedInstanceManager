@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import sys
+import platform
 
 custom_settings_file = Path.cwd() / sys.argv[1]
 
@@ -32,6 +33,12 @@ print('using settings {}'.format(settings))
 
 def is_test_mode():
     return settings['test-mode']
+
+def is_local_test_mode():
+    return platform.system() != 'Windows' and settings['test-mode']
+
+def is_windows_test_mode():
+    return platform.system() == 'Windows' and settings['test-mode']
 
 def get_num_instances():
     return int(settings['num-instances'])
@@ -303,7 +310,7 @@ def get_monitor_height():
     return int(settings['monitor-height'])
 
 def get_monitor_width():
-    return int(settings['monitor-width'])
+    return int(settings['monitor-width']) 
 
 def wall_single_select_mode():
     return settings['wall-single-select']

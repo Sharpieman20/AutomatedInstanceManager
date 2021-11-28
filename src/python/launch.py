@@ -6,10 +6,8 @@ import os
 import helpers as hlp
 import queues
 import time
-if not settings.is_test_mode():
+if not settings.is_local_test_mode():
     import wmi
-else:
-    import shutil
 
 def get_index_of_inst(inst):
     all_inst_nums = []
