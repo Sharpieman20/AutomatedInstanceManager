@@ -450,7 +450,7 @@ if __name__ == "__main__":
         assert settings.get_unfrozen_queue_size() < max_concurrent
         if not settings.is_test_mode() and not settings.get_multimc_path().exists():
             print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')
-            time.sleep(5000000)
+            time.sleep(5000)
         launch.launch_all_programs()
         input("Press any key to continue...")
         hlp.get_multimc_pid()

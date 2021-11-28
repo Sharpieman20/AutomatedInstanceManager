@@ -57,10 +57,14 @@ def launch_instance(inst):
     return instance_process.pid
 
 def launch_obs():
+    if not settings.is_obs_enabled():
+        return
     hlp.run_cmd('start /d "{}" "" obs64.exe'.format(settings.get_obs_path()))
     time.sleep(3)
 
 def launch_livesplit():
+    if True:
+        return
     hlp.run_cmd('start {}'.format(settings.get_livesplit_path()))
     time.sleep(3)
 
