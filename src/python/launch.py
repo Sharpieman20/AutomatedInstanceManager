@@ -63,7 +63,7 @@ def launch_obs():
     time.sleep(3)
 
 def launch_livesplit():
-    if True:
+    if not settings.get_livesplit_path().exists():
         return
     hlp.run_cmd('start "{}"'.format(settings.get_livesplit_path()))
     time.sleep(3)
