@@ -8,6 +8,7 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from launch import launch_instance
+from process import Suspendable
 import random
 import threading
 import time
@@ -23,8 +24,6 @@ def assign_to_state(instance, state):
     num_per_state[state] = num_per_state[state] + 1
     instance.state = state
     instance.priority = num_per_state[state]
-
-
 
 global_pid = 81461
 
@@ -52,44 +51,6 @@ class DisplayState(Enum):
     HIDDEN = 0
     FOCUSED = 1
     PRIMARY = 2
-
-class Process:
-    def assign_pid(self, all_processes):
-        # for now, require auto-launch mode enabled
-        if settings.is_test_mode():
-            self.pid = get_global_test_pid()
-            return
-        all_pids = hlp.get_pids()
-        for pid in all_pids:
-            pid_maps_to_instance = False
-            for instance in all_processes:
-                if instance.pid == pid:
-                    pid_maps_to_instance = True
-            if not pid_maps_to_instance:
-                if pid > self.pid:
-                    self.pid = pid
-
-class Suspendable(Process):
-    def suspend(self):
-        if self.is_suspended() or self.forceResumed:
-            if not settings.retry_freezes() or random.randint(0, 50) != 0:
-                return
-        if self.is_active():
-            print('FATAL ERROR - SUSPENDING ACTIVE INSTANCE')
-        self.suspended = True
-        hlp.run_ahk("suspendInstance", pid=self.pid)
-
-    # TODO @Sharpieman20 use SetProcessInformation to increase memory priority for active instances
-    def resume(self, force=False):
-        if not force and not self.is_suspended():
-            return
-        self.suspended = False
-        if force and not self.forceResumed:
-            self.forceResumed = True
-        hlp.run_ahk("resumeInstance", pid=self.pid)
-
-    def is_suspended(self):
-        return self.suspended
 
 
 class Stateful(Suspendable):

@@ -30,8 +30,30 @@ class Process:
                 if instance.pid == pid:
                     pid_maps_to_instance = True
             if not pid_maps_to_instance:
-                self.pid = pid
+                if pid > self.pid:
+                    self.pid = pid
 
+class Suspendable(Process):
+    def suspend(self):
+        if self.is_suspended() or self.forceResumed:
+            if not settings.retry_freezes() or random.randint(0, 50) != 0:
+                return
+        self.suspended = True
+        hlp.run_ahk("suspendInstance", pid=self.pid)
+
+    # TODO @Sharpieman20 use SetProcessInformation to increase memory priority for active instances
+    def resume(self, force=False):
+        if not force and not self.is_suspended():
+            return
+        self.suspended = False
+        if force and not self.forceResumed:
+            self.forceResumed = True
+        hlp.run_ahk("resumeInstance", pid=self.pid)
+
+    def is_suspended(self):
+        return self.suspended
+
+# CURRENTLY UNUSED
 class SuspendableProcess(Process):
     def suspend(self):
         if self.is_suspended():

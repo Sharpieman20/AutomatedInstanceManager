@@ -513,6 +513,8 @@ def reorder_stream_scene_items():
     update_scene_item_order(True)
 
 def setup_recording_obs():
+    if not settings.is_obs_enabled():
+        return
     if not settings.auto_configure_obs():
         return
     if not settings.use_recording_obs():
@@ -531,13 +533,15 @@ def get_screen_wall():
     return screen_wall
 
 def setup_stream_obs():
-    if not settings.auto_configure_obs():
-        return
     if settings.is_wall_enabled():
         global stream_wall
         stream_wall = SquareWall(settings.get_num_instances(), settings.get_stream_canvas_width(), settings.get_stream_canvas_height())
         global screen_wall
         screen_wall = ScreenWall(stream_wall, settings.get_num_instances(), settings.get_monitor_base_x(), settings.get_monitor_width(), settings.get_monitor_base_y(), settings.get_monitor_height())
+    if not settings.is_obs_enabled():
+        return
+    if not settings.auto_configure_obs():
+        return
     if not is_stream_obs_configured():
         clear_stream_scene_items()
         create_stream_scene_items()
