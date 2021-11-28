@@ -1,4 +1,7 @@
 https://kstefanj.github.io/2021/05/19/large-pages-and-java.html
+https://docs.microsoft.com/en-us/windows/win32/memory/large-page-support
+https://mahdytech.com/large-pages-how-when/
+https://alibaba-cloud.medium.com/hawkeye-an-efficient-fine-grained-management-solution-for-huge-pages-46af17eb0584
 
 AlwaysPreTouch
 Xms=Xmx
