@@ -69,7 +69,7 @@ def launch_livesplit():
     time.sleep(3)
 
 def launch_multimc():
-    hlp.run_cmd('start {}'.format(settings.get_livesplit_path()))
+    hlp.run_cmd('start {}'.format(settings.get_multimc_path()))
     time.sleep(3)
 
 def launch_all_programs():
