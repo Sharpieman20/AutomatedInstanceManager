@@ -3,7 +3,7 @@
 
 === FEATURES
 
-Infinite instance scaling
+Transition state concurrency model
 Automatic launching of OBS, LiveSplit, MultiMC, and all instances
 Self-updating so you always have the latest features
 Showing and hiding correct active instance on OBS
@@ -15,6 +15,7 @@ Custom AHK script overriding/interfacing
 
 == BETA FEATURES
 
+Infinite instance scaling
 Concurrent instance launching while doing runs
 Low latency resetting
 Sparse wall world selection

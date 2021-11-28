@@ -5,7 +5,7 @@
 
 AIM uses a link:STATES.adoc[state transition model] to guarantee only a certain number of instances are running at any given time.
 
-This allows runners to use an infinite number of instances in theory, even if their computer can only support 2 or 3 at any given time.
+This allows runners to use significantly more instances than they'd otherwise be able to, since we limit the strain on system resources more efficiently.
 
 A short demonstration of using 18 instances is available link:https://www.youtube.com/watch?v=cZWgRNDrRcc[here].
 

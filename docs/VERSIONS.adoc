@@ -17,3 +17,4 @@ Current version
 
 Changelog:
 
+3.0.0
