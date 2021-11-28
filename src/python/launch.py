@@ -5,6 +5,7 @@ import shlex
 import os
 import helpers as hlp
 import queues
+import time
 if not settings.is_test_mode():
     import wmi
 
