@@ -287,11 +287,14 @@ def main_loop(sc):
         if not inst.is_ready_for_unfreeze():
             inst.suspend()
             continue
+        if len(queues.get_pregen_instances()) > 0:
+            continue
         # state = PREGEN
         print('yogo')
         inst.mark_pregen()
         inst.resume()
         num_working_instances += 1
+        break
 
     # Handle world gen instances
     for inst in queues.get_gen_instances():
