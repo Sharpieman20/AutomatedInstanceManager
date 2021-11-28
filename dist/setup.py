@@ -73,8 +73,8 @@ if not my_settings_json.exists():
     open(my_settings_json.name, 'w').write(r.text)
 
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/LaunchMockMC.java'
-r = requests.get(settings_url, allow_redirects=True)
+mock_mc_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/LaunchMockMC.java'
+r = requests.get(mock_mc_url, allow_redirects=True)
 
 test_dir = Path('test')
 
@@ -83,10 +83,10 @@ if not test_dir.exists():
 
 mock_mc_fil = test_dir / 'LaunchMockMC.java'
 
-if not mock_mc_fil.exists():
-    mock_mc_fil.touch()
-    open(mock_mc_fil.name, 'w').write(r.text)
+if mock_mc_fil.exists():
+    mock_mc_fil.unlink()
 
-
+mock_mc_fil.touch()
+open(mock_mc_fil.name, 'w').write(r.text)
 
 run_cmd('py src/python/main.py my_settings.json'.format(os.path.dirname(sys.executable)))
