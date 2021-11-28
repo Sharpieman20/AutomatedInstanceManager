@@ -65,11 +65,11 @@ def launch_obs():
 def launch_livesplit():
     if True:
         return
-    hlp.run_cmd('start {}'.format(settings.get_livesplit_path()))
+    hlp.run_cmd('start "{}"'.format(settings.get_livesplit_path()))
     time.sleep(3)
 
 def launch_multimc():
-    hlp.run_cmd('start {}'.format(settings.get_multimc_path()))
+    hlp.run_cmd('start "{}"'.format(settings.get_multimc_path()))
     time.sleep(3)
 
 def launch_all_programs():
