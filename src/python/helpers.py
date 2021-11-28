@@ -11,6 +11,8 @@ import shlex
 
 if settings.is_ahk_enabled() and not settings.is_test_mode():
     from ahk.script import _resolve_executable_path
+
+if not settings.is_test_mode():
     import wmi
 
 def run_cmd(cmd, blocking=False):
