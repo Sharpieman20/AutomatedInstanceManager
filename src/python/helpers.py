@@ -15,9 +15,9 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
 
 def run_cmd(cmd, blocking=False):
     if blocking:
-        sp.call(shlex.split(cmd))
+        sp.call(shlex.split(cmd,posix=False))
     else:
-        sp.Popen(shlex.split(cmd))
+        sp.Popen(shlex.split(cmd,posix=False))
 
 def get_time():
     return time.time()
