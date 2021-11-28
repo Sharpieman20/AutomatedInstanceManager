@@ -5,3 +5,4 @@ If (hProcess) {
   DllCall("SetProcessWorkingSetSize", "UInt", hProcess, "Int", -1, "Int", -1)
   DllCall("CloseHandle", "Int", hProcess)
 }
+ExitApp
