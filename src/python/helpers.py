@@ -24,7 +24,7 @@ def run_cmd(cmd, split=True, blocking=False):
     if blocking:
         return sp.call(cmd)
     else:
-        return sp.Popen(cmd)
+        return sp.Popen(cmd, stdout=sp.DEVNULL, stderr=sp.STDOUT)
 
 def get_time():
     return time.time()
