@@ -46,7 +46,7 @@ def try_launch_instance(inst):
             hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
 
 def launch_instance(inst):
-    if settings.is_test_mode() or not settings.is_ahk_enabled():
+    if settings.is_test_mode():
         return
     if settings.get_num_instances() > 5 and settings.use_click_macro():
         try_launch_instance(inst)
