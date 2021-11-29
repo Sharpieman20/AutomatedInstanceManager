@@ -52,7 +52,7 @@ def launch_instance(inst):
         try_launch_instance(inst)
         return
 
-    instance_process = hlp.run_cmd(f'{settings.get_multimc_path()} -l "{inst.name}"')
+    instance_process = hlp.run_cmd(f"{settings.get_multimc_path()} -l '{inst.name}'")
 
     # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
     return instance_process.pid
