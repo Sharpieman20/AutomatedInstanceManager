@@ -15,14 +15,16 @@ if settings.is_ahk_enabled() and not settings.is_test_mode():
 if not settings.is_test_mode():
     import wmi
 
-def run_cmd(cmd, blocking=False):
+def run_cmd(cmd, split=True, blocking=False):
     print('run command {}'.format(cmd))
     print('formatted1 {}'.format(shlex.split(cmd)))
     print('formatted2 {}'.format(shlex.split(cmd,posix=False)))
+    if split:
+        cmd = shlex.split(cmd,posix=False)
     if blocking:
-        sp.call(shlex.split(cmd,posix=False))
+        return sp.call(cmd)
     else:
-        sp.Popen(shlex.split(cmd,posix=False))
+        return sp.Popen(cmd)
 
 def get_time():
     return time.time()

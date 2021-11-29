@@ -52,7 +52,7 @@ def launch_instance(inst):
         try_launch_instance(inst)
         return
 
-    instance_process = hlp.run_cmd(f"{settings.get_multimc_path()} -l '{inst.name}'")
+    instance_process = hlp.run_cmd(f'{settings.get_multimc_path()} -l "{inst.name}"', split=False)
 
 def launch_obs():
     if not settings.is_obs_enabled():
