@@ -16,15 +16,12 @@ if not settings.is_test_mode():
     import wmi
 
 def run_cmd(cmd, split=True, blocking=False):
-    print('run command {}'.format(cmd))
-    print('formatted1 {}'.format(shlex.split(cmd)))
-    print('formatted2 {}'.format(shlex.split(cmd,posix=False)))
     if split:
         cmd = shlex.split(cmd,posix=False)
     if blocking:
         return sp.call(cmd)
     else:
-        return sp.Popen(cmd, stdout=sp.DEVNULL, stderr=sp.STDOUT)
+        return sp.Popen(cmd, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
 def get_time():
     return time.time()
