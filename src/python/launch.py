@@ -54,9 +54,6 @@ def launch_instance(inst):
 
     instance_process = hlp.run_cmd(f"{settings.get_multimc_path()} -l '{inst.name}'")
 
-    # NOTE - for multimc this is the multimc process, NOT the underlying java process. we need to freeze underlying java process.
-    return instance_process.pid
-
 def launch_obs():
     if not settings.is_obs_enabled():
         return
