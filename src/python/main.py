@@ -47,7 +47,7 @@ import hotkeys
 import shutil
 import atexit
 
-IS_BETA = False
+IS_BETA = True
 
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
