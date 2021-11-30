@@ -12,7 +12,6 @@ from process import Suspendable
 import random
 import threading
 import time
-from process import PrioritizeableProcess
 
 num_per_state = {}
 
