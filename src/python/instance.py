@@ -10,6 +10,7 @@ from pathlib import Path
 from launch import launch_instance
 import random
 import threading
+import time
 
 num_per_state = {}
 
@@ -319,7 +320,7 @@ class Instance(ConditionalTransitionable):
         title_str = settings.get_window_title_template()
         title_str = title_str.replace('#',str(self.num))
         def set_title_inner(pid, title):
-            time.sleep(1)
+            time.sleep(3)
             hlp.run_ahk("setInstanceTitle", pid=pid, title=title)
         thread = threading.Thread(target=set_title_inner, args=(self.pid,title_str))
         thread.start()
