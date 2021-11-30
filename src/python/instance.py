@@ -9,6 +9,7 @@ from enum import Enum
 from pathlib import Path
 from launch import launch_instance
 import random
+import threading
 
 num_per_state = {}
 
@@ -313,10 +314,15 @@ class Instance(ConditionalTransitionable):
         self.first_reset = False
     
     def set_title(self):
-        if settings.should_set_window_titles():
-            title_str = settings.get_window_title_template()
-            title_str = title_str.replace('#',str(self.num))
-            hlp.run_ahk("setInstanceTitle", pid=self.pid, title=title_str)
+        if not settings.should_set_window_titles():
+            return
+        title_str = settings.get_window_title_template()
+        title_str = title_str.replace('#',str(self.num))
+        def set_title_inner(pid, title):
+            time.sleep(1)
+            hlp.run_ahk("setInstanceTitle", pid=pid, title=title)
+        thread = threading.Thread(target=set_title_inner, args=(self.pid,title_str))
+        thread.start()
 
     def reset(self):
         self.set_title()

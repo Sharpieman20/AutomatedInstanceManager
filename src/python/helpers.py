@@ -101,6 +101,8 @@ def run_ahk(script_name, **kwargs):
     for key in kwargs:
         if isinstance(kwargs[key], bool):
             args.append('{}'.format(kwargs[key]).lower())
+        elif isinstance(kwargs[key], str):
+            args.append("'{}'".format(kwargs[key]))
         else:
             args.append(str(kwargs[key]))
     if settings.should_parallelize_ahk() and not should_block:
