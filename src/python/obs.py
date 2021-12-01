@@ -438,7 +438,7 @@ def clear_recording_scene_items():
     for scene_item in get_scene_items(False):
         # print(scene_item)
         # print(get_scene_item_properties(scene_item['sourceName']))
-        # print(get_source_settings(scene_item['sourceName']))
+        print(get_source_settings(scene_item['sourceName']))
         # print()
         my_scene_item = {'name': scene_item['sourceName']}
         if 'recording' in scene_item['sourceName']:
@@ -458,7 +458,8 @@ def create_recording_scene_items():
 def clear_stream_scene_items():
     for scene_item in get_scene_items(True):
         my_scene_item = {'name': scene_item['sourceName']}
-        print(my_scene_item['name'])
+        # print(my_scene_item['name'])
+        print(get_source_settings(scene_item['sourceName']))
         if 'wall' == scene_item['sourceName']:
             delete_scene_item(my_scene_item, True)
         if 'tile' in scene_item['sourceName']:
@@ -565,6 +566,7 @@ def stop_mouse_listener():
     mouse.Listener.stop(mouse_listener)
 
 def enter_wall():
+    # TODO @Sharpieman20 - Use OpenProjector to open a projector
     # hide active/focused/etc.
     # switch to the windowed projector
     # enable the wall
