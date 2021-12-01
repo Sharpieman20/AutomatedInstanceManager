@@ -562,6 +562,8 @@ def register_mouse_listener(cur_wall):
 
 
 def stop_mouse_listener():
+    if 'mouse_listener' not in globals():
+        return
     global mouse_listener
     mouse.Listener.stop(mouse_listener)
 
