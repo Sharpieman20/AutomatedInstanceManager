@@ -296,14 +296,12 @@ def main_loop(sc):
 
     # Handle world gen instances
     for inst in queues.get_gen_instances():
-        if not inst.is_in_world():
-            continue
-        # state = PAUSED
-        # TODO - why do we need to pause after creating a world? shouldnt it auto-pause?
         if inst.is_primary() and not inst.is_active():
             inst.mark_active()
         else:
             inst.mark_worldgen_finished()
+        if not inst.is_in_world():
+            continue
 
     obs.set_scene_item_properties('indicator',len(queues.get_unpaused_instances()) > 0)
 
@@ -330,6 +328,9 @@ def main_loop(sc):
     # make sure we prioritize having approved worlds unfrozen since they will become active before us
 
     for inst in queues.get_ready_instances():
+        if inst.is_primary() and not inst.is_active():
+            inst.mark_active()
+            continue
         index += 1
         if inst.check_should_auto_reset():
             continue
@@ -337,9 +338,6 @@ def main_loop(sc):
             inst.resume()
             continue
         # state = ?
-        if inst.is_primary() and not inst.is_active():
-            inst.mark_active()
-            continue
         # print('inst {} is ready'.format(inst.num))
         inst.suspend()
 
@@ -348,14 +346,14 @@ def main_loop(sc):
     # this is fine because we will either loop up to this number, and all ready are frozen, or we will loop to less than this number anyways
     total_to_unfreeze = unfrozen_queue_size
     for inst in queues.get_approved_instances():
+        if inst.is_primary() and not inst.is_active():
+            inst.mark_active()
+            continue
         index += 1
         if inst.check_should_auto_reset():
             continue
         if index <= total_to_unfreeze:
             inst.resume()
-            continue
-        if inst.is_primary() and not inst.is_active():
-            inst.mark_active()
             continue
         inst.suspend()
 
