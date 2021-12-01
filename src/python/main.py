@@ -446,6 +446,9 @@ if __name__ == "__main__":
             else:
                 custom_directory.mkdir()
         assert settings.get_unfrozen_queue_size() < max_concurrent
+        if max_concurrent - settings.get_unfrozen_queue_size() <= 1:
+            print('ERROR: max-concurrent and unfrozen-queue-size are within 1. Increment max-concurrent or decrease unfrozen-queue-size.')
+            time.sleep(5000)
         if not settings.is_test_mode() and not settings.get_multimc_path().exists():
             print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')
             time.sleep(5000)
