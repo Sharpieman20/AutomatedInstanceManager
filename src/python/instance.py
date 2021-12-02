@@ -262,6 +262,7 @@ class Instance(ConditionalTransitionable):
     
     def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
+        self.init_title_resource_pack()
         obs.set_scene_item_visible({'name': 'recording{}'.format(self.num)}, visible=True, stream=False)
         launch_instance(self)
     
@@ -271,7 +272,7 @@ class Instance(ConditionalTransitionable):
             resourcepack_dir.mkdir()
         aim_title_dir = resourcepack_dir / 'AIM_Instance_Title'
         if aim_title_dir.exists():
-            return
+            shutil.rmtree(aim_title_dir)
         multipack_dir = resourcepack_dir / 'MultiPack'
         if multipack_dir.exists():
             shutil.rmtree(multipack_dir)
@@ -280,7 +281,17 @@ class Instance(ConditionalTransitionable):
             multipack_fil.unlink()
         aim_title_dir.mkdir()
         mcmeta = aim_title_dir / 'pack.mcmeta'
+        mcmeta.touch()
         mcmeta.write_text('\n  "pack":{\n    "pack_format": 6,\n    "description": "AIM Instance Title Pack"\n}\n})')
+        assets_dir = aim_title_dir / 'assets'
+        assets_dir.mkdir()
+        minecraft_dir = assets_dir / 'minecraft'
+        minecraft_dir.mkdir()
+        lang_dir = minecraft_dir / 'lang'
+        lang_dir.mkdir()
+        lang_fil = lang_dir / 'en_us.json'
+        lang_fil.touch()
+        lang_fil.write_text('{\n    "title.singleplayer": "Instance {}",\n}'.format(self.num))
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):

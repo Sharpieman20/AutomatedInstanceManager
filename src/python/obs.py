@@ -409,8 +409,6 @@ def create_scene_item_for_instance(inst, template='recording', stream=False):
 def reset_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
-    source_settings['owner_name'] = None
-    source_settings['window'] = 99999+inst.num
     source_settings['window_name'] = None
     source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
@@ -418,8 +416,6 @@ def reset_source_settings_for_instance(inst, template='recording', stream=False)
 def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
-    source_settings['owner_name'] = 'java'
-    source_settings['window'] = 99999+inst.num
     source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
     source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
