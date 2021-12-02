@@ -291,7 +291,7 @@ class Instance(ConditionalTransitionable):
         lang_dir.mkdir()
         lang_fil = lang_dir / 'en_us.json'
         lang_fil.touch()
-        lang_fil.write_text('{\n    "title.singleplayer": "Instance {}",\n}'.format(self.num))
+        lang_fil.write_text('{\n    "title.singleplayer": "Instance {'+str(self.num)+'}",\n}')
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
