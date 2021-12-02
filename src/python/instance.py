@@ -295,7 +295,9 @@ class Instance(ConditionalTransitionable):
         # assign our pid somehow
         # start generating world w/ duncan mod
         self.set_title()
-        hlp.run_ahk("resetFromTitle", pid=self.pid, keydelay=settings.get_key_delay())
+        num_times_to_loop = int(settings.get_title_screen_obs_delay() * 10)
+        hlp.run_ahk("resetFromTitle", pid=self.pid, instnum=self.num, loops=num_times_to_loop, keydelay=settings.get_key_delay())
+        obs.show_recording(self)
         # set state to generating
         self.first_reset = True
 

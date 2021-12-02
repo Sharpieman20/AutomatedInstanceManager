@@ -262,8 +262,8 @@ def set_new_focused(inst):
         return
     _switch_focused(inst)
 
-def hide_all():
-    scene_items = get_scene_items()
+def hide_all(stream=True):
+    scene_items = get_scene_items(stream)
     for s in scene_items:
         if 'active' in s['sourceName'] or 'focused' in s['sourceName'] or 'tile' in s['sourceName']:
             set_scene_item_visible({'id': s['itemId']}, visible=False)
@@ -279,6 +279,9 @@ def hide_focused(inst):
 
 def show_focused(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=True))
+
+def show_recording(inst):
+    call_recording_websocket(obsrequests.SetSceneItemProperties({'name':'recording{}'.format(inst.num)},visible=True))
 
 def is_recording_obs_configured():
     scene_items = get_scene_items(False)
