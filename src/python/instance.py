@@ -282,7 +282,7 @@ class Instance(ConditionalTransitionable):
         aim_title_dir.mkdir()
         mcmeta = aim_title_dir / 'pack.mcmeta'
         mcmeta.touch()
-        mcmeta.write_text('\n  "pack":{\n    "pack_format": 6,\n    "description": "AIM Instance Title Pack"\n}\n})')
+        mcmeta.write_text('{\n  "pack":{\n    "pack_format": 6,\n    "description": "AIM Instance Title Pack"\n}\n}')
         assets_dir = aim_title_dir / 'assets'
         assets_dir.mkdir()
         minecraft_dir = assets_dir / 'minecraft'
