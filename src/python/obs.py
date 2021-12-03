@@ -482,8 +482,10 @@ def set_scene_item_properties_for_instance_from_template(inst, template, stream=
         scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1], 'type': 'OBS_BOUNDS_STRETCH'}
     else:
         scene_item['bounds'] = template_item['bounds']
-    scene_item['crop'] = template_item['crop']
-    scene_item['scale'] = template_item['scale']
+    if 'crop' in template_item:
+        scene_item['crop'] = template_item['crop']
+    if 'scale' in template_item:
+        scene_item['scale'] = template_item['scale']
     return set_scene_item_properties('{}{}'.format(template, inst.num), scene_item, stream)
 
 def create_stream_scene_items():
