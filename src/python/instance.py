@@ -333,7 +333,7 @@ class Instance(ConditionalTransitionable):
         thread.start()
 
     def reset(self):
-        self.set_title()
+        # self.set_title()
         if self.was_active and hlp.has_passed(self.timestamp, settings.minimum_time_for_settings_reset()):
             self.settings_reset()
         elif self.first_reset and not settings.should_auto_launch():
@@ -417,7 +417,7 @@ class Instance(ConditionalTransitionable):
         if not (cur_world / "advancements").exists():
             return
 
-        self.set_title()
+        # self.set_title()
 
         return True
 
