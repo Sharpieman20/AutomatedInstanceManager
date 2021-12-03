@@ -436,7 +436,7 @@ def kill_on_exit():
         for instance in queues.get_all_instances():
             cmd = 'Taskkill /PID {} /F'.format(instance.pid)
             hlp.run_cmd(cmd, blocking=True)
-        time.sleep(1)
+        time.sleep(4)
         for instance in queues.get_all_instances():
             hlp.run_ahk('closeConsoleWindow', title='Console window for {}'.format(instance.name))
 

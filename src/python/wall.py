@@ -62,8 +62,11 @@ class Wall:
         # TODO @Sharpieman20 - replace this with hotkey event
         if inst is None:
             return
-        print('pressed on {}'.format(inst.num))
-        inst.mark_approved()
+        if not self.is_active():
+            return
+        if instance_shown_states[inst.num]:
+            print('pressed on {}'.format(inst.num))
+            inst.mark_approved()
 
     def update_shown(self):
         if not self.is_active():

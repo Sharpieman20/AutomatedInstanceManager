@@ -20,8 +20,8 @@
         "port": 4445,
         "password": "password"
     },
-    "recording-instance-width": 160,
-    "recording-instance-height": 90,
+    "recording-instance-width": 320,
+    "recording-instance-height": 180,
     "stream-canvas-width": 900,
     "stream-canvas-height": 600,
     "monitor-base-x": 0,
