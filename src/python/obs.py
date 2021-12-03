@@ -240,7 +240,8 @@ def set_new_primary(inst):
     global primary_instance
     if is_wall_active():
         set_primary_instance(inst)
-        primary_instance.resume()
+        if primary_instance is not None:
+            primary_instance.resume()
         return
     _switch_to_primary(inst)
 

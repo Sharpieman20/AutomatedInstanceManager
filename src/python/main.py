@@ -226,7 +226,7 @@ def main_loop(sc):
             # if so, throw error
         if not inst.is_ready_for_unfreeze():
             continue
-        if settings.wait_for_all_to_launch_before_booting() and len(queues.get_dead_instances()) > 0:
+        if settings.wait_for_all_to_launch_before_booting() and (len(queues.get_dead_instances()) > 0 or len(queues.get_launching_instances()) > 0):
             continue
         if num_booting_instances < num_to_boot:
             inst.mark_booting()
