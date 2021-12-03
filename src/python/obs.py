@@ -480,7 +480,7 @@ def set_scene_item_properties_for_instance_from_template(inst, template, stream=
         bounds = (get_stream_wall().instance_pixel_width, get_stream_wall().instance_pixel_height)
         scene_item['position'] = {'x': coords[0], 'y': coords[1]}
         scene_item['bounds'] = {'x': bounds[0], 'y': bounds[1], 'type': 'OBS_BOUNDS_STRETCH'}
-    else:
+    elif 'bounds' in template_item:
         scene_item['bounds'] = template_item['bounds']
     if 'crop' in template_item:
         scene_item['crop'] = template_item['crop']
