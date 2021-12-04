@@ -221,7 +221,7 @@ def _switch_to_primary(inst):
     if inst is not None:
         inst.mark_front(len(queues.get_dead_instances()) > 0)
         if settings.use_switching_daemon():
-            get_switching_daemon_pipe().force_write_async('{}\n{}'.format(primary_pid, inst.pid))
+            hlp.get_switching_daemon_pipe().force_write_async('{}\n{}'.format(primary_pid, inst.pid))
         inst.mark_primary()
     if primary_instance is not None:
         primary_instance.mark_hidden()
