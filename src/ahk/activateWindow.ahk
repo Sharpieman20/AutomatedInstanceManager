@@ -27,7 +27,7 @@ if (%fullscreen%) {
     sleep, %fullscreenDelay%
 }
 send {LButton}
-sleep, %playDelay%
+Sleep, %playDelay%
 if (%autoUnpause%) {
     ControlSend, ahk_parent, {Esc}, ahk_pid %pid%
 }
