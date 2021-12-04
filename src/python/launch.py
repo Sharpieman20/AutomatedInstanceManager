@@ -46,7 +46,10 @@ def try_launch_instance(inst):
             hlp.run_ahk('selectMultiMCInstance',multimcpid=hlp.get_multimc_pid(),multimcdelay=settings.get_multimc_delay(),downarrows=int(inst_index/instance_columns),rightarrows=(inst_index%instance_columns),blocking=True)
 
 def launch_test_instance(inst):
-    hlp.run_cmd('java -Xdock:name=java -Xms64m -Xmx64m test/LaunchMockMC.java {}'.format(inst.num))
+    if settings.is_local_test_mode():
+        hlp.run_cmd('java -Xdock:name=java -Xms64m -Xmx64m test/LaunchMockMC.java {}'.format(inst.num))
+    else:
+        hlp.run_cmd('java -Xms64m -Xmx64m test/LaunchMockMC.java {}'.format(inst.num))
 
 def launch_instance(inst):
     if settings.is_test_mode():
