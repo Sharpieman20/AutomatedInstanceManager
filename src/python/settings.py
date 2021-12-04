@@ -296,6 +296,15 @@ def get_monitor_height():
 def get_monitor_width():
     return int(settings['monitor-width'])
 
+def wall_single_select_mode():
+    return settings['wall-single-select']
+
+def reset_all_on_wall():
+    return settings['wall-reset-all']
+
+def stay_on_wall_if_none_good():
+    return settings['stay-on-wall-if-none-good']
+
 # INTENTIONALLY HARDCODED SETTINGS
 
 def get_multimc_launch_delay():

@@ -113,6 +113,7 @@ class Stateful(Suspendable):
         else:
             self.mark_pregen()
         self.timestamp = get_time()
+        self.mark_hidden_on_wall()
 
     def mark_ready(self):
         assign_to_state(self, State.READY)
@@ -191,7 +192,7 @@ class WallDisplayStateful(DisplayStateful):
 class ConditionalTransitionable(WallDisplayStateful):
 
     def is_done_unfreezing(self):
-        duration = settings.get_freeze_delay()
+        duration = settings.get_unfreeze_delay()
         return hlp.has_passed(self.timestamp, duration)
 
     def is_done_freezing(self):
@@ -259,6 +260,7 @@ class Instance(ConditionalTransitionable):
         self.is_always_on_top = False
         self.forceResumed = False
         self.isShownOnWall = False
+        # TODO @Sharpieman20 - Add pauseOnLostFocus to options.txt
     
     def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch

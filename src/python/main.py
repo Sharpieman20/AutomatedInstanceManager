@@ -173,6 +173,10 @@ def main_loop(sc):
     if not settings.should_auto_launch():
         num_to_boot = len(queues.get_dead_instances())
     
+    if len(queues.get_booting_instances()) > 0:
+        if not hlp.has_passed(queues.get_booting_instances()[-1].timestamp, settings.get_unfreeze_delay()):
+            num_to_boot = 0
+    
     num_to_launch = min(num_to_launch, len(queues.get_dead_instances()))
 
     if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():

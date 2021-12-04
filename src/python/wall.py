@@ -64,9 +64,13 @@ class Wall:
             return
         if not self.is_active():
             return
-        if instance_shown_states[inst.num]:
-            print('pressed on {}'.format(inst.num))
-            inst.mark_approved()
+        if not instance_shown_states[inst.num]:
+            return
+        print('pressed on {}'.format(inst.num))
+        inst.mark_approved()
+        if settings.wall_single_select_mode():
+            obs.exit_wall()
+            
 
     def update_shown(self):
         if not self.is_active():
@@ -87,6 +91,8 @@ class Wall:
     
     def hide(self):
         self.active = False
+        if not settings.reset_all_on_wall():
+            return
         for inst in queues.get_all_instances():
             if self.instance_shown_states[inst.num]:
                 obs.set_scene_item_visible('tile{}'.format(inst.num), False)

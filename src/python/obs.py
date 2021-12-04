@@ -598,10 +598,9 @@ def exit_wall():
     temp_focused = get_focused_instance()
     set_focused_instance(None)
     set_new_focused(temp_focused)
-    stream_wall = get_stream_wall()
     for inst in queues.get_all_instances():
         if inst.isShownOnWall:
             inst.release()
-    stream_wall.disable()
+    get_stream_wall().disable()
     print('done exiting')
 

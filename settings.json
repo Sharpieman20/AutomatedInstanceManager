@@ -80,5 +80,8 @@
     "dynamically-reorder-scene-items": false,
     "auto-configure-obs": false,
     "use-wall": false,
+    "wall-single-select": true,
+    "wall-reset-all": true,
+    "stay-on-wall-if-none-good": true,
     "use-recording-obs": false
 }
