@@ -18,3 +18,46 @@ Current version
 Changelog:
 
 3.0.0
+
+**Scaling update**
+
+Expected features:
+
+Wall mode
+Automatic OBS configuration
+Instance title setting
+
+
+
+=== 4.0+ FEATURES ARE SPECULATIVE
+
+
+4.0.0
+
+**Performance update**
+
+Expected features:
+
+Self memory management
+Better responsiveness and stability
+Improved default delays and settings
+Faster ahk switching
+    parallelize ahk
+    switching daemon
+
+5.0.0
+
+**Setup update**
+
+Expected features:
+
+Auto launch OBS
+    Automatically set scenes
+Automatically open projector
+Detect multimc path from open instance
+Create new multimc if not already existing
+    Detect multimc directory 
+
+6.0.0
+
+**Reset tracker integration**
