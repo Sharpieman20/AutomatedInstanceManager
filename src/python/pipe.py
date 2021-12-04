@@ -2,6 +2,7 @@ import random
 from contextlib import contextmanager
 from pathlib import Path
 import threading
+import time
 
 '''
 in directory
@@ -58,7 +59,7 @@ class LockablePipe(Pipe):
 
     def force_acquire(self):
         while self.pipelock.exists():
-            sleep(0.1)
+            time.sleep(0.1)
         acquire_successful = self.try_acquire()
         if not acquire_successful:
             self.force_acquire()
