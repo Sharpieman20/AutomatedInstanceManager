@@ -26,9 +26,7 @@ Loop
         index+=1
     }
     if (oldInstance != -1) {
-        file := FileOpen(%pipeFileLocation%, "w") 
-        file.write()
-        file.close()
+        FileDelete, %pipeFileLocation%
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
             WinMaximize, ahk_pid %newInstance%
