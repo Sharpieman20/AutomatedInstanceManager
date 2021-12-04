@@ -69,7 +69,8 @@ class LockablePipe(Pipe):
             return False
         rand_text = str(random.randint(0,999999))
         self.pipelock.touch()
-        self.pipelock.append(rand_text)
+        with self.pipelock.open('a') as pipefil:
+            pipefil.write_text(rand_text)
         if self.pipelock.read_text().strip() != rand_text:
             return False
         return True
