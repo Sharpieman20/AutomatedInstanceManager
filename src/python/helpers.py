@@ -55,6 +55,7 @@ def get_pids():
                     continue
                 if 'jdk' in process.Commandline and 'Mojang' in process.Commandline:
                     all_pids.append(process.ProcessId)
+        print(time.time())
         print('-------')
     return all_pids
 
