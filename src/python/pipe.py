@@ -92,7 +92,7 @@ class IoLockablePipe(LockablePipe):
         self.try_release()
 
     def force_write_async(self, text):
-        forced_write_thread = threading.Thread(target=self.force_write(), args=(text,))
+        forced_write_thread = threading.Thread(target=self.force_write, args=(text,))
         forced_write_thread.start()
 
     def try_read(self):
