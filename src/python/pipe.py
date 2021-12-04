@@ -55,7 +55,7 @@ class Pipe:
 class LockablePipe(Pipe):
     def __init__(self, name):
         super().__init__(name)
-        self.pipelock = Pipe('{}.lock'.format(name))
+        self.pipelock = Path.cwd() / '.pipes' / '.{}.aimpipe.lock'.format(name)
 
     def force_acquire(self):
         while self.pipelock.exists():
@@ -71,7 +71,7 @@ class LockablePipe(Pipe):
         rand_text = str(random.rand())
         self.pipelock.touch()
         self.pipelock.append(rand_text)
-        if self.pipelock.read().strip() != rand_text:
+        if self.pipelock.read_text().strip() != rand_text:
             return False
         return True
 
