@@ -22,9 +22,6 @@ out directory
 def create_tempfile(outpath, mode):
     temp_num = random.randint(0, 999999)
     tmp_pipe = None
-    pipe_dir = Path.cwd() / '.pipes'
-    if not pipe_dir.exists():
-        pipe_dir.mkdir()
     while tmp_pipe is None or tmp_pipe.exists():
         tmp_pipe = Path.cwd() / '.pipes' / '.tmp.{}'.format(temp_num)
     tmp_pipe.touch()
@@ -35,10 +32,12 @@ def create_tempfile(outpath, mode):
 
 class Pipe:
     def __init__(self, name):
-
         self.name = name
         self.outfile = Path.cwd() / '.pipes' / '.{}.aimpipe.out'.format(name)
         self.infile = Path.cwd() / '.pipes' / '.{}.aimpipe.in'.format(name)
+        pipe_dir = Path.cwd() / '.pipes'
+        if not pipe_dir.exists():
+            pipe_dir.mkdir()
 
     def write(self, text):
         with create_tempfile(self.outfile) as fil:
