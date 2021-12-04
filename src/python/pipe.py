@@ -68,7 +68,7 @@ class LockablePipe(Pipe):
     def try_acquire(self):
         if self.pipelock.exists():
             return False
-        rand_text = str(random.rand())
+        rand_text = str(random.randint(0,999999))
         self.pipelock.touch()
         self.pipelock.append(rand_text)
         if self.pipelock.read_text().strip() != rand_text:
