@@ -145,7 +145,7 @@ class InstanceStateful(Stateful):
         if stayOnTop and not settings.stay_always_on_top_when_still_launching():
             stayOnTop = False
         if not settings.use_switching_daemon():
-            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled(), fullscreenDelay=settings.get_fullscreen_delay())
+            hlp.run_ahk("activateWindow", pid=self.pid, switchdelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), stayOnTop=stayOnTop, shouldAutoUnpause=shouldAutoUnpause, fullscreen=settings.is_fullscreen_enabled(), fullscreenDelay=settings.get_fullscreen_delay(), playDelay=settings.get_unpause_delay())
         self.is_always_on_top = stayOnTop
     
     def mark_back(self):
@@ -269,6 +269,8 @@ class Instance(ConditionalTransitionable):
         launch_instance(self)
     
     def init_title_resource_pack(self):
+        if settings.is_test_mode():
+            return
         resourcepack_dir = self.mcdir / 'resourcepacks'
         if not resourcepack_dir.exists():
             resourcepack_dir.mkdir()
@@ -329,7 +331,7 @@ class Instance(ConditionalTransitionable):
         title_str = settings.get_window_title_template()
         title_str = title_str.replace('#',str(self.num))
         def set_title_inner(pid, title):
-            time.sleep(3)
+            time.sleep(1)
             hlp.run_ahk("setInstanceTitle", pid=pid, title=title)
         thread = threading.Thread(target=set_title_inner, args=(self.pid,title_str))
         thread.start()

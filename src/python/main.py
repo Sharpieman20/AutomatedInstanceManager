@@ -105,8 +105,8 @@ def main_loop(sc):
             obs.set_new_primary(queues.get_gen_instances()[0])
             need_to_reset_timer = True
     elif not primary_instance.is_active():
+        new_primary_instance = None
         if settings.is_wall_enabled():
-            new_primary_instance = None
             if len(queues.get_approved_instances()) > 0:
                 new_primary_instance = queues.get_approved_instances()[0]
             try_set_primary(new_primary_instance)
@@ -123,7 +123,8 @@ def main_loop(sc):
             try_set_primary(new_primary_instance)
             need_to_reset_timer = True
 
-    obs.get_stream_wall().update_shown()
+    if settings.is_wall_enabled():
+        obs.get_stream_wall().update_shown()
 
     # Pick focused instance
     if focused_instance is None:

@@ -21,9 +21,6 @@ if settings.is_test_mode():
     from AppKit import NSRunningApplication
     import psutil
 
-def run_cmd(cmd):
-    sp.call(shlex.split(cmd))
-
 def run_cmd(cmd, split=True, blocking=False):
     if split:
         cmd = shlex.split(cmd,posix=False)
@@ -114,7 +111,7 @@ def run_ahk(script_name, **kwargs):
         if isinstance(kwargs[key], bool):
             args.append('{}'.format(kwargs[key]).lower())
         elif isinstance(kwargs[key], str):
-            args.append("'{}'".format(kwargs[key]))
+            args.append("{}".format(kwargs[key]))
         else:
             args.append(str(kwargs[key]))
     if settings.should_parallelize_ahk() and not should_block:

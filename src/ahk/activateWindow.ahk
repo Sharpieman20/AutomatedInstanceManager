@@ -6,12 +6,9 @@ keepOnTop := A_Args[5]
 autoUnpause := A_Args[6]
 fullscreen := A_Args[7]
 fullscreenDelay := A_Args[8]
+playDelay := A_Args[9]
 WinSet, AlwaysOnTop, On, ahk_pid %pid%
 Sleep, %switchDelay%
-send {LButton}
-if (%autoUnpause%) {
-    ControlSend, ahk_parent, {Esc}, ahk_pid %pid%
-}
 if (%keepOnTop%) {
 
 } else {
@@ -26,6 +23,11 @@ if (%maximize%) {
 if (%fullscreen%) {
     ControlSend, ahk_parent, {Blind}{F11}, ahk_pid %pid%
     sleep, %fullscreenDelay%
+}
+send {LButton}
+sleep, %playDelay%
+if (%autoUnpause%) {
+    ControlSend, ahk_parent, {Esc}, ahk_pid %pid%
 }
 Sleep, 1000
 ExitApp
