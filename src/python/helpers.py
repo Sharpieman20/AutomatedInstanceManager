@@ -43,7 +43,7 @@ def get_pids():
                 all_pids.append(process.pid)
     else:
         print('get all pids')
-        for process in wmi.WMI().Win32_Process():
+        for process in wmi.WMI().Win32_Process('java'):
             # print('name {} pid {} caption {} commandline {}'.format(process.Name, process.ProcessId, process.Caption, process.Commandline))
             if 'java' in process.Name.lower():
                 print('{} {}'.format(process.ProcessId,process.Commandline))
