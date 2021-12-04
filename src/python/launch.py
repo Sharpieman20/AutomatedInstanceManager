@@ -50,6 +50,7 @@ def launch_test_instance(inst):
 
 def launch_instance(inst):
     if settings.is_test_mode():
+        print('launch java')
         launch_test_instance(inst)
         return
     if settings.get_num_instances() > 5 and settings.use_click_macro():
