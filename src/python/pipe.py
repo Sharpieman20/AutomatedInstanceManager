@@ -67,7 +67,6 @@ class LockablePipe(Pipe):
         acquire_successful = self.try_acquire()
         if not acquire_successful:
             self.force_acquire()
-        return self.acquire()
 
     def try_acquire(self):
         if self.pipelock.exists():
