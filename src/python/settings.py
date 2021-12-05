@@ -330,6 +330,10 @@ def dump_obs_config():
 def show_debug():
     return True
 
+# switch without waiting for main loop
+def use_switching_quick_path():
+    return False
+
 # INTENTIONALLY HARDCODED SETTINGS
 
 def get_multimc_launch_delay():
