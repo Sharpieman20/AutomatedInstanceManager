@@ -27,14 +27,14 @@ def init_pipes():
     pipe_dir.mkdir()
 
 @contextmanager
-def create_tempfile(outpath, mode):
+def create_tempfile(outpath, mode='w'):
     temp_num = random.randint(0, 999999)
     tmp_pipe = None
     while tmp_pipe is None or tmp_pipe.exists():
         tmp_pipe = Path.cwd() / '.pipes' / '.tmp.{}'.format(temp_num)
     tmp_pipe.touch()
     try:
-        yield open(tmp_pipe, 'w')
+        yield open(tmp_pipe, mode)
     finally:
         tmp_pipe.rename(outpath)
 
