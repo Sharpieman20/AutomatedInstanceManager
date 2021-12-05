@@ -34,7 +34,8 @@ def create_tempfile(outpath, mode='w'):
         tmp_pipe = Path.cwd() / '.pipes' / '.tmp.{}'.format(temp_num)
     tmp_pipe.touch()
     try:
-        yield open(tmp_pipe, mode)
+        with open(tmp_pipe, mode) as myfile:
+            yield myfile
     finally:
         tmp_pipe.rename(outpath)
 
