@@ -53,17 +53,16 @@ Loop
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
             WinMaximize, ahk_pid %newInstance%
-        Sleep %maximizeDelay%
+        Sleep, %maximizeDelay%
         WinSet, AlwaysOnTop, On, ahk_pid %newInstance%
-        Sleep %switchDelay%
+        Sleep, %switchDelay%
         send {LButton}
-        if (autoUnpause)
+        if (%autoUnpause%)
             ControlSend, ahk_parent, {Esc}, ahk_pid %oldInstance%
-        if (maximize)
+        if (%maximize%)
             WinMaximize, ahk_pid %newInstance%
-        if (borderless)
+        if (%borderless%)
             WinSet, Style, -0xCF0000, ahk_pid %newInstance%
-        oldInstance := -1
-        newInstance := -1
+        WinSet, AlwaysOnTop, Off, ahk_pid %newInstance%
     }
 }
