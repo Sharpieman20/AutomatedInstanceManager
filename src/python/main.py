@@ -30,6 +30,7 @@ import settings
 import queues
 import helpers as hlp
 from instance import Instance, State
+import pipe
 import json
 import sched
 import os

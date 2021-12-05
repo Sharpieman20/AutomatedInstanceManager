@@ -19,6 +19,12 @@ out directory
         when we're done with it, rename it into in directory
 '''
 
+def init_pipes():
+    pipe_dir = Path.cwd() / '.pipes'
+    if pipe_dir.exists():
+        shutil.rmtree(pipe_dir)
+    pipe_dir.mkdir()
+
 @contextmanager
 def create_tempfile(outpath, mode):
     temp_num = random.randint(0, 999999)
@@ -36,9 +42,6 @@ class Pipe:
         self.name = name
         self.outfile = Path.cwd() / '.pipes' / '.{}.aimpipe.out'.format(name)
         self.infile = Path.cwd() / '.pipes' / '.{}.aimpipe.in'.format(name)
-        pipe_dir = Path.cwd() / '.pipes'
-        if not pipe_dir.exists():
-            pipe_dir.mkdir()
 
     def write(self, text):
         with create_tempfile(self.outfile) as fil:
