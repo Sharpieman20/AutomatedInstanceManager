@@ -46,7 +46,12 @@ def get_pids():
         print('get all pids {}'.format(time.time()))
         my_wmi = wmi.WMI()
         query_results = my_wmi.query('Select ProcessId,Commandline from Win32_Process where Name like "java%"')
-        print('{} {}'.format(time.time(), query_results))
+        # 0.7 seconds
+        if len(query_results) > 0:
+            print('{} {}'.format(time.time(), query_results))
+            print(query_results[0])
+            print(query_results[0].__dict__)
+            print(query_results[0].ProcessId)
         for process in wmi.WMI().Win32_Process():
             # print('name {} pid {} caption {} commandline {}'.format(process.Name, process.ProcessId, process.Caption, process.Commandline))
             if 'java' in process.Name.lower():
@@ -56,6 +61,7 @@ def get_pids():
                 if 'jdk' in process.Commandline and 'Mojang' in process.Commandline:
                     all_pids.append(process.ProcessId)
         print(time.time())
+        # 6.5 seconds
         print('-------')
     return all_pids
 
