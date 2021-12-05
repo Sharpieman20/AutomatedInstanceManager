@@ -28,7 +28,6 @@ pipeFileLocation := A_Args[6]
 loopDelay := A_Args[7]
 
 ConsolePrintLine("read args")
-ExitApp
 
 oldInstance := -1
 newInstance := -1
@@ -49,7 +48,9 @@ Loop
         index+=1
     }
     if (oldInstance != -1) {
-        ConsolePrintLine("do file read")
+        ConsolePrintLine("do switch")
+        ConsolePrintLine(%oldInstance%)
+        ConsolePrintLine(%newInstance%)
         FileDelete, %pipeFileLocation%
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
