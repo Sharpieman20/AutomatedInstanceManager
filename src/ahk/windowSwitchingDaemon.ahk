@@ -49,8 +49,6 @@ Loop
     }
     if (newInstance != -1) {
         ConsolePrintLine("do switch")
-        ConsolePrintLine(%oldInstance%)
-        ConsolePrintLine(%newInstance%)
         FileDelete, %pipeFileLocation%
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
