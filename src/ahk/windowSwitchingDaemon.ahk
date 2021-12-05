@@ -28,7 +28,6 @@ pipeFileLocation := A_Args[6]
 loopDelay := A_Args[7]
 
 ConsolePrintLine("read args")
-ConsolePrintLine(%pipeFileLocation%)
 
 oldInstance := -1
 newInstance := -1
