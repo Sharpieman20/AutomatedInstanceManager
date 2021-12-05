@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from pathlib import Path
 import threading
 import time
+import shutil
 
 '''
 in directory
