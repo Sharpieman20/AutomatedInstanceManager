@@ -45,7 +45,7 @@ def get_pids():
     else:
         print('get all pids {}'.format(time.time()))
         my_wmi = wmi.WMI()
-        query_results = my_wmi.query('Select ProcessId,Commandline from Win32_Process where Name like "java%"')
+        query_results = my_wmi.query('Select ProcessId,Name,Commandline from Win32_Process where Name like "java%"')
         for process in query_results:
             # print('name {} pid {} caption {} commandline {}'.format(process.Name, process.ProcessId, process.Caption, process.Commandline))
             if 'java' in process.Name.lower():
