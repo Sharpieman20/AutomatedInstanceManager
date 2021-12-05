@@ -47,7 +47,7 @@ Loop
             newInstance := A_LoopReadLine
         index+=1
     }
-    if (oldInstance != -1) {
+    if (newInstance != -1) {
         ConsolePrintLine("do switch")
         ConsolePrintLine(%oldInstance%)
         ConsolePrintLine(%newInstance%)
