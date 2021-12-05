@@ -1,4 +1,23 @@
-#Persistent
+#SingleInstance Force
+
+ConsolePrint(ByRef vText:="")
+{
+	static vIsReady := 0, oStdOut
+	if !vIsReady
+	{
+		DllCall("kernel32\AllocConsole")
+		oStdOut := FileOpen("*", "w `n")
+		vIsReady := 1
+	}
+	oStdOut.Write(vText)
+	oStdOut.Read(0) ;flush the write buffer
+}
+
+ConsolePrintLine(ByRef vText:="")
+{
+	ConsolePrint(vText)
+	ConsolePrint("`n")
+}
 
 switchDelay := A_Args[1]
 borderless := A_Args[2]
@@ -8,11 +27,14 @@ playDelay := A_Args[5]
 pipeFileLocation := A_Args[6]
 loopDelay := A_Args[7]
 
+ConsolePrintLine("read args")
+
 oldInstance := -1
 newInstance := -1
 
 Loop
 {
+    ConsolePrintLine("loop")
     Sleep %loopDelay%
     oldInstance := -1
     newInstance := -1
@@ -26,6 +48,7 @@ Loop
         index+=1
     }
     if (oldInstance != -1) {
+        ConsolePrintLine("do file read")
         FileDelete, %pipeFileLocation%
         WinSet, AlwaysOnTop, Off, ahk_pid %oldInstance%
         if (maximize)
