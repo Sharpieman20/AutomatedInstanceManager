@@ -3,6 +3,7 @@ import obs as obs
 import math
 import queues
 import time
+import settings
 
 class Wall:
 
