@@ -541,6 +541,9 @@ def setup_stream_obs():
         stream_wall = SquareWall(settings.get_num_instances(), settings.get_stream_canvas_width(), settings.get_stream_canvas_height())
         global screen_wall
         screen_wall = ScreenWall(stream_wall, settings.get_num_instances(), settings.get_monitor_base_x(), settings.get_monitor_width(), settings.get_monitor_base_y(), settings.get_monitor_height())
+    if settings.dump_obs_config():
+        pass
+        return
     if not settings.is_obs_enabled():
         return
     if not settings.auto_configure_obs():
@@ -598,9 +601,10 @@ def exit_wall():
     temp_focused = get_focused_instance()
     set_focused_instance(None)
     set_new_focused(temp_focused)
-    for inst in queues.get_all_instances():
-        if inst.isShownOnWall:
-            inst.release()
+    if settings.reset_all_on_wall():
+        for inst in queues.get_all_instances():
+            if inst.isShownOnWall:
+                inst.release()
     get_stream_wall().disable()
     print('done exiting')
 

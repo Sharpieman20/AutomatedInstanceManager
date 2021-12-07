@@ -19,7 +19,6 @@ def reset_primary():
 def exit_wall():
     obs.exit_wall()
 
-
 def reset_focused():
     focused_instance = obs.get_focused_instance()
     if focused_instance is not None:

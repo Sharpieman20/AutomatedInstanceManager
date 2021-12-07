@@ -305,6 +305,9 @@ def reset_all_on_wall():
 def stay_on_wall_if_none_good():
     return settings['stay-on-wall-if-none-good']
 
+def dump_obs_config():
+    return settings['dump-obs-config']
+
 # INTENTIONALLY HARDCODED SETTINGS
 
 def get_multimc_launch_delay():

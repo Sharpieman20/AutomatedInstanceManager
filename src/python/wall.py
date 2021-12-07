@@ -27,7 +27,7 @@ class Wall:
     
     def initialize_instance_shown_states(self):
         self.instance_shown_states = {i+1: False for i in range(self.num_instances)}
-    
+
     def get_coords_for_instance(self, inst):
         idx = inst.num-1
 
@@ -71,33 +71,23 @@ class Wall:
         inst.mark_approved()
         if settings.wall_single_select_mode():
             obs.exit_wall()
-            
 
     def update_shown(self):
-        if not self.is_active():
-            return
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
                 inst.update_obs_wall_visibility()
                 time.sleep(0.1)
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
-    
+
     def is_active(self):
         return self.active
-    
+
     def show(self):
         self.active = True
-        self.instance_shown_states = {i+1: False for i in range(self.num_instances)}
         self.update_shown()
     
     def hide(self):
         self.active = False
-        if not settings.reset_all_on_wall():
-            return
-        for inst in queues.get_all_instances():
-            if self.instance_shown_states[inst.num]:
-                obs.set_scene_item_visible('tile{}'.format(inst.num), False)
-                time.sleep(0.1)
 
     def enable(self):
         self.show()
@@ -134,7 +124,6 @@ class ScreenWall(SquareWall):
         self.active = False
 
     def make_layout(self, obs_wall):
-
         ratio_1 = self.pixel_width / obs_wall.pixel_width
         ratio_2 = self.pixel_height / obs_wall.pixel_height
 
