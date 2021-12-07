@@ -65,7 +65,7 @@ class Wall:
             return
         if not self.is_active():
             return
-        if not instance_shown_states[inst.num]:
+        if not self.instance_shown_states[inst.num]:
             return
         print('pressed on {}'.format(inst.num))
         inst.mark_approved()

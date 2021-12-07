@@ -68,7 +68,7 @@
     "use-reset-counter": true,
     "randomly-retry-freezes": false,
     "stay-on-top-while-launching": true,
-    "set-window-titles": true,
+    "set-window-titles": false,
     "run-custom-background-ahk-script": false,
     "use-click-macro": false,
     "settings-reset-first-world": false,
