@@ -552,6 +552,7 @@ def setup_stream_obs():
         screen_wall = ScreenWall(stream_wall, settings.get_num_instances(), settings.get_monitor_base_x(), settings.get_monitor_width(), settings.get_monitor_base_y(), settings.get_monitor_height())
     if settings.dump_obs_config():
         dump_obs_config_to_log()
+        time.sleep(5000)
         return
     if not settings.is_obs_enabled():
         return
