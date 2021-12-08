@@ -90,7 +90,7 @@ class Stateful(Suspendable):
             self.mark_generating()
             self.timestamp += settings.get_settings_reset_delay()
         elif settings.should_auto_pause():
-            assign_to_state(self, State.PAUSED)
+            self.mark_paused()
             self.pause()
         else:
             assign_to_state(self, State.UNPAUSED)

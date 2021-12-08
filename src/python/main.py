@@ -307,12 +307,9 @@ def main_loop(sc):
 
     # Handle world gen instances
     for inst in queues.get_gen_instances():
-        if inst.is_primary() and not inst.is_active():
-            inst.mark_active()
-        else:
-            inst.mark_worldgen_finished()
         if not inst.is_in_world():
             continue
+        inst.mark_worldgen_finished()
 
     obs.set_scene_item_visible('indicator',len(queues.get_unpaused_instances()) > 0)
 
