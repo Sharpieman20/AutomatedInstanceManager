@@ -83,5 +83,6 @@
     "wall-single-select": true,
     "wall-reset-all": true,
     "stay-on-wall-if-none-good": true,
-    "use-recording-obs": false
+    "use-recording-obs": false,
+    "dump-obs-config": false
 }

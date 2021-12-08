@@ -459,7 +459,6 @@ def clear_stream_scene_items():
     for scene_item in get_scene_items(True):
         my_scene_item = {'name': scene_item['sourceName']}
         # print(my_scene_item['name'])
-        print(get_source_settings(scene_item['sourceName']))
         if 'wall' == scene_item['sourceName']:
             delete_scene_item(my_scene_item, True)
         if 'tile' in scene_item['sourceName']:
@@ -527,6 +526,16 @@ def setup_recording_obs():
         clear_recording_scene_items()
         create_recording_scene_items()
 
+def dump_obs_config_to_log():
+    print('obs config')
+    print('------------------')
+    for scene_item in get_scene_items(True):
+        my_scene_item = {'name': scene_item['sourceName']}
+        # print(my_scene_item['name'])
+        print(scene_item)
+        print(get_source_settings(scene_item['sourceName']))
+    print('------------------')
+
 def get_stream_wall():
     global stream_wall
     return stream_wall
@@ -542,16 +551,18 @@ def setup_stream_obs():
         global screen_wall
         screen_wall = ScreenWall(stream_wall, settings.get_num_instances(), settings.get_monitor_base_x(), settings.get_monitor_width(), settings.get_monitor_base_y(), settings.get_monitor_height())
     if settings.dump_obs_config():
-        pass
+        dump_obs_config_to_log()
         return
     if not settings.is_obs_enabled():
         return
     if not settings.auto_configure_obs():
         return
+    
     if not is_stream_obs_configured():
         clear_stream_scene_items()
         create_stream_scene_items()
         reorder_stream_scene_items()
+    
 
 
 def register_mouse_listener(cur_wall):

@@ -483,6 +483,7 @@ if __name__ == "__main__":
         obs.setup_stream_obs()
         obs.hide_all(True)
         obs.hide_all(False)
+        print('hotkeys')
         print(settings.get_hotkeys())
         hotkeys.setup_hotkeys()
         if not settings.should_auto_launch():
