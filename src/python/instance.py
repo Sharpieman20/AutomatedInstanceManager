@@ -17,7 +17,7 @@ from process import PrioritizeableProcess
 num_per_state = {}
 
 def assign_to_state(instance, state):
-    print('assign instance {} to state {}'.format(instance.num, state))
+    print('{} assign instance {} to state {}'.format(time.time(), instance.num, state))
     global num_per_state
     if state not in num_per_state:
         num_per_state[state] = 0
