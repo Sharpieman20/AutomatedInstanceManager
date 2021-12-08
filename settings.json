@@ -84,5 +84,6 @@
     "wall-reset-all": true,
     "stay-on-wall-if-none-good": true,
     "use-recording-obs": false,
-    "dump-obs-config": false
+    "dump-obs-config": false,
+    "use-game-capture": false
 }
