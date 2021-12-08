@@ -533,6 +533,7 @@ def dump_obs_config_to_log():
         my_scene_item = {'name': scene_item['sourceName']}
         # print(my_scene_item['name'])
         print(scene_item)
+        print(get_scene_item_properties(scene_item['sourceName']))
         print(get_source_settings(scene_item['sourceName']))
     print('------------------')
 
