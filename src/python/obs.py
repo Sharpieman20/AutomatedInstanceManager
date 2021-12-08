@@ -527,14 +527,14 @@ def setup_recording_obs():
         create_recording_scene_items()
 
 def dump_obs_config_to_log():
-    print('obs config')
+    print('obs config fixed evankae')
     print('------------------')
     for scene_item in get_scene_items(True):
         my_scene_item = {'name': scene_item['sourceName']}
         # print(my_scene_item['name'])
         print(scene_item)
-        print(get_scene_item_properties(scene_item['sourceName']), True)
-        print(get_source_settings(scene_item['sourceName']), True)
+        print(get_scene_item_properties(scene_item['sourceName'], True))
+        print(get_source_settings(scene_item['sourceName'], True))
     print('------------------')
 
 def get_stream_wall():
