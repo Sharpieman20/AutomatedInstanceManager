@@ -462,7 +462,8 @@ if __name__ == "__main__":
         print(settings.get_hotkeys())
         hotkeys.setup_hotkeys()
         if not settings.should_auto_launch():
-            kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(mark_manual_launch_batch_done))
+            if 'unfreeze-all' in settings.get_hotkeys():
+                kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(mark_manual_launch_batch_done))
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'
