@@ -125,6 +125,7 @@ def main_loop(sc):
 
     if settings.is_wall_enabled():
         obs.get_stream_wall().update_shown()
+        obs.get_screen_wall().update_shown()
 
     # Pick focused instance
     if focused_instance is None:

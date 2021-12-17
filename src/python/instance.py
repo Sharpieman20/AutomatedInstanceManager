@@ -95,6 +95,7 @@ class Stateful(Suspendable):
         else:
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
+        print('show {} on wall'.format(self))
         self.mark_shown_on_wall()
 
     def mark_paused(self):

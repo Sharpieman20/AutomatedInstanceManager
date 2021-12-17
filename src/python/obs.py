@@ -299,6 +299,7 @@ def is_recording_obs_configured():
             return False
         set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
         time.sleep(obs_delay)
+    # if get_canvas_dimensions
     return True
     # return False
     # for item in scene_items:
@@ -347,6 +348,12 @@ def prompt_for_correct_dimensions():
     x, y = recording_wall.get_pixel_dimensions()
     input('Please set your recording OBS to Canvas size {}x{}, then press any key to continue.'.format(x,y))
 
+def get_canvas_dimensions(stream=False):
+    if stream:
+        websocket_result = call_stream_websocket(obsrequests.GetVideoInfo())
+    else:
+        websocket_result = call_recording_websocket(obsrequests.GetVideoInfo())
+    return (websocket_result.baseWidth, websocket_result.baseHeight)
 
 def delete_scene_item(scene_item, stream=False):
     if stream:
@@ -418,6 +425,9 @@ def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
     source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
+    source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
+    source_settings['priority'] = 1
+    source_settings['hook_rate'] = 3
     source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
     # print(result)

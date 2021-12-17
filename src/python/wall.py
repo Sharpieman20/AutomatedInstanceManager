@@ -49,10 +49,12 @@ class Wall:
     
     def press_instance_at_coords(self, x, y):
         # TODO - convert from screen coords to canvas coords
+        print('press instance at coords offset {} {}'.format(x, y))
         x_ind = int(x // self.instance_pixel_width)
         y_ind = int(y // self.instance_pixel_width)
         inst_ind = y_ind * self.tile_width + x_ind + 1
         instance_to_press = None
+        print('press instance at ind {} {} {}'.format(x_ind, y_ind, inst_ind))
         for inst in queues.get_all_instances():
             if inst.num == inst_ind:
                 instance_to_press = inst
@@ -61,20 +63,25 @@ class Wall:
 
     def press_instance(self, inst):
         # TODO @Sharpieman20 - replace this with hotkey event
+        print('press instance inner {}'.format(inst))
         if inst is None:
             return
+        print('press instance inner {}'.format(self.is_active()))
         if not self.is_active():
             return
+        print('press instance inner {}'.format(self.instance_shown_states[inst.num]))
         if not self.instance_shown_states[inst.num]:
             return
         print('pressed on {}'.format(inst.num))
         inst.mark_approved()
         if settings.wall_single_select_mode():
+            obs.set_primary_instance(inst)
             obs.exit_wall()
 
     def update_shown(self):
         for inst in queues.get_all_instances():
             if inst.isShownOnWall != self.instance_shown_states[inst.num]:
+                print('update {} to {}'.format(inst.num, inst.isShownOnWall))
                 inst.update_obs_wall_visibility()
                 time.sleep(0.1)
                 self.instance_shown_states[inst.num] = inst.isShownOnWall
@@ -137,6 +144,11 @@ class ScreenWall(SquareWall):
 
         self.tile_width = obs_wall.tile_width
         self.tile_height = obs_wall.tile_height
+    
+    def update_shown(self):
+        for inst in queues.get_all_instances():
+            if inst.isShownOnWall != self.instance_shown_states[inst.num]:
+                self.instance_shown_states[inst.num] = inst.isShownOnWall
 
     def press_instance_at_coords(self, x, y):
         super().press_instance_at_coords(x - self.horizontal_bar, y - self.vertical_bar)
