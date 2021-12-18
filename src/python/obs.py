@@ -281,6 +281,9 @@ def hide_focused(inst):
 def show_focused(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=True))
 
+def show_tile(inst):
+    call_recording_websocket(obsrequests.SetSceneItemProperties({'name':'tile{}'.format(inst.num)},visible=True))
+
 def show_recording(inst):
     call_recording_websocket(obsrequests.SetSceneItemProperties({'name':'recording{}'.format(inst.num)},visible=True))
 
@@ -320,9 +323,8 @@ def is_stream_obs_configured():
                     has_match = True
             if not has_match:
                 return False
-            set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
+            set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=True)
             time.sleep(obs_delay)
-            correct_scene_items = ['tile{}'.format(inst.num) for inst in queues.get_all_instances()]
     correct_scene_items = ['active{}'.format(inst.num) for inst in queues.get_all_instances()]
     current_scene_items = [scene_item['sourceName'] for scene_item in scene_items if 'active' in scene_item['sourceName']]
     if len(correct_scene_items) != len(current_scene_items):
@@ -334,12 +336,10 @@ def is_stream_obs_configured():
                 has_match = True
         if not has_match:
             return False
-        set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=False)
+        set_scene_item_visible({'name': correct_scene_item}, visible=False, stream=True)
         time.sleep(obs_delay)
-    return False
-    # return True
-
-
+    # return False
+    return True
 
 def prompt_for_correct_dimensions():
     global recording_wall

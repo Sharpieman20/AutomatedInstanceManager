@@ -188,7 +188,14 @@ class WallDisplayStateful(DisplayStateful):
         self.isShownOnWall = True
 
     def update_obs_wall_visibility(self):
-        obs.set_scene_item_visible('tile{}'.format(self.num), self.isShownOnWall)
+        scene_item = {}
+        if self.isShownOnWall:
+            coords = obs.get_stream_wall().get_coords_for_instance(self)
+            bounds = (obs.get_stream_wall().instance_pixel_width, obs.get_stream_wall().instance_pixel_height)
+            scene_item['position'] = {'x': coords[0], 'y': coords[1]}
+        else:
+            scene_item['position'] = {'x': -500, 'y': 0}
+        obs.set_scene_item_properties('tile{}'.format(self.num), scene_item, True)
 
 # TODO @Sharpieman20 - get these durations from settings
 class ConditionalTransitionable(WallDisplayStateful):
@@ -315,6 +322,7 @@ class Instance(ConditionalTransitionable):
         num_times_to_loop = int(settings.get_title_screen_obs_delay() * 10)
         hlp.run_ahk("resetFromTitle", pid=self.pid, instnum=self.num, loops=num_times_to_loop, keydelay=settings.get_key_delay())
         obs.show_recording(self)
+        obs.show_tile(self)
         # set state to generating
         self.first_reset = True
 
