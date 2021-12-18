@@ -435,6 +435,7 @@ def try_download_beta():
 def kill_on_exit():
     if settings.is_test_mode():
         return
+    obs.stop_mouse_listener()
     if settings.should_kill_all_on_exit():
         for instance in queues.get_all_instances():
             cmd = 'Taskkill /PID {} /F'.format(instance.pid)
