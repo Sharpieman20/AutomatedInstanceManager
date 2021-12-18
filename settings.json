@@ -33,6 +33,7 @@
     "freeze-delay": 500,
     "unfreeze-delay": 2000,
     "fullscreen-delay": 400,
+    "title-delay": 2000,
     "loop-delay": 100,
     "boot-delay": 4.0,
     "key-delay": 20,

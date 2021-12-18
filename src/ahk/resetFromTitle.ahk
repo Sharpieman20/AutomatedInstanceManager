@@ -7,7 +7,7 @@ keydelay := A_Args[4]
   
 loop, loops {
     WinSetTitle, ahk_pid %pid%, , Minecraft* 1.16.1 - Instance %instnum%
-    Sleep, 100
+    Sleep, 50
 }
 
 SetKeyDelay, %keydelay%

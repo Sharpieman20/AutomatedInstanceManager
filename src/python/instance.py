@@ -257,6 +257,7 @@ class Instance(ConditionalTransitionable):
         self.pid = -1
         self.window_pid = -1
         self.first_reset = True
+        self.on_title = False
         self.suspended = False
         self.state = State.DEAD
         self.displayState = DisplayState.HIDDEN
@@ -332,12 +333,13 @@ class Instance(ConditionalTransitionable):
         # assign our pid somehow
         # start generating world w/ duncan mod
         self.set_title()
-        num_times_to_loop = int(settings.get_title_screen_obs_delay() * 10)
+        num_times_to_loop = int(settings.get_title_screen_obs_delay() * 20)
         hlp.run_ahk("resetFromTitle", pid=self.pid, instnum=self.num, loops=num_times_to_loop, keydelay=settings.get_key_delay())
         obs.show_recording(self)
         obs.show_tile(self)
         # set state to generating
         self.first_reset = True
+        self.on_title = True
 
     def reset_active(self):
         if self.is_active():
@@ -429,6 +431,12 @@ class Instance(ConditionalTransitionable):
         if settings.is_test_mode():
             if hlp.has_passed(self.timestamp, settings.get_test_worldgen_time()):
                 return True
+            return False
+        
+        if self.on_title:
+            if hlp.has_passed(self.timestamp, 1.0+settings.get_title_screen_obs_delay()):
+                self.timestamp = get_time()
+                self.on_title = False
             return False
         
         if not hlp.has_passed(self.timestamp, settings.get_start_create_world_delay()):

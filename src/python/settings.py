@@ -317,4 +317,4 @@ def get_multimc_launch_delay():
     return 4.0
 
 def get_title_screen_obs_delay():
-    return 2.0
+    return int(settings['title-delay'])
