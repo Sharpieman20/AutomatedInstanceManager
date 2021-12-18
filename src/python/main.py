@@ -163,7 +163,7 @@ def main_loop(sc):
     num_working_instances += min(unfrozen_queue_size, len(queues.get_ready_instances()) + len(queues.get_approved_instances()))
     
     num_booting_instances = len(queues.get_booting_instances())
-    num_to_boot = max_concurrent - num_working_instances
+    num_to_boot = min(1,max_concurrent - num_working_instances)
 
     num_working_instances += num_booting_instances
     
