@@ -49,7 +49,7 @@ def get_pids():
                 print('{} {}'.format(process.ProcessId,process.Commandline))
                 if process.Commandline is None:
                     continue
-                if 'jdk' in process.Commandline:
+                if 'jdk' in process.Commandline and 'Mojang' in process.Commandline:
                     all_pids.append(process.ProcessId)
         print('-------')
     return all_pids
