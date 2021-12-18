@@ -100,7 +100,7 @@ def run_ahk(script_name, **kwargs):
     ahk_path = _resolve_executable_path()
     script_path = Path.cwd() / "src" / "ahk" / "{}.ahk".format(script_name)
     if settings.show_debug():
-        print('{} running {} pid {} args {}'.format(time.time(), script_name, kwargs['pid'], kwargs))
+        print('{} running {} args {}'.format(time.time(), script_name, kwargs))
     elif 'pid' in kwargs:
         print('{} running {} pid {} with ahk path {}'.format(time.time(), script_name, kwargs['pid'], ahk_path))
     else:
