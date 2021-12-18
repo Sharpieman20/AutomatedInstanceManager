@@ -181,7 +181,7 @@ def main_loop(sc):
     
     num_to_launch = min(num_to_launch, len(queues.get_dead_instances()))
 
-    if settings.is_test_mode() and time.time() - last_log_time > settings.get_debug_interval():
+    if (settings.show_debug() or settings.is_test_mode()) and time.time() - last_log_time > settings.get_debug_interval():
         last_log_time = time.time()
         tmp_all_queues = queues.get_all_queues()
         print('---------------')

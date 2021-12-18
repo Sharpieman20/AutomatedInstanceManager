@@ -85,7 +85,7 @@ def get_fullscreen_delay():
     return int(settings['fullscreen-delay'])
 
 def get_debug_interval():
-    return 2.0*1000000.0
+    return 2.0
 
 def get_test_worldgen_time():
     return 1.7
@@ -307,6 +307,9 @@ def stay_on_wall_if_none_good():
 
 def dump_obs_config():
     return settings['dump-obs-config']
+
+def show_debug():
+    return True
 
 # INTENTIONALLY HARDCODED SETTINGS
 
