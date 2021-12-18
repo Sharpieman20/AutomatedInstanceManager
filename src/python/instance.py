@@ -305,7 +305,7 @@ class Instance(ConditionalTransitionable):
         lang_fil = lang_dir / 'en_us.json'
         lang_fil.touch()
         lang_fil.write_text('{\n    "title.singleplayer": "Instance '+str(self.num)+'"\n}')
-        options_fil = self.mcdir / 'options.txt'
+        options_file = self.mcdir / 'options.txt'
         all_lines = []
         for ln in options_file.open('r'):
             ln = ln.rstrip()
