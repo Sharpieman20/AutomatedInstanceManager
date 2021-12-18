@@ -304,6 +304,20 @@ class Instance(ConditionalTransitionable):
         lang_fil = lang_dir / 'en_us.json'
         lang_fil.touch()
         lang_fil.write_text('{\n    "title.singleplayer": "Instance '+str(self.num)+'"\n}')
+        options_fil = self.mcdir / 'options.txt'
+        all_lines = []
+        for ln in options_file.open('r'):
+            ln = ln.rstrip()
+            if 'resourcepacks' not in ln.lower():
+                all_lines.append(ln)
+                continue
+            if 'aim' in ln.lower():
+                all_lines.append(ln)
+                continue
+            replacement_ln = '{},"file/AIM_Instance_Title{}"'.format(ln[:-1], ln[-1])
+            all_lines.append(replacement_ln)
+        options_file.write_text('\n'.join(all_lines))
+
         
     # not yet implemented (not needed in v1)
     def create_multimc_instance(self):
