@@ -1,3 +1,5 @@
+#SingleInstance Ignore
+
 pid := A_Args[1]
 switchDelay := A_Args[2]
 borderless := A_Args[3]

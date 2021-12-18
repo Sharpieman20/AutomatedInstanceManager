@@ -1,3 +1,5 @@
+#SingleInstance Ignore
+
 pid := A_Args[1]
 instnum := A_Args[2]
 loops := A_Args[3]
@@ -10,4 +12,5 @@ loop, loops {
 
 SetKeyDelay, %keydelay%
 ControlSend, ahk_parent, {Blind}{Tab 8}{Enter}, ahk_pid %pid%
+Sleep, 1000
 ExitApp

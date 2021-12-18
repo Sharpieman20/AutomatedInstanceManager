@@ -138,6 +138,7 @@ class Stateful(Suspendable):
     def mark_inactive(self):
         # add to pregen w/o setting timestamp
         assign_to_state(self, State.PREGEN)
+        self.mark_hidden_on_wall()
 
 class InstanceStateful(Stateful):
 

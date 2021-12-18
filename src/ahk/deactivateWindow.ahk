@@ -1,3 +1,4 @@
+#SingleInstance Ignore
 pid := A_Args[1]
 isMaximized := A_Args[2]
 fullscreen := A_Args[3]

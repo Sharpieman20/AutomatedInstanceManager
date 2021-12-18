@@ -6,18 +6,19 @@ SendMode Input
 CoordMode, Mouse, Screen
 
 WinMove, ahk_pid %multimcpid%,,0,0,640,640
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 WinSet, AlwaysOnTop, On, ahk_pid %multimcpid%
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 WinActivate, ahk_pid %multimcpid%
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 MouseMove, 75, 10, 0
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 Send, {Click 75, 10}
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 MouseMove, 75, 150, 0
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 Send, {Click 75, 150}
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
 WinSet, AlwaysOnTop, Off, ahk_pid %multimcpid%
-sleep, %multimcdelay%
+Sleep, %multimcdelay%
+ExitApp
