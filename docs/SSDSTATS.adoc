@@ -2,5 +2,6 @@
 :hardbreaks:
 
 === Stats
-Name | Sustained Read MBps | Sustained Write MBps | Price
-Intel Optane SSD DC P5800X | $1,189
+
+Sheet of comparison of various SSDs. Still a WIP, may have inaccuracies.
+https://docs.google.com/spreadsheets/d/1cwKRoEXZpqkn9fnvGPuTy-N_ijv7Teq_muEW-T7MIdQ/edit?usp=sharing
