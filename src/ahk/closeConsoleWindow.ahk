@@ -1,4 +1,4 @@
-#SingleInstance Ignore
+#SingleInstance Off
 
 title := A_Args[1]
 WinClose, 

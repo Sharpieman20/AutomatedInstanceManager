@@ -1,4 +1,4 @@
-#SingleInstance Ignore
+#SingleInstance Off
 
 pid := A_Args[1]
 WinMaximize, ahk_pid %pid%

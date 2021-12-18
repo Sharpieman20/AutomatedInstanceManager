@@ -1,4 +1,4 @@
-#SingleInstance Ignore
+#SingleInstance Off
 
 pid := A_Args[1]
 hProcess := DllCall("OpenProcess", "UInt", 0x1F0FFF, "Int", 0, "Int", pid)

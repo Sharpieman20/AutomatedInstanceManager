@@ -1,4 +1,4 @@
-#SingleInstance Ignore
+#SingleInstance Off
 
 WinSet, AlwaysOnTop, On, Windowed Projector
 WinSet, AlwaysOnTop, On, Fullscreen Projector

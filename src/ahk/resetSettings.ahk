@@ -1,4 +1,4 @@
-#SingleInstance Ignore
+#SingleInstance Off
 
 pid := A_Args[1]
 keydelay := A_Args[2]
