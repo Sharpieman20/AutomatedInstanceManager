@@ -606,7 +606,7 @@ def enter_wall():
     set_new_primary(None)
     time.sleep(settings.get_switch_delay()/1000.0)
     hlp.run_ahk("activateWall")
-    for s in scene_items:
+    for s in get_scene_items():
         if 'active' in s['sourceName']:
             set_scene_item_visible({'id': s['itemId']}, visible=False)
     get_stream_wall().enable()
