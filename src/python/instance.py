@@ -332,8 +332,8 @@ class Instance(ConditionalTransitionable):
     def reset_from_title(self):
         # assign our pid somehow
         # start generating world w/ duncan mod
-        self.set_title()
-        num_times_to_loop = int(settings.get_title_screen_obs_delay() * 20)
+        # self.set_title()
+        num_times_to_loop = int(settings.get_title_screen_obs_delay() / 50)
         hlp.run_ahk("resetFromTitle", pid=self.pid, instnum=self.num, loops=num_times_to_loop, keydelay=settings.get_key_delay())
         obs.show_recording(self)
         obs.show_tile(self)

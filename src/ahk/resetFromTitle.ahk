@@ -5,7 +5,7 @@ instnum := A_Args[2]
 loops := A_Args[3]
 keydelay := A_Args[4]
   
-loop, loops {
+Loop, loops {
     WinSetTitle, ahk_pid %pid%, , Minecraft* 1.16.1 - Instance %instnum%
     Sleep, 50
 }

@@ -271,8 +271,8 @@ def main_loop(sc):
     for inst in queues.get_mainmenu_instances():
         # exact same as pregen
         # except we call different reset function
-        inst.mark_generating()
         inst.reset_from_title()
+        inst.mark_generating()
 
     # Handle pregen instances (recently unfrozen worlds that need to be generated)
     for inst in queues.get_pregen_instances():
