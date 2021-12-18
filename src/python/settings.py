@@ -305,6 +305,9 @@ def reset_all_on_wall():
 def stay_on_wall_if_none_good():
     return settings['stay-on-wall-if-none-good']
 
+def show_only_ready_on_wall():
+    return False
+
 def dump_obs_config():
     return settings['dump-obs-config']
 

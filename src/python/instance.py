@@ -82,6 +82,8 @@ class Stateful(Suspendable):
     def mark_generating(self):
         assign_to_state(self, State.GEN)
         self.timestamp = get_time()
+        if not settings.show_only_ready_on_wall():
+            self.mark_shown_on_wall()
     
     def mark_worldgen_finished(self):
         if self.first_reset and settings.should_settings_reset_first_world():
@@ -96,7 +98,8 @@ class Stateful(Suspendable):
             assign_to_state(self, State.UNPAUSED)
         self.timestamp = get_time()
         print('show {} on wall'.format(self))
-        self.mark_shown_on_wall()
+        if settings.show_only_ready_on_wall():
+            self.mark_shown_on_wall()
 
     def mark_paused(self):
         assign_to_state(self, State.PAUSED)
@@ -415,6 +418,8 @@ class Instance(ConditionalTransitionable):
             return self.current_world
         max_time = 0.0
         for world in (self.mcdir / "saves").iterdir():
+            if not world.exists():
+                continue
             world_time = world.stat().st_mtime
             if world_time > max_time:
                 if settings.get_version() == '1.8':

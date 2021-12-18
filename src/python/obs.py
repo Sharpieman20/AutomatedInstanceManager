@@ -484,7 +484,7 @@ def clear_stream_scene_items():
 def set_scene_item_properties_for_instance_from_template(inst, template, stream=True):
     name = '{}1'.format(template)
     result = get_scene_item_properties(name, stream)
-    time.sleep(1.0)
+    time.sleep(obs_delay*4)
     template_item = result.datain
     # print(template_item)
     scene_item = {}
