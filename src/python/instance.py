@@ -274,7 +274,6 @@ class Instance(ConditionalTransitionable):
     def launch(self):
         # TODO @Sharpieman20 - fix this to give pid from launch
         self.init_title_resource_pack()
-        obs.set_scene_item_visible({'name': 'recording{}'.format(self.num)}, visible=True, stream=False)
         launch_instance(self)
     
     def init_title_resource_pack(self):

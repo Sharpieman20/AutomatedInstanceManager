@@ -282,7 +282,7 @@ def show_focused(inst):
     call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'focused{}'.format(inst.num)},visible=True))
 
 def show_tile(inst):
-    call_recording_websocket(obsrequests.SetSceneItemProperties({'name':'tile{}'.format(inst.num)},visible=True))
+    call_stream_websocket(obsrequests.SetSceneItemProperties({'name':'tile{}'.format(inst.num)},visible=True))
 
 def show_recording(inst):
     call_recording_websocket(obsrequests.SetSceneItemProperties({'name':'recording{}'.format(inst.num)},visible=True))
@@ -426,6 +426,8 @@ def set_source_settings_for_instance(inst, template='recording', stream=False):
     source_settings = {}
     source_settings['capture_mode'] = 'window'
     source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
+    if settings.is_test_mode():
+        source_settings['owner_name'] = 'java'
     source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
     source_settings['priority'] = 1
     source_settings['hook_rate'] = 3

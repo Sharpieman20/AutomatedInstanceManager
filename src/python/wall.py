@@ -4,6 +4,7 @@ import math
 import queues
 import time
 import settings
+import keyboard as kb
 
 class Wall:
 
@@ -73,6 +74,9 @@ class Wall:
         if not self.instance_shown_states[inst.num]:
             return
         print('pressed on {}'.format(inst.num))
+        if kb.is_pressed(settings.get_hotkeys()['wall-reset-modifier']):
+            inst.release()
+            return
         inst.mark_approved()
         if settings.wall_single_select_mode():
             obs.set_primary_instance(inst)

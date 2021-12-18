@@ -42,7 +42,7 @@
     "max-concurrent": 3,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
-    "obs-enabled": false,
+    "obs-enabled": true,
     "ahk-enabled": false,
     "disable-tts": true,
     "fullscreen": false,
@@ -55,6 +55,6 @@
     "auto-configure-obs": true,
     "use-game-capture": false,
     "use-wall": true,
-    "use-recording-obs": false,
+    "use-recording-obs": true,
     "dump-obs-config": false
 }

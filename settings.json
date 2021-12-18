@@ -8,7 +8,9 @@
     "window-title-template": "Minecraft* - Instance #",
     "hotkeys": {
         "reset-active": "U",
-        "toggle-hotkeys": "["
+        "toggle-hotkeys": "[",
+        "exit-wall": "P",
+        "wall-reset-modifier": "/"
     },
     "stream-obs-settings" : {
         "web-host": "localhost",
