@@ -470,7 +470,7 @@ if __name__ == "__main__":
             print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')
             time.sleep(5000)
         launch.launch_all_programs()
-        input("Press any key to continue...")
+        # input("Press any key to continue...")
         hlp.get_multimc_pid()
         print("Macro started")
         print("Connecting to OBS")
