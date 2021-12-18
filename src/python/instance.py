@@ -212,7 +212,19 @@ class ConditionalTransitionable(WallDisplayStateful):
 
     def is_done_unfreezing(self):
         duration = settings.get_unfreeze_delay()
-        return hlp.has_passed(self.timestamp, duration)
+        if hlp.has_passed(self.timestamp, duration)
+            return True
+        if not settings.use_dynamic_unfreezing():
+            return False
+        query_results = my_wmi.query('Select ProcessId,Name,Commandline from Win32_Process where Name like "java%"')
+        if len(query_results) == 0:
+            return False
+        wmi_process = query_results[0]
+        working_set = wmi_process.WorkingSetSize
+        max_working_set = wmi_process.MaximumWorkingSetSize
+        if working_set / max_working_set < 0.9:
+            return False
+        return True
 
     def is_done_freezing(self):
         duration = settings.get_freeze_delay()

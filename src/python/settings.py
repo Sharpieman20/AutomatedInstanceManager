@@ -330,6 +330,9 @@ def dump_obs_config():
 def show_debug():
     return True
 
+def use_dynamic_unfreezing():
+    return True
+
 # switch without waiting for main loop
 def use_switching_quick_path():
     return False
