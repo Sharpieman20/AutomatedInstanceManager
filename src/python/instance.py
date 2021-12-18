@@ -434,7 +434,7 @@ class Instance(ConditionalTransitionable):
             return False
         
         if self.on_title:
-            if hlp.has_passed(self.timestamp, 1.0+settings.get_title_screen_obs_delay()):
+            if hlp.has_passed(self.timestamp, 1.0+(settings.get_title_screen_obs_delay()/1000)):
                 self.timestamp = get_time()
                 self.on_title = False
             return False
