@@ -424,6 +424,7 @@ def reset_source_settings_for_instance(inst, template='recording', stream=False)
 def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
+    source_settings['capture_mode'] = 'window'
     source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
     source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
     source_settings['priority'] = 1
