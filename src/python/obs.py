@@ -430,7 +430,8 @@ def set_source_settings_for_instance(inst, template='recording', stream=False):
         source_settings['owner_name'] = 'java'
     source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
     source_settings['priority'] = 1
-    source_settings['hook_rate'] = 3
+    source_settings['hook_rate'] = 2
+    source_settings['anti_cheat_hook'] = False
     source_settings['sourceType'] = settings.get_obs_source_type()
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
     # print(result)
