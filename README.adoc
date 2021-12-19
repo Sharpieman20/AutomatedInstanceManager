@@ -25,6 +25,7 @@ If you have any questions, reach out to one of our testers over Discord.
 - FinestPigeon (Pre 1.9)
 
 ##### Testing
+Active testers are bolded
 - Pncakespoon
 - SpeedNintendo
 - Silverr
@@ -32,3 +33,4 @@ If you have any questions, reach out to one of our testers over Discord.
 - Draconix
 - Thecamo6
 - OmegaKnight
+- **EvanKae**
