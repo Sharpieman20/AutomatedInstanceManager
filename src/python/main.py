@@ -410,16 +410,6 @@ def handle_manual_launch(sc):
     done_with_manual_launch_batch = True
     handle_manual_launch_inner(sc)
 
-def download_branch(branch):
-    installer_file = Path.cwd() / "run_aim.py"
-    if installer_file.exists():
-        installer_file.unlink()
-    installer_file_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/{}/run_aim.py'.format(branch)
-    r = requests.get(installer_file_url, allow_redirects=True)
-    installer_file.touch()
-    open(installer_file.name, 'w').write(r.text)
-    hlp.run_cmd('py run_aim.py', blocking=True)
-
 def kill_on_exit():
     if settings.is_test_mode():
         return
