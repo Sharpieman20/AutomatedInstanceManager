@@ -380,7 +380,7 @@ class Instance(ConditionalTransitionable):
         self.current_world = None
 
     def pause(self):
-        hlp.run_ahk("pauseGame", pid=self.pid, keydelay=settings.get_key_delay())
+        hlp.run_ahk("pauseGame", pid=self.pid, keydelay=settings.get_key_delay(), pausedelay=settings.get_pause_delay())
 
     # TODO - call this method somewhere
     def move_worlds(self):
@@ -446,6 +446,9 @@ class Instance(ConditionalTransitionable):
         
         if not hlp.has_passed(self.timestamp, settings.get_start_create_world_delay()):
             return False
+        
+        if hlp.has_passed(self.timestamp, settings.max_worldgen_time()):
+            return True
 
         cur_world = self.get_current_world()
 

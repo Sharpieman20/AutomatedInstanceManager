@@ -155,6 +155,9 @@ def should_parallelize_ahk():
 def get_key_delay():
     return int(settings['key-delay'])
 
+def get_pause_delay():
+    return int(settings['pause-delay'])
+
 
 def get_is_borderless():
     return settings['borderless']
@@ -321,3 +324,6 @@ def get_multimc_launch_delay():
 
 def get_title_screen_obs_delay():
     return int(settings['title-delay'])
+
+def max_worldgen_time():
+    return 30.0
