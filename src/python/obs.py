@@ -408,7 +408,10 @@ def create_scene_item_for_instance(inst, template='recording', stream=False):
     scene_item = {}
     sceneName = get_scene_name(stream)
     scene_item['sourceName'] = '{}{}'.format(template, inst.num)
-    scene_item['sourceKind'] = settings.get_obs_source_type()
+    if template == 'active':
+        scene_item['sourceKind'] = settings.get_obs_source_type()
+    else:
+        scene_item['sourceKind'] = 'window_capture'
     scene_item['sceneName'] = sceneName
     # scene_item['sourceSettings'] = 
     result = create_scene_item([item for item in scene_item.values()], stream)
