@@ -418,21 +418,37 @@ def reset_source_settings_for_instance(inst, template='recording', stream=False)
     global recording_wall
     source_settings = {}
     source_settings['window_name'] = None
-    source_settings['sourceType'] = settings.get_obs_source_type()
+    if template == 'active':
+        source_settings['sourceType'] = settings.get_obs_source_type()
+    else:
+        source_settings['sourceType'] = 'window_capture'
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
 
 def set_source_settings_for_instance(inst, template='recording', stream=False):
     global recording_wall
     source_settings = {}
-    source_settings['capture_mode'] = 'window'
-    source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
-    if settings.is_test_mode():
-        source_settings['owner_name'] = 'java'
-    source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
-    source_settings['priority'] = 1
-    source_settings['hook_rate'] = 2
-    source_settings['anti_cheat_hook'] = False
-    source_settings['sourceType'] = settings.get_obs_source_type()
+    # allow using game capture for active only - can only have one game capture per instance
+    if template == 'active':
+        source_settings['capture_mode'] = 'window'
+        source_settings['window_name'] = settings.get_window_title_template().replace("#",str(inst.num))
+        if settings.is_test_mode():
+            source_settings['owner_name'] = 'java'
+        source_settings['window'] = '{}:GLFW30:javaw.exe'.format(source_settings['window_name'])
+        source_settings['priority'] = 1
+        source_settings['hook_rate'] = 3
+        source_settings['anti_cheat_hook'] = False
+        source_settings['sourceType'] = settings.get_obs_source_type()
+    # force window capture 
+    else:
+        source_settings['client_area'] = True
+        source_settings['compatibility'] = False
+        source_settings['cursor'] = True
+        source_settings['method'] = 0
+        source_settings['priority'] = 1
+        window_name = settings.get_window_title_template().replace("#",str(inst.num))
+        source_settings['window'] = '{}:GLFW30:javaw.exe'.format(window_name)
+        source_settings['sourceType'] = 'window_capture'
+
     result = set_source_settings('{}{}'.format(template, inst.num), source_settings, stream)
     # print(result)
 
