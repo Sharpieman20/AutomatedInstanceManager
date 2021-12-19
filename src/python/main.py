@@ -91,7 +91,7 @@ def main_loop(sc):
     unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
     if settings.is_wall_enabled():
-        if obs.get_stream_obs().is_active():
+        if obs.get_stream_wall().is_active():
             unfrozen_queue_size = max(unfrozen_queue_size, settings.get_wall_unfrozen_queue_size())
             max_concurrent = max(max_concurrent, settings.get_max_concurrent_on_wall())
 
