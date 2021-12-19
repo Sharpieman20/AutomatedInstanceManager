@@ -48,6 +48,12 @@ def get_freeze_delay():
 def get_unfrozen_queue_size():
     return int(settings['unfrozen-queue-size'])
 
+def get_wall_unfrozen_queue_size():
+    wall_unfrozen_queue_size = int(settings['wall-unfrozen-queue-size'])
+    if wall_unfrozen_queue_size == -1:
+        return get_max_concurrent()
+    return wall_unfrozen_queue_size
+
 def get_hotkeys():
     return settings['hotkeys']
 
@@ -158,7 +164,6 @@ def get_key_delay():
 def get_pause_delay():
     return int(settings['pause-delay'])
 
-
 def get_is_borderless():
     return settings['borderless']
 
@@ -254,11 +259,12 @@ def should_show_focused_as_active():
 
 def should_auto_launch_apps():
     return settings['auto-launch-apps']
-def get_max_concurrent_in_run():
-    max_concurrent_in_run = int(settings['max-concurrent-in-run'])
-    if max_concurrent_in_run == -1:
+
+def get_max_concurrent_on_wall():
+    max_concurrent_on_wall = int(settings['max-concurrent-wall'])
+    if max_concurrent_on_wall == -1:
         return get_max_concurrent()
-    return max_concurrent_in_run
+    return max_concurrent_on_wall
 
 def get_recording_instance_height():
     return settings['recording-instance-height']

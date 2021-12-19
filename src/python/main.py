@@ -46,16 +46,12 @@ import shlex
 import hotkeys
 import shutil
 import atexit
+import validate
 
 IS_BETA = True
 
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
-
-# did_error = False
-
-max_concurrent = settings.get_max_concurrent()
-max_concurrent_in_run = settings.get_max_concurrent_in_run()
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
@@ -94,7 +90,13 @@ def main_loop(sc):
 
     queues.update_all()
 
-    # print('ready q len {}'.format(len(queues.get_ready_instances())))
+    max_concurrent = settings.get_max_concurrent()
+    unfrozen_queue_size = settings.get_unfrozen_queue_size()
+
+    if settings.is_wall_enabled():
+        if obs.get_stream_obs().is_active():
+            unfrozen_queue_size = max(unfrozen_queue_size, settings.get_wall_unfrozen_queue_size())
+            max_concurrent = max(max_concurrent, settings.get_max_concurrent_on_wall())
 
     # Pick primary instance
     primary_instance = obs.get_primary_instance()
@@ -138,8 +140,6 @@ def main_loop(sc):
             elif len(queues.get_gen_instances()) > 0:
                 new_focused_instance = queues.get_gen_instances()[0]
         try_set_focused(new_focused_instance)
-
-    unfrozen_queue_size = settings.get_unfrozen_queue_size()
 
     num_to_launch = min(1, max(0,1-len(queues.get_launching_instances())))
 
@@ -449,26 +449,7 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add error messages explaining
     atexit.register(kill_on_exit)
     try:
-        if not settings.is_test_mode():
-            if settings.should_use_beta():
-                try_download_beta()
-            else:
-                try_download_regular()
-        if settings.use_custom_ahk_scripts():
-            src_ahk = Path.cwd() / "src" / "ahk"
-            custom_directory = Path.cwd() / "custom"
-            if custom_directory.exists():
-                for custom_ahk in custom_directory.iterdir():
-                    shutil.copyfile(custom_ahk, src_ahk / custom_ahk.name)
-            else:
-                custom_directory.mkdir()
-        assert settings.get_unfrozen_queue_size() < max_concurrent
-        if max_concurrent - settings.get_unfrozen_queue_size() <= 1:
-            print('ERROR: max-concurrent and unfrozen-queue-size are within 1. Increment max-concurrent or decrease unfrozen-queue-size.')
-            time.sleep(5000)
-        if not settings.is_test_mode() and not settings.get_multimc_path().exists():
-            print('ERROR: Your MultiMC path is set incorrectly! Set your MultiMC path in my_settings.json.')
-            time.sleep(5000)
+        validate.run_validation()
         launch.launch_all_programs()
         # input("Press any key to continue...")
         hlp.get_multimc_pid()
