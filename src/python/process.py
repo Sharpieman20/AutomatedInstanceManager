@@ -48,7 +48,12 @@ class Suspendable(Process):
         self.suspended = False
         if force and not self.forceResumed:
             self.forceResumed = True
-        hlp.run_ahk("resumeInstance", pid=self.pid)
+        modified_page_writer_delay = 0
+        if settings.ram_buffer_size() > 0:
+            ram_buffer_size_formatted = '{}g'.format(str(int(settings.ram_buffer_size())))
+            modified_page_writer_delay = 1000
+            hlp.run_cmd('java -XX:+AlwaysPreTouch -Xms{} -Xmx{} src/java/RamBuffer.java {}'.format(ram_buffer_size_formatted, modified_page_writer_delay))
+        hlp.run_ahk("resumeInstance", pid=self.pid, resumedelay=modified_page_writer_delay)
 
     def is_suspended(self):
         return self.suspended

@@ -1,6 +1,10 @@
 #SingleInstance Off
 
 pid := A_Args[1]
+resumedelay := A_Args[2]
+
+Sleep, %resumedelay%
+
 hProcess := DllCall("OpenProcess", "UInt", 0x1F0FFF, "Int", 0, "Int", pid)
 If (hProcess) {
   DllCall("ntdll.dll\NtResumeProcess", "Int", hProcess)
