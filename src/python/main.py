@@ -317,6 +317,9 @@ def main_loop(sc):
     for inst in queues.get_unpaused_instances():
         if inst.check_should_auto_reset():
             continue
+        if inst.is_primary() and not inst.is_active():
+            inst.mark_active()
+            continue
     
     total_to_unfreeze = unfrozen_queue_size - len(queues.get_approved_instances())
 
