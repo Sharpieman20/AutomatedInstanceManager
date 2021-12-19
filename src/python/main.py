@@ -48,15 +48,12 @@ import shutil
 import atexit
 import validate
 
-IS_BETA = True
-
 # Load settings
 SCHEDULER = sched.scheduler(time.time, time.sleep)
 
 unfreeze_delay = settings.get_unfreeze_delay()
 
 last_log_time = time.time()
-
 
 # TODO @Sharpieman20 - fix this to be more like how queue states are handled
 def try_set_primary(new_primary_instance):
@@ -422,18 +419,6 @@ def download_branch(branch):
     installer_file.touch()
     open(installer_file.name, 'w').write(r.text)
     hlp.run_cmd('py run_aim.py', blocking=True)
-
-def try_download_regular():
-    global IS_BETA
-    if not IS_BETA:
-        return
-    download_branch('main')
-
-def try_download_beta():
-    global IS_BETA
-    if IS_BETA:
-        return
-    download_branch('beta')
 
 def kill_on_exit():
     if settings.is_test_mode():

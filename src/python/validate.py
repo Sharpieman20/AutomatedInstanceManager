@@ -1,6 +1,23 @@
 import settings
+import shutil
+import time
+from pathlib import Path
+
+IS_BETA = True
 
 max_concurrent = settings.get_max_concurrent()
+
+def try_download_regular():
+    global IS_BETA
+    if not IS_BETA:
+        return
+    download_branch('main')
+
+def try_download_beta():
+    global IS_BETA
+    if IS_BETA:
+        return
+    download_branch('beta')
 
 def run_validation():
     if not settings.is_test_mode():
