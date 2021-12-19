@@ -624,13 +624,13 @@ def enter_wall():
     # switch to the windowed projector
     # enable the wall
     print('enter wall')
+    for s in get_scene_items():
+        if 'active' in s['sourceName']:
+            set_scene_item_visible({'id': s['itemId']}, visible=False)
     set_new_focused(None)
     set_new_primary(None)
     time.sleep(settings.get_switch_delay()/1000.0)
     hlp.run_ahk("activateWall")
-    for s in get_scene_items():
-        if 'active' in s['sourceName']:
-            set_scene_item_visible({'id': s['itemId']}, visible=False)
     get_stream_wall().enable()
     get_screen_wall().enable()
     print('done entering')
