@@ -2,3 +2,4 @@ ahk
 keyboard
 wmi
 pynput
+win32api
