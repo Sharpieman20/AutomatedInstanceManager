@@ -10,11 +10,11 @@ SetKeyDelay, %keydelay%
 ControlSend, ahk_parent, {Blind}{F3 Down}{Esc}{F3 Up}, ahk_pid %pid%
 
 Sleep, 10
-If (!GetKeyState("Ctrl","P"))
+If (not GetKeyState("Ctrl","P"))
 {
     Send, {Blind}{Control Up}
 }
-if (!GetKeyState("Shift","P"))
+if (not GetKeyState("Shift","P"))
 {
     Send, {Blind}{Shift Up}
 }
