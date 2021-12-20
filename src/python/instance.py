@@ -86,7 +86,9 @@ class Stateful(Suspendable):
             self.mark_shown_on_wall()
     
     def mark_worldgen_finished(self):
-        if self.first_reset and settings.should_settings_reset_first_world():
+        if self.is_primary:
+            self.mark_active()
+        elif self.first_reset and settings.should_settings_reset_first_world():
             self.first_reset = False
             self.settings_reset()
             self.mark_generating()
@@ -125,6 +127,9 @@ class Stateful(Suspendable):
     
     def is_ready(self):
         return self.state == State.READY
+    
+    def is_gen(self):
+        return self.state == State.GEN
 
     def mark_approved(self):
         assign_to_state(self, State.APPROVED)
@@ -197,7 +202,7 @@ class WallDisplayStateful(DisplayStateful):
             bounds = (obs.get_stream_wall().instance_pixel_width, obs.get_stream_wall().instance_pixel_height)
             scene_item['position'] = {'x': coords[0], 'y': coords[1]}
         else:
-            scene_item['position'] = {'x': -500, 'y': 0}
+            scene_item['position'] = {'x': -obs.get_stream_wall().instance_pixel_width-100, 'y': 0}
         obs.set_scene_item_properties('tile{}'.format(self.num), scene_item, True)
 
 # TODO @Sharpieman20 - get these durations from settings

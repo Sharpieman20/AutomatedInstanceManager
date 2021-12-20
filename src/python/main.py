@@ -106,10 +106,11 @@ def main_loop(sc):
     elif not primary_instance.is_active():
         new_primary_instance = None
         if settings.is_wall_enabled():
-            if len(queues.get_approved_instances()) > 0:
-                new_primary_instance = queues.get_approved_instances()[0]
-            try_set_primary(new_primary_instance)
-            need_to_reset_timer = True
+            if not primary_instance.is_gen():
+                if len(queues.get_approved_instances()) > 0:
+                    new_primary_instance = queues.get_approved_instances()[0]
+                try_set_primary(new_primary_instance)
+                need_to_reset_timer = True
         else:
             if len(queues.get_approved_instances()) > 0:
                 new_primary_instance = queues.get_approved_instances()[0]
