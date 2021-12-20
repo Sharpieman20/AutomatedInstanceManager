@@ -31,6 +31,6 @@ Active testers are bolded
 - Silverr
 - Mauvu
 - Draconix
-- Thecamo6
+- **Thecamo6**
 - OmegaKnight
 - **EvanKae**
