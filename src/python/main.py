@@ -106,7 +106,7 @@ def main_loop(sc):
     elif not primary_instance.is_active():
         new_primary_instance = None
         if settings.is_wall_enabled():
-            if not primary_instance.is_gen():
+            if False:
                 if len(queues.get_approved_instances()) > 0:
                     new_primary_instance = queues.get_approved_instances()[0]
                 try_set_primary(new_primary_instance)
