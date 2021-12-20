@@ -86,7 +86,7 @@ class Stateful(Suspendable):
             self.mark_shown_on_wall()
     
     def mark_worldgen_finished(self):
-        if self.is_primary:
+        if self.is_primary():
             self.mark_active()
         elif self.first_reset and settings.should_settings_reset_first_world():
             self.first_reset = False
