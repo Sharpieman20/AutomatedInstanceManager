@@ -80,6 +80,8 @@ class Wall:
         if inst.is_ready() or inst.is_paused():
             inst.mark_approved()
         if settings.wall_single_select_mode():
+            if obs.get_primary_instance() != None:
+                obs.get_primary_instance().mark_hidden()
             obs.set_primary_instance(inst)
             obs.exit_wall()
 
