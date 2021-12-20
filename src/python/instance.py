@@ -110,6 +110,9 @@ class Stateful(Suspendable):
     def is_paused(self):
         return self.state == State.PAUSED
     
+    def is_free(self):
+        return self.state == State.FREE
+    
     def mark_free(self):
         assign_to_state(self, State.FREE)
     

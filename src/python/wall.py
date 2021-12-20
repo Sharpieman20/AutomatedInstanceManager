@@ -77,6 +77,8 @@ class Wall:
         if kb.is_pressed(settings.get_hotkeys()['wall-reset-modifier']):
             inst.release()
             return
+        if inst.is_free():
+            return
         if inst.is_ready() or inst.is_paused():
             inst.mark_approved()
         if settings.wall_single_select_mode():
