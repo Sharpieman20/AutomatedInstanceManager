@@ -11,7 +11,23 @@ ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
 Sleep, %keydelay%
 ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
 Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Shift Down}{Tab}{Shift Up}, ahk_pid %pid%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
 Sleep, %keydelay%
 ControlSend, ahk_parent, {Blind}{Enter}, ahk_pid %pid%
 
