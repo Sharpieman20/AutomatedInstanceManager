@@ -229,6 +229,10 @@ class ConditionalTransitionable(WallDisplayStateful):
         return self.is_done_unfreezing()
     
     def is_done_booting(self):
+        if settings.is_test_mode():
+            if hlp.has_passed(self.timestamp, settings.get_boot_delay()):
+                return True
+            return False
         if hlp.has_passed(self.timestamp, 15.0):
             return True
         log_file = self.mcdir / 'logs' / 'latest.log'

@@ -427,8 +427,9 @@ if __name__ == "__main__":
     # TODO @Sharpieman20 - add more good assertios
     # TODO @Sharpieman20 - add error messages explaining
     atexit.register(kill_on_exit)
-    import win32api
-    win32api.SetConsoleCtrlHandler(kill_on_exit, True)
+    if not settings.is_test_mode():
+        import win32api
+        win32api.SetConsoleCtrlHandler(kill_on_exit, True)
     try:
         validate.run_validation()
         launch.launch_all_programs()

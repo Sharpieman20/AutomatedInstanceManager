@@ -99,3 +99,9 @@ def setup_hotkeys():
         kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
     if 'exit-wall' in settings.get_hotkeys():
         kb.on_press_key(settings.get_hotkeys()['exit-wall'], wrap(exit_wall))
+    # if settings.is_test_mode():
+    #     for i in range(5):
+
+    #         key_to_bind = str(i+1)
+    #         kb.on_press_key(key_to_bind, )
+    #     kb.on_press_key('y', 

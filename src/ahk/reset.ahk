@@ -1,20 +1,19 @@
 #SingleInstance Off
 
+SendMode Input
+
 pid := A_Args[1]
 keydelay := A_Args[2]
-SetKeyDelay, %keydelay%
 
-ControlSend, ahk_parent, {Blind}{Esc 2}{Tab 9}{Enter}, ahk_pid %pid%
+SetKeyDelay, -1
 
-Sleep, 10
-If (not GetKeyState("Ctrl","P"))
-{
-    Send, {Blind}{Control Up}
-}
-if (not GetKeyState("Shift","P"))
-{
-    Send, {Blind}{Shift Up}
-}
+ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Shift Down}{Tab}{Shift Up}, ahk_pid %pid%
+Sleep, %keydelay%
+ControlSend, ahk_parent, {Blind}{Enter}, ahk_pid %pid%
 
 Sleep, 1000
 ExitApp
