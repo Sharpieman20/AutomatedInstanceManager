@@ -12,23 +12,9 @@ Loop, %loops% {
     Sleep, 50
 }
 
-SetKeyDelay, -1
+SetKeyDelay, 0
 
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
-Sleep, %keydelay%
-ControlSend, ahk_parent, {Blind}{Tab}, ahk_pid %pid%
+ControlSend, ahk_parent, {Blind}{Shift down}{Tab}{Shift up}, ahk_pid %pid%
 Sleep, %keydelay%
 ControlSend, ahk_parent, {Blind}{Enter}, ahk_pid %pid%
 
