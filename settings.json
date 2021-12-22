@@ -5,7 +5,7 @@
     "old-worlds": "C:/MultiInstanceMC/oldWorlds",
     "template-instance": "1.16INST",
     "version": "1.16",
-    "window-title-template": "Minecraft* - Instance #",
+    "window-title-template": "Minecraft* 1.16.1 - Instance #",
     "hotkeys": {
         "reset-active": "U",
         "toggle-hotkeys": "[",
