@@ -7,8 +7,6 @@ keydelay := A_Args[2]
 
 SetKeyDelay, 0
 
-ahk_pid %pid%
-
 ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
 Sleep, %keydelay%
 ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid

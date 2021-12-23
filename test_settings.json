@@ -42,7 +42,7 @@
     "max-concurrent": 3,
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
-    "obs-enabled": true,
+    "obs-enabled": false,
     "ahk-enabled": false,
     "disable-tts": true,
     "fullscreen": false,
