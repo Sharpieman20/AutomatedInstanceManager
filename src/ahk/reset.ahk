@@ -5,7 +5,7 @@ SendMode Input
 pid := A_Args[1]
 keydelay := A_Args[2]
 
-SetKeyDelay, 0
+SetKeyDelay, %keydelay%
 
 ControlSend, ahk_parent, {Blind}{Esc}, ahk_pid %pid
 Sleep, %keydelay%

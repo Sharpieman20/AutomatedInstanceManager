@@ -12,7 +12,7 @@ Loop, %loops% {
     Sleep, 50
 }
 
-SetKeyDelay, 0
+SetKeyDelay, %keydelay%
 
 ControlSend, ahk_parent, {Blind}{Shift down}{Tab}{Shift up}, ahk_pid %pid%
 Sleep, %keydelay%
