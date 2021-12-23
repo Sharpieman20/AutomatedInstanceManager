@@ -1,7 +1,5 @@
 #SingleInstance Off
 
-SendMode Input
-
 pid := A_Args[1]
 keydelay := A_Args[2]
 pausedelay := A_Args[3]
