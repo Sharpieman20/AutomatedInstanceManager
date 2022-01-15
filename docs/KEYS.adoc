@@ -1,0 +1,4 @@
+notes about keys
+
+glfw - https://github.com/glfw/glfw/blob/master/src/win32_window.c
+ahk - https://github.com/Lexikos/AutoHotkey_L/blob/master/source/keyboard_mouse.cpp

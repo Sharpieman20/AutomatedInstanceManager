@@ -4,6 +4,7 @@ import settings
 import obs
 import queues
 from instance import State
+from global_hotkeys import register_hotkeys
 
 hotkey_lock = threading.Lock()
 
@@ -85,23 +86,22 @@ def setup_hotkeys():
     hotkeys = []
     global listening
     listening = True
-    kb.on_press_key(settings.get_hotkeys()['reset-active'], wrap(reset_primary))
-    kb.on_press_key(settings.get_hotkeys()['toggle-hotkeys'], wrap(toggle_hotkeys, override=True))
+    my_bindings = []
+    def add_hotkey(key_name, func, override=False):
+        my_bindings.append([[settings.get_hotkeys()[key_name]], wrap(func, override), None])
+    add_hotkey('reset-active', reset_primary)
+    add_hotkey('toggle-hotkeys', toggle_hotkeys, True)
     if 'reset-focused' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['reset-focused'], wrap(reset_focused))
+        add_hotkey('reset-focused', reset_focused)
     if 'approve-focused' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['approve-focused'], wrap(approve_focused))
+        add_hotkey('approve-focused', approve_focused)
     if 'background-debug' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['background-debug'], wrap(debug_background))
+        add_hotkey('background-debug', debug_background)
     if 'background-pause' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['background-pause'], wrap(pause_background))
+        add_hotkey('background-pause', pause_background)
     if 'unfreeze-all' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(unfreeze_all))
+        add_hotkey('unfreeze-all', unfreeze_all)
     if 'exit-wall' in settings.get_hotkeys():
-        kb.on_press_key(settings.get_hotkeys()['exit-wall'], wrap(exit_wall))
-    # if settings.is_test_mode():
-    #     for i in range(5):
+        add_hotkey('exit-wall', exit_wall)
+    register_hotkeys(my_bindings)
 
-    #         key_to_bind = str(i+1)
-    #         kb.on_press_key(key_to_bind, )
-    #     kb.on_press_key('y', 
