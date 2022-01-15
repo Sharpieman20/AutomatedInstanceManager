@@ -17,6 +17,7 @@ def init_test_env():
     aim_test_dir = Path.home() / 'aimtest'
     if aim_test_dir.exists():
         shutil.rmtree(aim_test_dir)
+    aim_test_dir.mkdir()
     shutil.copyfile(Path.cwd().parent / 'run_aim.py', aim_test_dir / 'run_aim.py')
     shutil.copyfile(Path.cwd().parent / 'test_settings.json', aim_test_dir / 'my_settings.json')
     
