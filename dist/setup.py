@@ -20,7 +20,7 @@ src_dir = Path.cwd() / 'src'
 if src_dir.exists():
     shutil.rmtree(Path.cwd() / 'src')
 
-get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/dist/release.txt'
+get_release_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/rewrite/dist/release.txt'
 
 release_url = requests.get(get_release_url).text.rstrip()
 
@@ -37,9 +37,9 @@ os.remove('release.zip')
 
 wheel_urls = []
 
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/profiling/res/six-1.16.0-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/profiling/res/websocket_client-1.2.1-py2.py3-none-any.whl')
-wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/profiling/res/obs_websocket_py-0.5.3-py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/rewrite/res/six-1.16.0-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/rewrite/res/websocket_client-1.2.1-py2.py3-none-any.whl')
+wheel_urls.append('https://github.com/Sharpieman20/AutomatedInstanceManager/raw/rewrite/res/obs_websocket_py-0.5.3-py3-none-any.whl')
 # wheel_urls.append('https://github.com/Sharpieman20/MultiResetTinder/raw/main/res/psutil-5.8.0-cp39-cp39-win_amd64.whl')
 
 for url in wheel_urls:
@@ -52,7 +52,7 @@ defaults_dir = Path.cwd() / 'defaults'
 if defaults_dir.exists():
     shutil.rmtree(Path.cwd() / 'defaults')
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/rewrite/settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 defaults_dir.mkdir()
@@ -63,7 +63,7 @@ settings_json.touch()
 
 open('defaults/settings.json', 'w').write(r.text)
 
-settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/dist/basic_settings.json'
+settings_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/rewrite/dist/basic_settings.json'
 r = requests.get(settings_url, allow_redirects=True)
 
 my_settings_json = Path('my_settings.json')
@@ -73,7 +73,7 @@ if not my_settings_json.exists():
     open(my_settings_json.name, 'w').write(r.text)
 
 
-mock_mc_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/profiling/LaunchMockMC.java'
+mock_mc_url = 'https://raw.githubusercontent.com/Sharpieman20/AutomatedInstanceManager/rewrite/LaunchMockMC.java'
 r = requests.get(mock_mc_url, allow_redirects=True)
 
 test_dir = Path('test')
