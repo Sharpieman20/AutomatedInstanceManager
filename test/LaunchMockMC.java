@@ -1,5 +1,3 @@
-//THIS IS A FIX OF THE ONE BY FRANCY FROG
-//THEY FIXED THEIRS
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -7,8 +5,25 @@ import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.JComponent;
+import java.io.*;
+import java.nio.file.*;
 
 public class MockMinecraftInstance {
+
+    public static final String LOG_DIR = System.getProperty("user.home") + "/.aimlog/";
+
+    private static void assureMyFile() {
+
+        try {
+
+            File myFile = new File(LOG_DIR + instance + ".log");
+
+            if (!myFile.exists()) {
+
+                myFile.createNewFile();
+            }
+        } catch (IOException ex) {}
+    }
 
 
     public static class MyJFrame extends JFrame implements Observer {
@@ -46,15 +61,101 @@ public class MockMinecraftInstance {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            // Same as the move method in the question code.
-            // Player can be detected by e.getSource() instead and call its own move method.
-            System.out.println("i did the action");
+            MyLogger.onEnterReceived();
         }
     }
 
+    public static class MyKeyListener implements KeyListener {
+
+        public MyKeyListener() {
+
+        }
+
+        public void keyPressed(KeyEvent e) {
+
+            if(e.getKeyCode() == KeyEvent.VK_TAB) {
+
+                MyLogger.onTabReceived();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+
+                MyLogger.onShiftDownReceived();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+                MyLogger.onEscReceived();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_F3) {
+
+                MyLogger.onF3Received();
+            }
+        }
+
+        public void keyReleased(KeyEvent e) {
+
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+
+                MyLogger.onShiftUpReceived();
+            }
+        }
+
+        public void keyTyped(KeyEvent e) {}
+    }
+
+    public static class MyLogger {
+
+        private static void writeOut(String text) {
+
+            assureMyFile();
+
+            try {
+
+                FileWriter myWriter = new FileWriter(LOG_DIR + instance + ".log", true);
+                BufferedWriter buffWriter = new BufferedWriter(myWriter);
+                buffWriter.append(""+System.currentTimeMillis());
+                buffWriter.append(" ");
+                buffWriter.append(text);
+                buffWriter.newLine();
+                buffWriter.close();
+            } catch (IOException ex) {}
+        }
+
+        public static void onTabReceived() {
+
+            writeOut("tab action");
+        }
+
+        public static void onEnterReceived() {
+
+            writeOut("enter action");
+        }
+
+        public static void onShiftDownReceived() {
+
+            writeOut("shift down action");
+        }
+
+        public static void onShiftUpReceived() {
+
+            writeOut("shift up action");
+        }
+
+        public static void onEscReceived() {
+
+            writeOut("escape action");
+        }
+
+        public static void onF3Received() {
+
+            writeOut("f3 action");
+        }
+    }
+
+    public static int instance = -1;
+
     public static void main(String[] args){
 
-        int instance = Integer.parseInt(args[0]);
+        instance = Integer.parseInt(args[0]);
 
         JFrame frame = new MyJFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,18 +181,27 @@ public class MockMinecraftInstance {
 
             labelText += " ";
         }
+
+        JPanel panel = new JPanel();
+
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Serif", Font.PLAIN, 100));
-
-        label.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
-        label.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
-        label.setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, null);
 
         // label.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_TAB)), "myAction");
         label.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "myAction");
         label.getActionMap().put("myAction", new MyAction());
 
+        JTextField jtf1 = new JTextField(" ");
+
+        jtf1.setFocusTraversalKeysEnabled(false);
+
+        jtf1.addKeyListener(new MyKeyListener());
+
+        panel.add(jtf1);
+
         frame.add(label, BorderLayout.CENTER);
+
+        frame.add(panel);
 
         System.out.println(label.getInputMap());
         System.out.println(label.getActionMap());
@@ -100,6 +210,5 @@ public class MockMinecraftInstance {
         
         frame.setSize(320,180);
         frame.setVisible(true);
-        // frame.repaint();
     }
 }

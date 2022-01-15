@@ -43,7 +43,7 @@
     "max-concurrent-boot": 1,
     "unfrozen-queue-size": 0,
     "obs-enabled": false,
-    "ahk-enabled": false,
+    "ahk-enabled": true,
     "disable-tts": true,
     "fullscreen": false,
     "test-mode": true,
@@ -52,9 +52,9 @@
     "prio-booting-over-worldgen": true,
     "only-focus-ready": true,
     "parallelize-ahk": true,
-    "auto-configure-obs": true,
+    "auto-configure-obs": false,
     "use-game-capture": false,
     "use-wall": true,
-    "use-recording-obs": true,
+    "use-recording-obs": false,
     "dump-obs-config": false
 }
