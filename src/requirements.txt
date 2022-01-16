@@ -3,4 +3,4 @@ keyboard
 wmi
 pynput
 win32api
-global-hotkeys
+global_hotkeys
