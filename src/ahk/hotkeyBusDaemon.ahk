@@ -14,8 +14,8 @@ LogOutInput(KeyInput)
     MyInd := OutInd
     OutInd := OutInd + 1
     Critical, Off
-    FilName := %logDir%\%MyInd%.aim.out
-    OutFilName := %logDir%\%MyInd%.aim.in
+    FilName := "" logDir "\" MyInd ".aim.out"
+    OutFilName := "" logDir "\" MyInd ".aim.in"
     FileAppend, %KeyInput%, %FilName%
     FileMove, %FilName%, %OutFileName%
     return
