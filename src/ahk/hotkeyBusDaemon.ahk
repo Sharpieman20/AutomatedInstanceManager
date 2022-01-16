@@ -11,13 +11,15 @@ OutInd := 0
 LogOutInput(KeyInput)
 {
     Critical, On
+    global logDir
+    global OutInd
     MyInd := OutInd
     OutInd := OutInd + 1
     Critical, Off
     FilName := "" logDir "\" MyInd ".aim.out"
     OutFilName := "" logDir "\" MyInd ".aim.in"
     FileAppend, %KeyInput%, %FilName%
-    FileMove, %FilName%, %OutFileName%
+    FileMove, %FilName%, %OutFilName%
     return
 }
 
