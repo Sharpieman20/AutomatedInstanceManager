@@ -92,8 +92,7 @@ return
         for key_row in bindings:
             key_ray = key_row[0]
             key_code = key_ray[0]
-            my_fil.write('\n{}'.format(ahk_bus_hotkey_template.format(key_code)))
-    
+            my_fil.write('\n{}'.format(ahk_bus_hotkey_template.format(key_code, key_code)))
 
 def setup_hotkeys():
     global hotkeys
