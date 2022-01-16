@@ -47,9 +47,9 @@ def try_launch_instance(inst):
 
 def launch_test_instance(inst):
     if settings.is_local_test_mode():
-        hlp.run_cmd('java -Xdock:name=java -Xms64m -Xmx64m test/LaunchMockMC.java {}'.format(inst.num))
+        hlp.run_cmd('java -Xdock:name=java -Xms64m -Xmx64m test/LaunchMockMC.java {} Mojang'.format(inst.num))
     else:
-        hlp.run_cmd('java -Xms64m -Xmx64m test/LaunchMockMC.java {}'.format(inst.num))
+        hlp.run_cmd('java -Xms64m -Xmx64m test/LaunchMockMC.java {} Mojang'.format(inst.num))
 
 def launch_instance(inst):
     if settings.is_test_mode():
