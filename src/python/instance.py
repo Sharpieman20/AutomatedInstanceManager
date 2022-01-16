@@ -212,7 +212,7 @@ class ConditionalTransitionable(WallDisplayStateful):
 
     def is_done_unfreezing(self):
         duration = settings.get_unfreeze_delay()
-        if hlp.has_passed(self.timestamp, duration)
+        if hlp.has_passed(self.timestamp, duration):
             return True
         if not settings.use_dynamic_unfreezing():
             return False
