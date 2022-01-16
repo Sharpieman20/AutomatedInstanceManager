@@ -3,4 +3,4 @@ keyboard
 wmi
 pynput
 pywin32
-global_hotkeys
+global-hotkeys
