@@ -3,6 +3,7 @@ import settings
 import obs
 import queues
 from instance import State
+from pathlib import Path
 
 
 hotkey_lock = threading.Lock()
