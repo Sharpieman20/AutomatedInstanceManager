@@ -103,6 +103,7 @@ def setup_hotkeys():
         add_hotkey('unfreeze-all', unfreeze_all)
     if 'exit-wall' in settings.get_hotkeys():
         add_hotkey('exit-wall', exit_wall)
+    print('register these hotkeys {}'.format(my_bindings))
     register_hotkeys(my_bindings)
     start_checking_hotkeys()
 
