@@ -82,7 +82,7 @@ def process_hotkey_events():
     hotkey_lock.release()
 
 def init_ahk_bus(bindings):
-    ahk_bus_hotkey_template = '''{}::
+    ahk_bus_hotkey_template = '''~{}::
 LogOutInput({})
 return
 '''
