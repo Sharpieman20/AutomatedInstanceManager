@@ -7,7 +7,6 @@ import pipe
 import json
 import sched
 import os
-import keyboard as kb
 from pathlib import Path
 from datetime import datetime
 import launch

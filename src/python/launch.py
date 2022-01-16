@@ -6,6 +6,8 @@ import os
 import helpers as hlp
 import queues
 import time
+from pathlib import Path
+import shutil
 if not settings.is_local_test_mode():
     import wmi
 
@@ -83,6 +85,12 @@ def launch_all_programs():
         hlp.run_ahk('customBackground')
     if settings.use_switching_daemon():
         hlp.run_ahk('windowSwitchingDaemon', switchDelay=settings.get_switch_delay(), borderless=settings.get_is_borderless(), maximize=settings.should_maximize(), autoUnpause=settings.should_auto_unpause(), playDelay=settings.get_unpause_delay(), pipeFileLocation=hlp.get_pipe_file_location(), loopDelay=settings.get_daemon_loop_delay(), blocking=False)
+    if settings.use_ahk_bus():
+        logdir = Path.cwd() / 'aimlog'
+        if logdir.exists():
+            shutil.rmtree(logdir)
+        logdir.mkdir()
+        hlp.run_ahk('hotkeyBusDaemon', thelogdir=logdir, loopDelay=settings.get_daemon_loop_delay(), pipeFilLoc=hlp.get_hotkey_pipe_file_location())
     if settings.is_test_mode() or not settings.should_auto_launch_apps():
         return
     # TODO: add stat tracker?

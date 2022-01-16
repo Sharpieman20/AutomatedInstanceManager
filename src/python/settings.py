@@ -340,6 +340,9 @@ def ram_buffer_size():
 def use_switching_quick_path():
     return False
 
+def use_ahk_bus():
+    return True
+
 # INTENTIONALLY HARDCODED SETTINGS
 
 def get_multimc_launch_delay():

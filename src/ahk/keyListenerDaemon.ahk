@@ -1,6 +1,6 @@
 #SingleInstance Force
 
-SetWorkingDir %A_ScriptDir%
+LogDir := A_Args[1]
 
 Ind := 0
 
@@ -9,13 +9,12 @@ LogOutInput(KeyInput)
     Critical, On
     Ind := Ind + 1
     Critical, Off
-    FilName := %A_WorkingDir%\Out.txt
-    FileAppend, This is a blank line`n, 
-    FileMove, 
+    FilName := LogDir\%Ind%.aim.out
+    OutFilName := LogDir\%Ind%.aim.in
+    FileAppend, %KeyInput%, %FilName%
+    FileMove, %FilName%, %OutFileName%
+    return
 }
-
-MyKey::
-my code
 
 
 switchDelay := A_Args[1]

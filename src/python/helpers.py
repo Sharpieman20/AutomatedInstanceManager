@@ -133,8 +133,14 @@ def add_attempt():
 def get_switching_daemon_pipe():
     return IoLockablePipe('switching')
 
+def get_hotkey_daemon_pipe():
+    return IoLockablePipe('hotkey')
+
 def get_pipe_file_location():
     return get_switching_daemon_pipe().outfile
+
+def get_hotkey_pipe_file_location():
+    return get_hotkey_daemon_pipe().outfile
 
 def increment_reset_counter():
 

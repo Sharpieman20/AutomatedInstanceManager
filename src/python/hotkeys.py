@@ -1,10 +1,9 @@
-import keyboard as kb
 import threading
 import settings
 import obs
 import queues
 from instance import State
-from global_hotkeys import register_hotkeys, start_checking_hotkeys
+
 
 hotkey_lock = threading.Lock()
 
@@ -81,7 +80,23 @@ def process_hotkey_events():
     hotkeys = []
     hotkey_lock.release()
 
+def init_ahk_bus(bindings):
+    ahk_bus_hotkey_template = '''{}::
+LogOutInput({})
+return
+'''
+    ahk_dir = Path.cwd() / 'src' / 'ahk'
+    ahk_bus_fil = ahk_dir / 'hotkeyBusDaemon.ahk'
+    with open(ahk_bus_fil, 'a') as my_fil:
+        for key_row in bindings:
+            key_ray = key_row[0]
+            key_code = key_ray[0]
+            my_fil.write('\n{}'.format(ahk_bus_hotkey_template.format(key_code)))
+    
+
 def setup_hotkeys():
+    if settings.use_ahk_bus():
+        return
     global hotkeys
     hotkeys = []
     global listening
@@ -104,6 +119,10 @@ def setup_hotkeys():
     if 'exit-wall' in settings.get_hotkeys():
         add_hotkey('exit-wall', exit_wall)
     print('register these hotkeys {}'.format(my_bindings))
+    if settings.use_ahk_bus():
+        init_ahk_bus(my_bindings)
+        return
+    from global_hotkeys import register_hotkeys, start_checking_hotkeys
     register_hotkeys(my_bindings)
     start_checking_hotkeys()
 

@@ -34,7 +34,6 @@ import pipe
 import json
 import sched
 import os
-import keyboard as kb
 from pathlib import Path
 from datetime import datetime
 import launch
@@ -449,9 +448,6 @@ if __name__ == "__main__":
         print('hotkeys')
         print(settings.get_hotkeys())
         hotkeys.setup_hotkeys()
-        if not settings.should_auto_launch():
-            if 'unfreeze-all' in settings.get_hotkeys():
-                kb.on_press_key(settings.get_hotkeys()['unfreeze-all'], wrap(mark_manual_launch_batch_done))
         if settings.should_use_tts():
             hlp.run_ahk("ttsInit")
         setup_file = Path.cwd() / 'setup.py'

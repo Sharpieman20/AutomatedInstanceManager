@@ -4,7 +4,6 @@ import math
 import queues
 import time
 import settings
-import keyboard as kb
 
 class Wall:
 
@@ -74,9 +73,12 @@ class Wall:
         if not self.instance_shown_states[inst.num]:
             return
         print('pressed on {}'.format(inst.num))
-        if kb.is_pressed(settings.get_hotkeys()['wall-reset-modifier']):
-            inst.release()
-            return
+        # TODO @Sharpieman20 - replace this with ahk bus
+        if not settings.use_ahk_bus():
+            import keyboard as kb
+            if kb.is_pressed(settings.get_hotkeys()['wall-reset-modifier']):
+                inst.release()
+                return
         if inst.is_free():
             return
         if inst.is_ready() or inst.is_paused():
