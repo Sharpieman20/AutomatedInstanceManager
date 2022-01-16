@@ -2,5 +2,5 @@ ahk
 keyboard
 wmi
 pynput
-win32api
+pywin32
 global_hotkeys
