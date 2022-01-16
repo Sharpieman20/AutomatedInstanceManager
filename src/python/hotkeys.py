@@ -83,7 +83,7 @@ def process_hotkey_events():
 
 def init_ahk_bus(bindings):
     ahk_bus_hotkey_template = '''~{}::
-LogOutInput({})
+LogOutInput("{}")
 return
 '''
     ahk_dir = Path.cwd() / 'src' / 'ahk'
