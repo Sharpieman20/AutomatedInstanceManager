@@ -334,7 +334,7 @@ def use_dynamic_unfreezing():
     return True
 
 def ram_buffer_size():
-    return 3.0
+    return 0.0
 
 # switch without waiting for main loop
 def use_switching_quick_path():
