@@ -95,8 +95,6 @@ return
     
 
 def setup_hotkeys():
-    if settings.use_ahk_bus():
-        return
     global hotkeys
     hotkeys = []
     global listening
