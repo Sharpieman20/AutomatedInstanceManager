@@ -62,7 +62,7 @@ def toggle_hotkeys():
         print('Hotkeys disabled')
 
 def wrap(func, override=False):
-    def inner(event):
+    def inner():
         global listening
         if not override and not listening:
             return
