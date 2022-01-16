@@ -4,7 +4,7 @@ import settings
 import obs
 import queues
 from instance import State
-from global_hotkeys import register_hotkeys
+from global_hotkeys import register_hotkeys, start_checking_hotkeys
 
 hotkey_lock = threading.Lock()
 
@@ -104,4 +104,5 @@ def setup_hotkeys():
     if 'exit-wall' in settings.get_hotkeys():
         add_hotkey('exit-wall', exit_wall)
     register_hotkeys(my_bindings)
+    start_checking_hotkeys()
 
